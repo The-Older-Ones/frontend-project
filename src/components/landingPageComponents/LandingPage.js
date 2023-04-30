@@ -17,6 +17,7 @@ function LandingPage() {
 	};
 
 	const titleStyle = {
+        marginTop: "32px",
 		marginBottom: '32px',
 		fontSize: '5rem',
 	};
@@ -29,6 +30,7 @@ function LandingPage() {
 		width: '25%',
 		backgroundColor: theme.palette.primary.main,
 		borderRadius: '4px',
+		marginBottom: '32px', // add margin-bottom
 	};
 
 	const textFieldStyle = {
@@ -60,7 +62,8 @@ function LandingPage() {
 		padding: '16px',
 		backgroundColor: 'transparent',
 		color: theme.palette.text.primary,
-		marginTop: '32px', // Added
+		marginTop: '400px', // add margin-top
+		marginBottom: '32px', // add margin-bottom
 	};
 
 	const howToPlayListStyle = {
@@ -105,9 +108,7 @@ function LandingPage() {
 				</Typography>
 				<Paper elevation={3} style={inputBoxStyle}>
 					<TextField label="What's your name?" variant='filled' fullWidth sx={textFieldStyle} />
-					<Typography variant='h6' style={{ marginTop: '16px', marginBottom: '8px' }}>
-						Choose an Avatar
-					</Typography>
+					<Typography style={{ marginTop: '16px', marginBottom: '8px' }}>Choose an Avatar</Typography>
 					<Box style={avatarGridStyle}>
 						<IconButton>
 							<ArrowBack />
@@ -121,8 +122,7 @@ function LandingPage() {
 						<IconButton onClick={handlePreviousColor}>
 							<ArrowBack />
 						</IconButton>
-						{/* Replace with the color preview component */}
-						<Typography variant='h6'>{colors[currentColorIndex]}</Typography>
+						<Typography>{colors[currentColorIndex]}</Typography>
 						<IconButton onClick={handleNextColor}>
 							<ArrowForward />
 						</IconButton>
@@ -141,7 +141,7 @@ function LandingPage() {
 						].map((text, index) => (
 							<li key={index} style={listItemStyle}>
 								{numberedIcons[index]}
-								<Typography fontSize={'1.3rem'}>{text}</Typography>
+								<Typography fontSize={'1.5rem'}>{text}</Typography>
 							</li>
 						))}
 					</ul>
