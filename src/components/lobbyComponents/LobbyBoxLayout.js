@@ -5,9 +5,10 @@ import CategoryAccordion from "./categoryComponents/CategoryAccordion";
 import PlayerList from "./playerComponents/PlayerList";
 
 function LobbyBoxLayout() {
+  
   return (
     <Box
-      maxWidth="900px"
+      maxWidth="1100px"
       mx="auto"
       sx={{
         width: "100%",
@@ -41,7 +42,6 @@ function LobbyBoxLayout() {
             borderRight: "1px solid gray",
             borderLeft: "1px solid gray",
             flexGrow: 1,
-            maxWidth: "600px",
             height: "100%",
           }}
         >
@@ -81,7 +81,9 @@ function LobbyBoxLayout() {
             }}
           >
             <HeadingCard variant={"6"} title={"Lock it in"} />
-            <Button variant="contained" sx={{mb: '20px'}}>Lock Categories</Button>
+            <Button variant="contained" sx={{ mb: "20px" }}>
+              Lock Categories
+            </Button>
           </Box>
         </Grid>
       </Grid>
