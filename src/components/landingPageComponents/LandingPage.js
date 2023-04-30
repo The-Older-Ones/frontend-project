@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Avatar, Paper, IconButton, useTheme } from '@mui/material';
-import { PlayArrow, ArrowForward, ArrowBack } from '@mui/icons-material';
-import { LooksOneRoundedIcon, LooksTwoRoundedIcon, LooksThreeRoundedIcon } from '@mui/icons-material/LooksOneRounded';
+import { PlayArrow, ArrowForward, ArrowBack, Filter1, Filter2, Filter3 } from '@mui/icons-material';
 
 function LandingPage() {
 	const theme = useTheme();
@@ -96,7 +95,7 @@ function LandingPage() {
 	};
 
 	const avatars = ['avatar1.png', 'avatar2.png', 'avatar3.png'];
-	const numberedIcons = [<LooksOneRoundedIcon />, <LooksTwoRoundedIcon />, <LooksThreeRoundedIcon />];
+	const numberedIcons = [<Filter1 />, <Filter2 />, <Filter3 />];
 
 	return (
 		<Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
