@@ -1,9 +1,11 @@
+import LobbyPageLayout from "./components/lobbyComponents/LobbyPageLayout";
+
 function App() {
-	return (
-		<div className='App'>
-			<h1>Triviosa</h1>
-		</div>
-	);
+  return (
+    <div className="App">
+      <LobbyPageLayout />
+    </div>
+  );
 }
 
 export default App;
