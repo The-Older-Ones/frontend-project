@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Avatar, Paper, IconButton, useTheme } from '@mui/material';
-import { PlayArrow, ArrowForward, ArrowBack, Filter1, Filter2, Filter3 } from '@mui/icons-material';
+import { PlayArrow, ArrowForward, ArrowBack } from '@mui/icons-material';
+import { LooksOneRoundedIcon, LooksTwoRoundedIcon, LooksThreeRoundedIcon } from '@mui/icons-material/LooksOneRounded';
 
 function LandingPage() {
 	const theme = useTheme();
@@ -68,9 +69,8 @@ function LandingPage() {
 		justifyContent: 'space-evenly',
 		alignItems: 'center',
 		width: '100%',
-		padding: '0',
+		padding: '20px',
 		listStyle: 'none',
-		fontSize: '3rem',
 	};
 
 	const listItemStyle = {
@@ -96,7 +96,7 @@ function LandingPage() {
 	};
 
 	const avatars = ['avatar1.png', 'avatar2.png', 'avatar3.png'];
-	const numberedIcons = [<Filter1 />, <Filter2 />, <Filter3 />];
+	const numberedIcons = [<LooksOneRoundedIcon />, <LooksTwoRoundedIcon />, <LooksThreeRoundedIcon />];
 
 	return (
 		<Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -142,7 +142,7 @@ function LandingPage() {
 						].map((text, index) => (
 							<li key={index} style={listItemStyle}>
 								{numberedIcons[index]}
-								<Typography variant='body1'>{text}</Typography>
+								<Typography fontSize={'1.3rem'}>{text}</Typography>
 							</li>
 						))}
 					</ul>
