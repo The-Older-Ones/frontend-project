@@ -1,6 +1,7 @@
 // import LandingPage from './components/landingPageComponents/LandingPage';
 // import LobbyPageLayout from './components/lobbyComponents/LobbyPageLayout';
 // import PointSelectionPageLayout from "./components/pointSelectionComponents/PointSelectionPageLayout";
+import { QuizPage } from "./components/quizPageComponent/QuizPage";
 
 function App() {
 	return (
@@ -8,6 +9,7 @@ function App() {
 			{/* <LobbyPageLayout /> */}
 			{/* <PointSelectionPageLayout /> */}
 			{/* <LandingPage /> */}
+			<QuizPage/>
 		</div>
 	);
 }
