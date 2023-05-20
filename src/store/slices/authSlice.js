@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { closeModal } from "./loginSlice";
 
 const apiUrl = "http://127.0.0.1/api/";
-
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -32,7 +32,7 @@ const authSlice = createSlice({
     loginFailure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      toast.error("Login failed", {
+      toast.error(action.payload, {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -64,7 +64,8 @@ const authSlice = createSlice({
     signupFailure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      toast.error("Signup failed", {
+
+      toast.error(action.payload, {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -90,6 +91,7 @@ export const {
 export const loginUser = (credentials) => async (dispatch) => {
   try {
     dispatch(loginStart());
+
     const headers = {
       Authorization: `Basic ${btoa(
         `${credentials.userID}:${credentials.password}`
@@ -103,13 +105,16 @@ export const loginUser = (credentials) => async (dispatch) => {
     });
 
     if (!response.ok) {
-      throw new Error("Login failed");
+      const data = await response.json();
+      const errorMessage = data.Error;
+      throw new Error(errorMessage);
     }
-
-    const data = await response.json();
-    console.log(data);
-    dispatch(loginSuccess(data));
+    dispatch(loginSuccess({}));
+    dispatch(closeModal());
   } catch (error) {
+    if (error === "Error while creating User") {
+      dispatch(closeModal());
+    }
     dispatch(loginFailure(error.message));
   }
 };
@@ -125,12 +130,19 @@ export const signupUser = (credentials) => async (dispatch) => {
       body: JSON.stringify(credentials),
     });
 
-    if (!response.ok) throw new Error("Signup failed!");
+    if (!response.ok) {
+      const data = await response.json();
+      let errorMessage = data.Error;
+      throw new Error(errorMessage);
+    }
 
     const data = await response.json();
-    console.log(data);
     dispatch(signupSuccess(data));
+    dispatch(closeModal());
   } catch (error) {
+    if (error === "Error while creating User") {
+      dispatch(closeModal());
+    }
     dispatch(signupFailure(error.message));
   }
 };

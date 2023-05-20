@@ -30,19 +30,15 @@ function LoginModal() {
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-
-    console.log({ userID: loginUsername, password: loginPassword });
     dispatch(loginUser({ userID: loginUsername, password: loginPassword }));
-    setLoginUsername("");
+
     setLoginPassword("");
   };
 
   const handleSignupSubmit = (event) => {
     event.preventDefault();
-
-    console.log({ userID: signupUsername, password: signupPassword });
     dispatch(signupUser({ userID: signupUsername, password: signupPassword }));
-    setSignupUsername("");
+
     setSignupPassword("");
   };
 
