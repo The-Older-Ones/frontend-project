@@ -177,7 +177,7 @@ function LandingPage() {
           </IconButton>
         </Paper>
         <Box style={howToPlayStyle}>
-          <Typography fontSize={"2rem"}>How to play</Typography>
+          <Typography fontSize={"2rem"}>How to play:</Typography>
           <ul style={howToPlayListStyle}>
             {[
               "Choose 5 categories for the questions.",
