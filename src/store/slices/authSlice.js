@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { closeModal } from "./loginSlice";
+import jwt_decode from "jwt-decode";
 
 const apiUrl = "http://127.0.0.1/api/";
 const authSlice = createSlice({
@@ -9,6 +10,7 @@ const authSlice = createSlice({
     user: null,
     isLoading: false,
     error: null,
+    accessToken: null,
   },
   reducers: {
     loginStart: (state) => {
@@ -17,7 +19,9 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.isLoading = false;
-      state.user = action.payload;
+      state.user = action.payload.user;
+
+      state.accessToken = action.payload.token;
       toast.success("Login successful", {
         position: "bottom-right",
         autoClose: 5000,
@@ -96,7 +100,6 @@ export const loginUser = (credentials) => async (dispatch) => {
       Authorization: `Basic ${btoa(
         `${credentials.userID}:${credentials.password}`
       )}`,
-      "Content-Type": "application/json",
     };
 
     const response = await fetch(apiUrl + "authenticate", {
@@ -109,7 +112,11 @@ export const loginUser = (credentials) => async (dispatch) => {
       const errorMessage = data.Error;
       throw new Error(errorMessage);
     }
-    dispatch(loginSuccess({}));
+
+    const token = response.headers.get("Authorization").split(" ")[1];
+    const user = jwt_decode(token);
+
+    dispatch(loginSuccess({ user: user, accessToken: token }));
     dispatch(closeModal());
   } catch (error) {
     if (error === "Error while creating User") {
