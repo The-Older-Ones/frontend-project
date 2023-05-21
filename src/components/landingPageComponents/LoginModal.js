@@ -31,14 +31,12 @@ function LoginModal() {
   const handleLoginSubmit = (event) => {
     event.preventDefault();
     dispatch(loginUser({ userID: loginUsername, password: loginPassword }));
-
     setLoginPassword("");
   };
 
   const handleSignupSubmit = (event) => {
     event.preventDefault();
     dispatch(signupUser({ userID: signupUsername, password: signupPassword }));
-
     setSignupPassword("");
   };
 
