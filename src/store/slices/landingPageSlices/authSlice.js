@@ -68,7 +68,6 @@ const authSlice = createSlice({
     signupFailure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-
       toast.error(action.payload, {
         position: "bottom-right",
         autoClose: 5000,

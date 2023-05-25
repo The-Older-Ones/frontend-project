@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal, closeModal } from "../../store/slices/loginSlice";
-import { loginUser, signupUser } from "../../store/slices/authSlice";
+import { openModal, closeModal } from "../../../store/slices/landingPageSlices/loginSlice";
+import { loginUser, signupUser } from "../../../store/slices/landingPageSlices/authSlice";
 import {
   Box,
   Typography,

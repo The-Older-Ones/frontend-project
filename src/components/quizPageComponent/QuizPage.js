@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Stack, Button, Grid, useTheme, ButtonGroup, Paper } from '@mui/material'
+import { Box, Stack, Button, Grid, useTheme, Paper } from '@mui/material'
 
 export const QuizPage = () => {
     const theme = useTheme();
