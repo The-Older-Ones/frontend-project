@@ -1,10 +1,8 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
-
 import { Filter1, Filter2, Filter3 } from "@mui/icons-material";
-
-import LobbyCreation from "./LobbyCreation";
-import Header from "./Header";
+import Header from "./modularComponents/Header";
+import LobbyCreation from "./modularComponents/LobbyCreation";
 
 function LandingPage() {
   const theme = useTheme();
