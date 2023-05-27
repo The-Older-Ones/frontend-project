@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 function ConfirmLobby() {
   const dispatch = useDispatch();
   const theme = useTheme()
-  const { activeStep } = useSelector((state) => state.lobby);
+  const { activeStep, ign, lobbyCode } = useSelector((state) => state.lobby);
 
   return (
     <Paper
@@ -31,10 +31,10 @@ function ConfirmLobby() {
           Confirm your choice
         </Typography>
         <Typography variant="h6">
-          NAME
+          {ign}
         </Typography>
         <Typography variant="h6">
-          Lobby:
+          Lobby Code: {lobbyCode}
         </Typography>
         <Avatar
           alt="avatar"
