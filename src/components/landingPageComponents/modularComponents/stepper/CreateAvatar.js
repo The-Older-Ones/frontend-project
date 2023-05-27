@@ -9,6 +9,7 @@ import {
   useTheme,
   FormControl,
   Button,
+  Stack
 } from "@mui/material";
 
 import {
@@ -42,16 +43,24 @@ function CreateAvatar() {
     <Paper
       elevation={3}
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        // display: "flex",
+        // flexDirection: "column",
+        // alignItems: "center",
         padding: "32px",
-        width: "25%",
-        backgroundColor: theme.palette.primary.main,
+        width: "50%",
+        height: "75%",
+        backgroundColor: theme.palette.secondary.light,
         borderRadius: "4px",
+        margin: "10px"
       }}
     >
-      <Box id="createAvatar">
+      <Box
+        id="createAvatar"
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        // gap={theme.spacing(6)}
+        >
         <FormControl>
           <TextField
             label={user ? "" : "What's your name?"}
@@ -62,6 +71,7 @@ function CreateAvatar() {
             placeholder={user ? user.user : ""}
             onChange={(e) => dispatch(setIGN(e.target.value))}
           />
+          <Stack alignItems="center">
           <Typography style={{ marginTop: "16px", marginBottom: "8px" }}>
             Choose an Avatar
           </Typography>
@@ -87,21 +97,17 @@ function CreateAvatar() {
               <ArrowForward />
             </IconButton>
           </Box>
+          </Stack>
           <Box>
+          <Stack spacing={2}>
             <Button
               variant="contained"
-              color="secondary"
-              onClick={() => dispatch(setActiveStep(activeStep - 1))}
-            >
-              Go Back
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
+              color="success"
               onClick={() => dispatch(setActiveStep(activeStep + 1))}
             >
               Go Next
             </Button>
+            </Stack>
           </Box>
         </FormControl>
       </Box>

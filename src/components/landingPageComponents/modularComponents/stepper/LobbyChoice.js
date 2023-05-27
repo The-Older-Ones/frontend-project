@@ -6,6 +6,7 @@ import {
   Button,
   useTheme,
   TextField,
+  Stack
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -31,16 +32,15 @@ function LobbyChoice() {
     <Paper
       elevation={3}
       style={{
-        // display: "flex",
-        // flexDirection: "column",
-        // alignItems: "center",
         my: theme.spacing(2),
         padding: "32px",
-        width: "80%",
+        width: "50%",
+        height: "75%",
         backgroundColor: theme.palette.secondary.light,
         borderRadius: "4px",
+        margin: "10px"
       }}
-    >
+      >
       {!lobbySelection && (
         <Box
           id="chooseLobby"
@@ -49,9 +49,10 @@ function LobbyChoice() {
           alignItems={"center"}
           gap={theme.spacing(6)}
         >
-          <Typography variant="h3" component={"h1"} color="textPrimary">
+          <Typography variant="h4" component={"h1"} color="textPrimary">
             Select an option
           </Typography>
+          <Stack spacing={2} direction="column">
           <Button
             variant="contained"
             color="secondary"
@@ -66,6 +67,14 @@ function LobbyChoice() {
           >
             Join a lobby
           </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => dispatch(setActiveStep(activeStep - 1))}
+          >
+            Go Back
+          </Button>
+          </Stack>
         </Box>
       )}
 
@@ -77,17 +86,22 @@ function LobbyChoice() {
           alignItems={"center"}
           gap={theme.spacing(6)}
         >
-          <Typography variant="h4" color="initial">
-            Here is your lobby code. Share it with other people who want to join
-            your lobby!
+          <Stack spacing={1} direction="column">
+          <Typography variant="h4" color="initial" align="center">
+            Here is your lobby code. 
+            </Typography>
+            <Typography variant="h6" color="initial" align="center">
+            Share it to let people join your lobby!
           </Typography>
+          </Stack>
           <Typography variant="p" color="initial">
             Dummy Code
           </Typography>
           <Box>
+            <Stack spacing={2} direction="row">
             <Button
               variant="contained"
-              color="secondary"
+              color="error"
               onClick={() => dispatch(setLobbySelection(false))}
             >
               Go Back
@@ -99,6 +113,7 @@ function LobbyChoice() {
             >
               Next Step
             </Button>
+            </Stack>
           </Box>
         </Box>
       )}
@@ -120,9 +135,10 @@ function LobbyChoice() {
             onChange={(e) => setLobbyCode(e.target.value)}
           />
           <Box>
+          <Stack spacing={2} direction="row">
             <Button
               variant="contained"
-              color="secondary"
+              color="error"
               onClick={() => dispatch(setLobbySelection(false))}
             >
               Go Back
@@ -134,6 +150,7 @@ function LobbyChoice() {
             >
               Next step
             </Button>
+            </Stack>
           </Box>
         </Box>
       )}

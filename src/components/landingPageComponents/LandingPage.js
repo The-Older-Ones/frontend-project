@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, Stack } from "@mui/material";
 import { Filter1, Filter2, Filter3 } from "@mui/icons-material";
 import Header from "./modularComponents/Header";
 import LobbyCreation from "./modularComponents/LobbyCreation";
@@ -59,12 +59,23 @@ function LandingPage() {
         <Header />
         <LobbyCreation />
         <Box style={howToPlayStyle}>
-          <Typography fontSize={"2rem"}>How to play:</Typography>
+          <Typography variant="h4">How to play:</Typography>
           <ul style={howToPlayListStyle}>
             {[
-              "Choose 5 categories for the questions.",
-              "Choose a question from the board: 100 points are easier questions 1000 points are the hardest.",
-              "Answer questions before time runs out.",
+              <Typography variant="5" style={{ textAlign: "center", justifyContent: "center" }}>
+                "Choose 5 categories for the questions."
+              </Typography>,
+              <Stack direction="column">
+                <Typography variant="h5" style={{ textAlign: "center", justifyContent: "center" }}>
+                  "Choose a question from the board
+                </Typography>
+                <Typography variant="h6" style={{ textAlign: "center", justifyContent: "center" }}>
+                  100 points are easier questions 1000 points are the hardest."
+                </Typography>
+              </Stack>,
+              <Typography variant="h5" style={{ textAlign: "center", justifyContent: "center" }}>
+                "Answer questions before time runs out."
+              </Typography>
             ].map((text, index) => (
               <li key={index} style={listItemStyle}>
                 {numberedIcons[index]}

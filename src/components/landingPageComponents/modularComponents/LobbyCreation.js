@@ -21,9 +21,9 @@ function LobbyCreation() {
   const getStepContent = (switchIndex) => {
     switch (switchIndex) {
       case 0:
-        return <LobbyChoice />;
-      case 1:
         return <CreateAvatar />;
+      case 1:
+        return <LobbyChoice />;
       case 2:
         return <ConfirmLobby />;
       default:
@@ -41,28 +41,40 @@ function LobbyCreation() {
         flexDirection: "column",
         padding: theme.spacing(2),
         width: "75%",
+        height: "75%",
         backgroundColor: theme.palette.primary.main,
         borderRadius: "4px",
       }}
     >
       <Box id="lobbyCreation">
-        <Stepper activeStep={activeStep}>
-          <Step key={0}>
+        <Stepper activeStep={activeStep} >
+          <Step key={0} style={{ display: activeStep === 0 ? "block" : "none" }}>
             <StepLabel>
-              Select to host or join lobby and get your code
+              <Typography variant="h6">
+                Create your Avatar and enter your game name.
+              </Typography>
             </StepLabel>
           </Step>
-          <Step key={1}>
-            <StepLabel>Create your Avatar and enter your game name.</StepLabel>
+          <Step key={1} style={{ display: activeStep === 1 ? "block" : "none" }}>
+            <StepLabel>
+            <Typography variant="h6">
+              Select to host or join lobby and get your code
+              </Typography>
+            </StepLabel>
           </Step>
-          <Step key={2} last>
-            <StepLabel>Confirm your choices.</StepLabel>
+          <Step key={2} last style={{ display: activeStep === 2 ? "block" : "none" }}>
+            <StepLabel>
+            <Typography variant="h6">
+              Confirm your choices.
+              </Typography>
+              </StepLabel>
           </Step>
         </Stepper>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           {getStepContent(activeStep)}
         </Box>
       </Box>
+
     </Paper>
   );
 }
