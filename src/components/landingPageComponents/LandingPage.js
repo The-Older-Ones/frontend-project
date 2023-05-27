@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, useTheme, Stack } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { Filter1, Filter2, Filter3 } from '@mui/icons-material';
 import Header from './modularComponents/Header';
 import LobbyCreation from './modularComponents/LobbyCreation';
