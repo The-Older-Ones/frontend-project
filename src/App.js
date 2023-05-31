@@ -3,6 +3,7 @@ import LandingPage from './components/landingPageComponents/LandingPage';
 // import PointSelectionPageLayout from "./components/pointSelectionComponents/PointSelectionPageLayout";
 // import { QuizPage } from "./components/quizPageComponent/QuizPage";
 
+
 function App() {
 	return (
 		<div className='App'>
