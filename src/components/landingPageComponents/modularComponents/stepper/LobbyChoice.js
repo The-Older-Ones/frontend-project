@@ -1,6 +1,8 @@
 import React from 'react';
 import socket from '../../../../socket';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Box, Typography, Paper, Button, useTheme, TextField, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveStep, setHost, setLobbyCode, setLobbySelection } from '../../../../store/slices/landingPageSlices/lobbySlice';
@@ -24,6 +26,24 @@ function LobbyChoice() {
 		dispatch(setSocketID(data.socketId));
 		console.log(data.playerName);
 	});
+
+	const copyCode = "testCodeZumKopieren"
+	// const copyCode = { lobbyCode }
+	const copyToClipboard = () => {
+		navigator.clipboard.writeText(copyCode)
+			.then(() => {
+				toast.success('Code wurde kopiert.', {
+					position: "bottom-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "light",
+				});
+			})
+	};
 
 	return (
 		<Paper
@@ -74,9 +94,11 @@ function LobbyChoice() {
 							Share it to let people join your lobby!
 						</Typography>
 					</Stack>
-					<Typography variant='p' color='initial'>
-						{lobbyCode}
-					</Typography>
+					<Box onClick={copyToClipboard} style={{ cursor: 'pointer' }}>
+						<Typography variant="p" color="initial">
+							{copyCode}
+						</Typography>
+					</Box>
 					<Box>
 						<Stack spacing={2} direction='row'>
 							<Button variant='contained' color='error' onClick={() => dispatch(setLobbySelection(false))}>
