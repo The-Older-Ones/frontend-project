@@ -2,7 +2,6 @@ import LandingPage from './components/landingPageComponents/LandingPage';
 // import LobbyPageLayout from './components/lobbyComponents/LobbyPageLayout';
 // import PointSelectionPageLayout from "./components/pointSelectionComponents/PointSelectionPageLayout";
 // import { QuizPage } from "./components/quizPageComponent/QuizPage";
-// import ErrorPage from "./components/errorPageComponents/ErrorPage";
 
 
 function App() {
@@ -12,7 +11,6 @@ function App() {
 			{/* <PointSelectionPageLayout /> */}
 			<LandingPage />
 			{/* <QuizPage/> */}
-			{/* <ErrorPage /> */}
 		</div>
 	);
 }
