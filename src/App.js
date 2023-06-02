@@ -7,8 +7,8 @@ import { QuizPage } from "./components/quizPageComponent/QuizPage";
 function App() {
 	return (
 		<div className='App'>
-			<LobbyPageLayout />
-			{/* <PointSelectionPageLayout /> */}
+			{/* <LobbyPageLayout /> */}
+			<PointSelectionPageLayout />
 			{/* <LandingPage /> */}
 			{/* <QuizPage/> */}
 		</div>
