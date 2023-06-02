@@ -20,29 +20,28 @@ function LobbyChoice() {
 	};
 
 	socket.on('gameCreated', function (data) {
-		console.log(data.gameId);
+		console.log('GAME ID: ' + data.gameId);
 		dispatch(setLobbyCode(data.gameId));
-		console.log(data.socketId);
+		console.log('SOCKET ID: ' + data.socketId);
 		dispatch(setSocketID(data.socketId));
-		console.log(data.playerName);
+		console.log('PLAYER NAME: ' + data.playerName);
 	});
 
-	const copyCode = "testCodeZumKopieren"
+	const copyCode = 'testCodeZumKopieren';
 	// const copyCode = { lobbyCode }
 	const copyToClipboard = () => {
-		navigator.clipboard.writeText(copyCode)
-			.then(() => {
-				toast.success('Code wurde kopiert.', {
-					position: "bottom-right",
-					autoClose: 5000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "light",
-				});
-			})
+		navigator.clipboard.writeText(copyCode).then(() => {
+			toast.success('Code wurde kopiert.', {
+				position: 'bottom-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+			});
+		});
 	};
 
 	return (
@@ -95,7 +94,7 @@ function LobbyChoice() {
 						</Typography>
 					</Stack>
 					<Box onClick={copyToClipboard} style={{ cursor: 'pointer' }}>
-						<Typography variant="p" color="initial">
+						<Typography variant='p' color='initial'>
 							{copyCode}
 						</Typography>
 					</Box>

@@ -115,18 +115,23 @@ function LobbyBoxLayout() {
 	const dispatch = useDispatch();
 	const categories = useSelector((state) => state.categories);
 	const [selectedCategories, setSelectedCategories] = useState([]);
+	socket.on('gameCreated', (data) => {
+		const categories = data.settings.list;
+		console.log('Received categories: ', categories);
+		dispatch(setCategories(categories));
+	});
 
 	useEffect(() => {
 		socket.on('gameCreated', (data) => {
-			const categories = data.list;
+			const categories = data.settings.list;
 			console.log('Received categories: ', categories);
 			dispatch(setCategories(categories));
 		});
 
 		// Cleanup function to remove the event listener when the component unmounts
-		return () => {
-			socket.off('gameCreated');
-		};
+		// return () => {
+		// 	socket.off('gameCreated');
+		// };
 	}, [dispatch]);
 
 	const handleCategoryChange = (category) => {
@@ -185,7 +190,7 @@ function LobbyBoxLayout() {
 								overflowY: 'scroll',
 								flexGrow: 1,
 								'&::-webkit-scrollbar': { display: 'none' },
-								'msOverflowStyle': 'none',
+								msOverflowStyle: 'none',
 								scrollbarWidth: 'none',
 							}}
 						>
