@@ -7,6 +7,7 @@ const TableLayout = ({ headings, rows }) => {
 
 	const handleClick = (points) => {
 		// Navigate to the quiz page and pass the selected points as state
+		// state is still optional, might be needed later
 		navigate('/quiz', { state: { points } });
 	};
 	return (
