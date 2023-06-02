@@ -53,8 +53,8 @@ function LobbyBoxLayout() {
 							sx={{
 								overflowY: 'scroll',
 								flexGrow: 1,
-								'&::-webkit-scrollbar': { display: 'none' },
-								'-ms-overflow-style': 'none',
+								// '&::-webkit-scrollbar': { display: 'none' },
+								// '-ms-overflow-style': 'none',
 								scrollbarWidth: 'none',
 							}}
 						>
