@@ -20,17 +20,15 @@ function LobbyChoice() {
 	};
 
 	socket.on('gameCreated', function (data) {
-		console.log(data.gameId);
 		dispatch(setLobbyCode(data.gameId));
-		console.log(data.socketId);
 		dispatch(setSocketID(data.socketId));
-		console.log(data.playerName);
+		console.log(data);
 	});
 
-	const copyCode = "testCodeZumKopieren"
+
 	// const copyCode = { lobbyCode }
 	const copyToClipboard = () => {
-		navigator.clipboard.writeText(copyCode)
+		navigator.clipboard.writeText(lobbyCode)
 			.then(() => {
 				toast.success('Code wurde kopiert.', {
 					position: "bottom-right",
@@ -96,7 +94,7 @@ function LobbyChoice() {
 					</Stack>
 					<Box onClick={copyToClipboard} style={{ cursor: 'pointer' }}>
 						<Typography variant="p" color="initial">
-							{copyCode}
+							{lobbyCode}
 						</Typography>
 					</Box>
 					<Box>
