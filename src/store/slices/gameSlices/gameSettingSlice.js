@@ -20,13 +20,15 @@ const gameSettingSlice = createSlice({
 			state.rounds = action.payload;
 		},
 		setPlayers: (state, action) => {
+            const newPlayers = [...state.players]
 			Object.entries(action.payload.lobbyMember).forEach(([socketId, playerName]) => {
 				const player = {
 					playerName,
 					socketId,
 				};
-				state.players = [...state.players, player];
+				newPlayers.push(player);
 			});
+            state.players = newPlayers;
 		},
 	},
 });

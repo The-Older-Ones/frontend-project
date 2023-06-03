@@ -1,17 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Box, Button, Paper } from '@mui/material';
+import { Grid, Box, Button, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import HeadingCard from './cardComponents/HeadingCard';
-import CategoryAccordion from './categoryComponents/CategoryAccordion';
+
 import PlayerList from './playerComponents/PlayerList';
+import { useSelector } from 'react-redux';
 
 function LobbyBoxLayout() {
 	const navigate = useNavigate();
+	const { categories } = useSelector((state) => state.gameSettings);
 
 	return (
 		<Box
-			maxWidth='1100px'
-			mx='auto'
+			maxWidth="1100px"
+			mx="auto"
 			sx={{
 				width: '100%',
 				border: '1px solid black',
@@ -59,15 +61,16 @@ function LobbyBoxLayout() {
 							}}
 						>
 							<Box>
-								<CategoryAccordion />
-								<CategoryAccordion />
-								<CategoryAccordion />
-								<CategoryAccordion />
-								<CategoryAccordion />
-								<CategoryAccordion />
+								{categories.map((category, index) => (
+									<Paper key={index} elevation={3} >
+										<FormGroup>
+											<FormControlLabel control={<Checkbox/>} label={category}/>
+										</FormGroup>
+									</Paper>
+								))}
 							</Box>
 						</Paper>
-						<Button variant='contained' sx={{ mb: '20px' }}>
+						<Button variant="contained" sx={{ mb: '20px' }}>
 							Lock Categories
 						</Button>
 					</Box>
@@ -91,7 +94,7 @@ function LobbyBoxLayout() {
 				</Grid> */}
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Button variant='contained' sx={{ width: '80%', mt: '20px' }} onClick={() => navigate('/pointSelection')}>
+				<Button variant="contained" sx={{ width: '80%', mt: '20px' }} onClick={() => navigate('/pointSelection')}>
 					Start Game
 				</Button>
 			</Box>

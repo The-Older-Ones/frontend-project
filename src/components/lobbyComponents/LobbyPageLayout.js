@@ -14,17 +14,26 @@ function LobbyPageLayout() {
 	const dispatch = useDispatch();
 	const { players } = useSelector((state) => state.gameSettings);
 
-	socket.on('joinedLobby', (data) => {
-		dispatch(
-			setPlayers({
-				lobbyMember: data.settings.lobbyMember,
-			})
-		);
-	});
+	useEffect(() => {
+		const handleJoinedLobby = (data) => {
+			console.log(data);
+			dispatch(
+				setPlayers({
+					lobbyMember: data.settings.lobbyMember,
+				})
+			);
+		};
 
-	setTimeout(() => {
-		console.log(players);
-	}, 2000);
+		socket.on('joinedLobby', handleJoinedLobby);
+
+		// Clean up the event listener when the component is unmounted
+		return () => {
+			socket.off('joinedLobby', handleJoinedLobby);
+		};
+	}, [dispatch]);
+
+	console.log(players);
+
 	return (
 		<div
 			style={{
