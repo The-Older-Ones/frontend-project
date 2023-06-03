@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import LobbyBoxLayout from './LobbyBoxLayout';
 import { BaseColors } from '../../theme';
 // import HeadingCard from "./cardComponents/HeadingCard";
 import LeaderBoard from './playerComponents/LeaderBoard';
 import RuleSet from './ruleComponents/RuleSet';
+import socket from '../../socket';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPlayers } from '../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyPageLayout() {
+	const dispatch = useDispatch();
+	const { players } = useSelector((state) => state.gameSettings);
+
+	socket.on('joinedLobby', (data) => {
+		dispatch(
+			setPlayers({
+				lobbyMember: data.settings.lobbyMember,
+			})
+		);
+	});
+
+	setTimeout(() => {
+		console.log(players);
+	}, 2000);
 	return (
 		<div
 			style={{
@@ -18,7 +35,7 @@ function LobbyPageLayout() {
 		>
 			<Grid container sx={{ minHeight: '100vh' }}>
 				<Grid item xs={12} md={2}>
-					<Box p={2} bgcolor='secondary.light' sx={{ height: '100%' }}>
+					<Box p={2} bgcolor="secondary.light" sx={{ height: '100%' }}>
 						<LeaderBoard />
 					</Box>
 				</Grid>
@@ -43,7 +60,7 @@ function LobbyPageLayout() {
 				</Grid>
 
 				<Grid item xs={12} md={2}>
-					<Box p={2} bgcolor='secondary.light' sx={{ height: '100%' }}>
+					<Box p={2} bgcolor="secondary.light" sx={{ height: '100%' }}>
 						<RuleSet />
 					</Box>
 				</Grid>
