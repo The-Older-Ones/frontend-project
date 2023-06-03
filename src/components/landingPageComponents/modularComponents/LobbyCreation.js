@@ -74,7 +74,6 @@ function LobbyCreation() {
           {getStepContent(activeStep)}
         </Box>
       </Box>
-
     </Paper>
   );
 }
