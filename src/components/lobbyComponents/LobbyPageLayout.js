@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPlayers } from '../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyPageLayout() {
+	// test
 	const dispatch = useDispatch();
 	const { players } = useSelector((state) => state.gameSettings);
 
