@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Box, Typography, Paper, Button, useTheme, TextField, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveStep, setHost, setLobbyCode, setLobbySelection } from '../../../../store/slices/landingPageSlices/lobbySlice';
+import { setActiveStep, setHost, setLobbyCode, setLobbySelection, setHostSocketID } from '../../../../store/slices/landingPageSlices/lobbySlice';
 
 import { setRounds, setPlayerNumber, setCategories } from '../../../../store/slices/gameSlices/gameSettingSlice';
 
@@ -22,7 +22,6 @@ function LobbyChoice() {
 
 	socket.on('gameCreated', function (data) {
 		dispatch(setLobbyCode(data.gameId));
-
 		dispatch(setCategories(data.settings.list));
 		dispatch(setPlayerNumber(data.settings.playerNumber));
 		dispatch(setRounds(data.settings.rounds));
@@ -68,12 +67,22 @@ function LobbyChoice() {
 							color="secondary"
 							onClick={() => {
 								socket.emit('createGame', { playerName: ign, token: accessToken });
+								socket.on('gameCreated', (data) => {
+									dispatch(setHostSocketID(data.socketId));
+								});
 								handleChoice(true);
 							}}
 						>
 							Host a lobby
 						</Button>
-						<Button variant="contained" color="secondary" onClick={() => handleChoice(false)}>
+						<Button
+							variant="contained"
+							color="secondary"
+							onClick={() => {
+								handleChoice(false);
+
+							}}
+						>
 							Join a lobby
 						</Button>
 						<Button variant="contained" color="error" onClick={() => dispatch(setActiveStep(activeStep - 1))}>

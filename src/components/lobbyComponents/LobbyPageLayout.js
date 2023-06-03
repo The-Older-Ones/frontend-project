@@ -7,32 +7,33 @@ import LeaderBoard from './playerComponents/LeaderBoard';
 import RuleSet from './ruleComponents/RuleSet';
 import socket from '../../socket';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPlayers } from '../../store/slices/gameSlices/gameSettingSlice';
+import { getHostInfo, setPlayers } from '../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyPageLayout() {
-	// test
 	const dispatch = useDispatch();
-	const { players } = useSelector((state) => state.gameSettings);
+	const { categories } = useSelector((state) => state.gameSettings);
 
 	useEffect(() => {
+		dispatch(getHostInfo());
+
 		const handleJoinedLobby = (data) => {
-			console.log(data);
-			dispatch(
-				setPlayers({
-					lobbyMember: data.settings.lobbyMember,
-				})
-			);
+			console.log('Joined Lobby Event');
+			dispatch(setPlayers({ lobbyMember: data.settings.lobbyMember }));
+		};
+
+		const handlePlayerJoined = (data) => {
+			console.log('Player Joined Event');
+			dispatch(setPlayers({ lobbyMember: { [data.playerId]: data.playerName } }));
 		};
 
 		socket.on('joinedLobby', handleJoinedLobby);
+		socket.on('playerJoined', handlePlayerJoined);
 
-		// Clean up the event listener when the component is unmounted
 		return () => {
 			socket.off('joinedLobby', handleJoinedLobby);
+			socket.off('playerJoined', handlePlayerJoined);
 		};
 	}, [dispatch]);
-
-	console.log(players);
 
 	return (
 		<div

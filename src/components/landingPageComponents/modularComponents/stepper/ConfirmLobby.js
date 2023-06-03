@@ -4,6 +4,7 @@ import { setActiveStep } from '../../../../store/slices/landingPageSlices/lobbyS
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import socket from '../../../../socket';
+import { setCategories } from '../../../../store/slices/gameSlices/gameSettingSlice';
 
 function ConfirmLobby() {
 	const dispatch = useDispatch();
@@ -45,13 +46,26 @@ function ConfirmLobby() {
 							variant="contained"
 							color="success"
 							onClick={() => {
+								/** if(host){
+								 * 		socket.emit("broadcastCategories", {gameCategories: categories, gameId, })
+								 * }
+								 *
+								 */
+
 								if (!host) {
 									socket.emit('joinLobby', {
 										gameId: lobbyCode,
 										playerName: ign,
 										token: accessToken || undefined,
 									});
-									console.log('Joined Lobby');
+									socket.on("joinedLobby", (data) => {
+										dispatch(setCategories(data.settings.list))
+									})
+									/**
+									 * socket.on("requestCategories", (data) => {
+									 * 		dispatch(setCategories(data.gameCategories))
+									 * }})
+									 */
 								}
 								navigate('/lobby');
 							}}

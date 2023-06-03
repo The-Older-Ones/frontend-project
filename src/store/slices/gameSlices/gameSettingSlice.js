@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { hostIGN, hostSocketID } from '../landingPageSlices/lobbySlice';
 
 const gameSettingSlice = createSlice({
 	name: 'gameSettings',
@@ -6,8 +7,8 @@ const gameSettingSlice = createSlice({
 		categories: [],
 		playerNumber: 0,
 		rounds: 0,
-
 		players: [],
+		lockedCategory: [],
 	},
 	reducers: {
 		setCategories: (state, action) => {
@@ -20,18 +21,29 @@ const gameSettingSlice = createSlice({
 			state.rounds = action.payload;
 		},
 		setPlayers: (state, action) => {
-            const newPlayers = [...state.players]
 			Object.entries(action.payload.lobbyMember).forEach(([socketId, playerName]) => {
-				const player = {
-					playerName,
-					socketId,
-				};
-				newPlayers.push(player);
+				const playerExists = state.players.find((player) => player.socketId === socketId);
+				if (!playerExists) {
+					const player = {
+						playerName,
+						socketId,
+					};
+					state.players.push(player);
+				}
 			});
-            state.players = newPlayers;
 		},
 	},
 });
+
+export const getHostInfo = () => (dispatch, getState) => {
+	const state = getState();
+	const hostID = hostSocketID(state);
+	const ign = hostIGN(state);
+	const lobbyMember = {
+		[hostID]: ign,
+	};
+	if (hostID && ign) dispatch(setPlayers({ lobbyMember }));
+};
 
 export const { setCategories, setPlayerNumber, setRounds, setPlayers } = gameSettingSlice.actions;
 export default gameSettingSlice.reducer;

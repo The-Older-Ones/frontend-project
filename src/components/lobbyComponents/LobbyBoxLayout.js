@@ -5,10 +5,13 @@ import HeadingCard from './cardComponents/HeadingCard';
 
 import PlayerList from './playerComponents/PlayerList';
 import { useSelector } from 'react-redux';
+import { useTheme } from '@emotion/react';
 
 function LobbyBoxLayout() {
+	const theme = useTheme();
 	const navigate = useNavigate();
 	const { categories } = useSelector((state) => state.gameSettings);
+	const { host } = useSelector((state) => state.lobby);
 
 	return (
 		<Box
@@ -53,18 +56,19 @@ function LobbyBoxLayout() {
 						<HeadingCard variant={'4'} title={'Choose options'} />
 						<Paper
 							sx={{
+								bgcolor: theme.palette.secondary.light,
 								overflowY: 'scroll',
 								flexGrow: 1,
-								// '&::-webkit-scrollbar': { display: 'none' },
+								'&::-webkit-scrollbar': { display: 'none' },
 								// '-ms-overflow-style': 'none',
 								scrollbarWidth: 'none',
 							}}
 						>
 							<Box>
 								{categories.map((category, index) => (
-									<Paper key={index} elevation={3} >
+									<Paper key={index} elevation={3} sx={{ my: theme.spacing(1), mx: theme.spacing(3) }}>
 										<FormGroup>
-											<FormControlLabel control={<Checkbox/>} label={category}/>
+											<FormControlLabel control={<Checkbox disabled={host ? false : true} />} label={category} sx={{ px: theme.spacing(2) }} />
 										</FormGroup>
 									</Paper>
 								))}
