@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { hostIGN, hostSocketID } from '../landingPageSlices/lobbySlice';
-
+import { toast } from 'react-toastify';
 const gameSettingSlice = createSlice({
 	name: 'gameSettings',
 	initialState: {
@@ -61,6 +61,19 @@ const gameSettingSlice = createSlice({
 		},
 		setGameCategories: (state) => {
 			state.gameCategories = state.lockedCategories.map((category) => category.categoryName);
+			toast.info('Game categories locked', {
+				position: 'bottom-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+			});
+		},
+		setGuestGameCategories: (state,action) => {
+			state.gameCategories = action.payload;
 		},
 		setPending: (state, action) => {
 			state.pending = action.payload;
@@ -78,5 +91,5 @@ export const getHostInfo = () => (dispatch, getState) => {
 	if (hostID && ign) dispatch(setPlayers({ lobbyMember }));
 };
 
-export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending } = gameSettingSlice.actions;
+export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending, setGuestGameCategories } = gameSettingSlice.actions;
 export default gameSettingSlice.reducer;

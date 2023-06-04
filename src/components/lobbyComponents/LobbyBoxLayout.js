@@ -5,7 +5,7 @@ import HeadingCard from './cardComponents/HeadingCard';
 import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@emotion/react';
-import { setGameCategories, setSelectedCategory, setPending } from '../../store/slices/gameSlices/gameSettingSlice';
+import { setGameCategories, setSelectedCategory, setPending, setGuestGameCategories } from '../../store/slices/gameSlices/gameSettingSlice';
 import socket from '../../socket';
 
 function LobbyBoxLayout() {
@@ -25,19 +25,20 @@ function LobbyBoxLayout() {
 		console.log('Start Game Event');
 		socket.emit('startGame', { list: gameCategories });
 	};
+
 	useEffect(() => {
-		const handleStartedGame = () => {
+		const handleStartedGame = (data) => {
 			console.log('Started Game Event');
+			console.log(data);
+			dispatch(setGuestGameCategories(data.list));
 			navigate('/pointSelection');
 		};
-		socket.on('startedGame', () => {
-			console.log('Kommt hier rein bitch');
-		});
+		socket.on('startedGame', handleStartedGame);
 		// Clean up the event listener when the component unmounts
 		return () => {
 			socket.off('startedGame', handleStartedGame);
 		};
-	}, [navigate]);
+	}, [dispatch, navigate]);
 
 	return (
 		<Box

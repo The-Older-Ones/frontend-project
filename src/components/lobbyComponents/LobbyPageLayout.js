@@ -17,6 +17,7 @@ function LobbyPageLayout() {
 
 		const handleJoinedLobby = (data) => {
 			console.log('Joined Lobby Event');
+			console.log(data);
 			const lobbyMember = data.settings.lobbyMember.map((e) => {
 				return e.playerName;
 			});
@@ -25,7 +26,8 @@ function LobbyPageLayout() {
 
 		const handlePlayerJoined = (data) => {
 			console.log('Player Joined Event');
-			dispatch(setPlayers({ lobbyMember: { [data.playerId]: data.playerName } }));
+			console.log(data);
+			dispatch(setPlayers({ lobbyMember: { socketId: data.playerId, playerName: data.playerName } }));
 		};
 
 		socket.on('joinedLobby', handleJoinedLobby);
@@ -36,8 +38,6 @@ function LobbyPageLayout() {
 			socket.off('playerJoined', handlePlayerJoined);
 		};
 	}, [dispatch]);
-
-
 
 	return (
 		<div
