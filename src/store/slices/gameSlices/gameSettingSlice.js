@@ -8,11 +8,20 @@ const gameSettingSlice = createSlice({
 		playerNumber: 0,
 		rounds: 0,
 		players: [],
-		lockedCategory: [],
+		mappedCategories: [],
+		lockedCategories: [],
+		gameCategories: [],
+		pending: false,
 	},
 	reducers: {
 		setCategories: (state, action) => {
 			state.categories = action.payload;
+			state.mappedCategories = state.categories.map((e) => {
+				return {
+					categoryName: e,
+					selected: false,
+				};
+			});
 		},
 		setPlayerNumber: (state, action) => {
 			state.playerNumber = action.payload;
@@ -32,6 +41,30 @@ const gameSettingSlice = createSlice({
 				}
 			});
 		},
+		setSelectedCategory: (state, action) => {
+			const { categoryName, selected } = action.payload;
+			const mappedCategories = state.mappedCategories.map((category) => {
+				if (category.categoryName === categoryName) {
+					return {
+						...category,
+						selected: selected,
+					};
+				}
+				return category;
+			});
+
+			state.mappedCategories = mappedCategories;
+			const filterLockedCategories = state.mappedCategories.filter((category) => {
+				if (category.selected) return category;
+			});
+			state.lockedCategories = filterLockedCategories;
+		},
+		setGameCategories: (state) => {
+			state.gameCategories = state.lockedCategories.map((category) => category.categoryName);
+		},
+		setPending: (state, action) => {
+			state.pending = action.payload;
+		},
 	},
 });
 
@@ -45,5 +78,5 @@ export const getHostInfo = () => (dispatch, getState) => {
 	if (hostID && ign) dispatch(setPlayers({ lobbyMember }));
 };
 
-export const { setCategories, setPlayerNumber, setRounds, setPlayers } = gameSettingSlice.actions;
+export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending } = gameSettingSlice.actions;
 export default gameSettingSlice.reducer;

@@ -6,19 +6,21 @@ import { BaseColors } from '../../theme';
 import LeaderBoard from './playerComponents/LeaderBoard';
 import RuleSet from './ruleComponents/RuleSet';
 import socket from '../../socket';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getHostInfo, setPlayers } from '../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyPageLayout() {
 	const dispatch = useDispatch();
-	const { categories } = useSelector((state) => state.gameSettings);
-
+	// const {  } = useSelector((state) => state.gameSettings);
 	useEffect(() => {
 		dispatch(getHostInfo());
 
 		const handleJoinedLobby = (data) => {
 			console.log('Joined Lobby Event');
-			dispatch(setPlayers({ lobbyMember: data.settings.lobbyMember }));
+			const lobbyMember = data.settings.lobbyMember.map((e) => {
+				return e.playerName;
+			});
+			dispatch(setPlayers({ lobbyMember: lobbyMember }));
 		};
 
 		const handlePlayerJoined = (data) => {
@@ -34,6 +36,8 @@ function LobbyPageLayout() {
 			socket.off('playerJoined', handlePlayerJoined);
 		};
 	}, [dispatch]);
+
+
 
 	return (
 		<div

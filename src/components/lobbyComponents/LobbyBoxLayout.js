@@ -1,17 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Box, Button, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import HeadingCard from './cardComponents/HeadingCard';
-
 import PlayerList from './playerComponents/PlayerList';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@emotion/react';
+import { setGameCategories, setSelectedCategory, setPending } from '../../store/slices/gameSlices/gameSettingSlice';
+import socket from '../../socket';
 
 function LobbyBoxLayout() {
 	const theme = useTheme();
 	const navigate = useNavigate();
-	const { categories } = useSelector((state) => state.gameSettings);
+	const dispatch = useDispatch();
+
+	const { mappedCategories, lockedCategories, gameCategories } = useSelector((state) => state.gameSettings);
 	const { host } = useSelector((state) => state.lobby);
+
+	const handleSelectedCategory = (categoryName, checked) => {
+		dispatch(setSelectedCategory({ categoryName, selected: checked }));
+	};
+	const isLockedDisabled = lockedCategories.length !== 5; // 5 wird ersetzt durch spätere Spieleinstellungsvariable
+
+	const handleStartGame = () => {
+		console.log('Start Game Event');
+		socket.emit('startGame', { list: gameCategories });
+	};
+	useEffect(() => {
+		const handleStartedGame = () => {
+			console.log('Started Game Event');
+			navigate('/pointSelection');
+		};
+		socket.on('startedGame', () => {
+			console.log('Kommt hier rein bitch');
+		});
+		// Clean up the event listener when the component unmounts
+		return () => {
+			socket.off('startedGame', handleStartedGame);
+		};
+	}, [navigate]);
 
 	return (
 		<Box
@@ -65,16 +91,26 @@ function LobbyBoxLayout() {
 							}}
 						>
 							<Box>
-								{categories.map((category, index) => (
+								{mappedCategories.map((category, index) => (
 									<Paper key={index} elevation={3} sx={{ my: theme.spacing(1), mx: theme.spacing(3) }}>
 										<FormGroup>
-											<FormControlLabel control={<Checkbox disabled={host ? false : true} />} label={category} sx={{ px: theme.spacing(2) }} />
+											<FormControlLabel
+												control={
+													<Checkbox
+														disabled={host ? false : true}
+														checked={category.selected}
+														onChange={(e) => handleSelectedCategory(category.categoryName, e.target.checked)}
+													/>
+												}
+												label={category.categoryName}
+												sx={{ px: theme.spacing(2) }}
+											/>
 										</FormGroup>
 									</Paper>
 								))}
 							</Box>
 						</Paper>
-						<Button variant="contained" sx={{ mb: '20px' }}>
+						<Button variant="contained" disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
 							Lock Categories
 						</Button>
 					</Box>
@@ -98,7 +134,13 @@ function LobbyBoxLayout() {
 				</Grid> */}
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Button variant="contained" sx={{ width: '80%', mt: '20px' }} onClick={() => navigate('/pointSelection')}>
+				<Button
+					variant="contained"
+					sx={{ width: '80%', mt: '20px' }}
+					onClick={() => {
+						handleStartGame();
+					}}
+				>
 					Start Game
 				</Button>
 			</Box>

@@ -12,7 +12,7 @@ function ConfirmLobby() {
 	const navigate = useNavigate();
 	const { activeStep, ign, lobbyCode, host } = useSelector((state) => state.lobby);
 	const { accessToken } = useSelector((state) => state.auth);
-
+	
 	return (
 		<Paper
 			elevation={3}
