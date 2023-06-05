@@ -30,7 +30,18 @@ const gameSettingSlice = createSlice({
 			state.rounds = action.payload;
 		},
 		setPlayers: (state, action) => {
-			Object.entries(action.payload.lobbyMember).forEach(([socketId, playerName]) => {
+			// Object.entries(action.payload.lobbyMember).forEach(([socketId, playerName]) => {
+			// 	const playerExists = state.players.find((player) => player.socketId === socketId);
+			// 	if (!playerExists) {
+			// 		const player = {
+			// 			playerName,
+			// 			socketId,
+			// 		};
+			// 		state.players.push(player);
+			// 	}
+			// });
+			console.log(action.payload);
+			action.payload.forEach(({ socketId, playerName }) => {
 				const playerExists = state.players.find((player) => player.socketId === socketId);
 				if (!playerExists) {
 					const player = {
@@ -72,7 +83,7 @@ const gameSettingSlice = createSlice({
 				theme: 'light',
 			});
 		},
-		setGuestGameCategories: (state,action) => {
+		setGuestGameCategories: (state, action) => {
 			state.gameCategories = action.payload;
 		},
 		setPending: (state, action) => {
@@ -81,15 +92,15 @@ const gameSettingSlice = createSlice({
 	},
 });
 
-export const getHostInfo = () => (dispatch, getState) => {
-	const state = getState();
-	const hostID = hostSocketID(state);
-	const ign = hostIGN(state);
-	const lobbyMember = {
-		[hostID]: ign,
-	};
-	if (hostID && ign) dispatch(setPlayers({ lobbyMember }));
-};
+// export const getHostInfo = () => (dispatch, getState) => {
+// 	const state = getState();
+// 	const hostID = hostSocketID(state);
+// 	const ign = hostIGN(state);
+// 	const lobbyMember = {
+// 		[hostID]: ign,
+// 	};
+// 	if (hostID && ign) dispatch(setPlayers({ lobbyMember }));
+// };
 
 export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending, setGuestGameCategories } = gameSettingSlice.actions;
 export default gameSettingSlice.reducer;
