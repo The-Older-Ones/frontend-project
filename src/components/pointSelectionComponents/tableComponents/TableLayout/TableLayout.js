@@ -25,7 +25,6 @@ const TableLayout = () => {
 	};
 	useEffect(() => {
 		const handleChoseQuestion = (data) => {
-			console.log(data);
 			dispatch(setQuestion(data.question));
 			dispatch(setAnswers(data.allAnswers));
 			dispatch(setIsChosen(true));

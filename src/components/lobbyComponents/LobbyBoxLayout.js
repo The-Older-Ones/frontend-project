@@ -29,7 +29,6 @@ function LobbyBoxLayout() {
 	useEffect(() => {
 		const handleStartedGame = (data) => {
 			console.log('Started Game Event');
-			console.log(data);
 			dispatch(setGuestGameCategories(data.list));
 			navigate('/pointSelection');
 		};
@@ -41,8 +40,8 @@ function LobbyBoxLayout() {
 
 	return (
 		<Box
-			maxWidth='1100px'
-			mx='auto'
+			maxWidth="1100px"
+			mx="auto"
 			sx={{
 				width: '100%',
 				border: '1px solid black',
@@ -109,7 +108,7 @@ function LobbyBoxLayout() {
 								))}
 							</Box>
 						</Paper>
-						<Button variant='contained' disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
+						<Button variant="contained" disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
 							Lock Categories
 						</Button>
 					</Box>
@@ -134,7 +133,7 @@ function LobbyBoxLayout() {
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 				<Button
-					variant='contained'
+					variant="contained"
 					sx={{ width: '80%', mt: '20px' }}
 					onClick={() => {
 						handleStartGame();

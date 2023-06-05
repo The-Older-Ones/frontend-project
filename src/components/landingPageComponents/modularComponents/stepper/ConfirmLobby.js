@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Box, Button, Stack, Paper, useTheme, Avatar } from '@mui/material';
-import { setActiveStep } from '../../../../store/slices/landingPageSlices/lobbySlice';
+import { setActiveStep, setPlayerSocketId } from '../../../../store/slices/landingPageSlices/lobbySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import socket from '../../../../socket';
@@ -49,6 +49,8 @@ function ConfirmLobby() {
 										token: accessToken || undefined,
 									});
 									socket.on('joinedLobby', (data) => {
+										console.log(data.socketId);
+										dispatch(setPlayerSocketId(data.socketId));
 										dispatch(setCategories(data.settings.list));
 									});
 								}

@@ -5,7 +5,8 @@ const lobbySlice = createSlice({
 	initialState: {
 		ign: '',
 		host: true,
-		hostSocketID: '',
+		hostSocketID: undefined,
+		playerSocketID: undefined,
 		avatar: 'avatar1.png', //
 		colorIndex: 0, //
 		//Stepper states
@@ -20,6 +21,9 @@ const lobbySlice = createSlice({
 		setHostSocketID: (state, action) => {
 			state.hostSocketID = action.payload;
 		},
+		setPlayerSocketId: (state, action) => {
+			state.playerSocketID = action.payload;
+		},
 		setActiveStep: (state, action) => {
 			if (state.activeStep <= 2 && state.activeStep >= 0) {
 				state.activeStep = action.payload;
@@ -28,6 +32,7 @@ const lobbySlice = createSlice({
 		setHost: (state, action) => {
 			state.host = action.payload;
 		},
+
 		setLobbySelection: (state, action) => {
 			state.lobbySelection = action.payload;
 		},
@@ -37,9 +42,9 @@ const lobbySlice = createSlice({
 	},
 });
 
-export const { setIGN, setActiveStep, setHost, setLobbySelection, setLobbyCode, setHostSocketID } = lobbySlice.actions;
+export const { setIGN, setActiveStep, setHost, setLobbySelection, setLobbyCode, setHostSocketID, setPlayerSocketId } = lobbySlice.actions;
 
 export default lobbySlice.reducer;
 
-export const hostSocketID = (state) => state.lobby.hostSocketID
-export const hostIGN = (state) => state.lobby.ign
+export const hostSocketID = (state) => state.lobby.hostSocketID;
+export const hostIGN = (state) => state.lobby.ign;

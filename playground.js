@@ -20,3 +20,21 @@ const lockedCategories = selectedCategories.filter((e) => {
 });
 
 console.log(lockedCategories);
+/**
+		 *  1. state dispatch(setPlayerIsReady(!playerIsReady));
+		 *  2. socket.emit("playerGettingReady", {players})
+		 * 	3. socket.on("playerReadyStatusUpdate", (data) => {
+		 * 			data besteht aus:
+		 * 				{
+		 * 					socketId,
+		 * 					readyStatus,
+		 * 				}
+		 * 				
+		 * 			if(socketId === data.playerId) {
+		 * 				dispatch(setPlayers())
+		 * 			}
+		 *		 })
+		 */		 
+
+
+

@@ -15,7 +15,6 @@ function LobbyPageLayout() {
 			console.log('Joined Lobby Event');
 			dispatch(setPlayers(data.settings.lobbyMember));
 		};
-
 		const handlePlayerJoined = (data) => {
 			console.log('Player Joined Event');
 			dispatch(setPlayers([{ socketId: data.playerId, playerName: data.playerName }]));
