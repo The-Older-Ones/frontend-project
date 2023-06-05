@@ -7,7 +7,7 @@ import { Box, Typography, Paper, Button, useTheme, TextField, Stack } from '@mui
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveStep, setHost, setLobbyCode, setLobbySelection, setHostSocketID } from '../../../../store/slices/landingPageSlices/lobbySlice';
 
-import { setRounds, setPlayerNumber, setCategories } from '../../../../store/slices/gameSlices/gameSettingSlice';
+import { setRounds, setPlayerNumber, setCategories, setPlayers } from '../../../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyChoice() {
 	const theme = useTheme();
@@ -27,7 +27,6 @@ function LobbyChoice() {
 		dispatch(setRounds(data.settings.rounds));
 	});
 
-	// const copyCode = { lobbyCode }
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(lobbyCode).then(() => {
 			toast.success('Code wurde kopiert.', {
@@ -57,18 +56,19 @@ function LobbyChoice() {
 			}}
 		>
 			{!lobbySelection && (
-				<Box id="chooseLobby" display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(6)}>
-					<Typography variant="h4" component={'h1'} color="textPrimary">
+				<Box id='chooseLobby' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(6)}>
+					<Typography variant='h4' component={'h1'} color='textPrimary'>
 						Select an option
 					</Typography>
-					<Stack spacing={2} direction="column">
+					<Stack spacing={2} direction='column'>
 						<Button
-							variant="contained"
-							color="secondary"
+							variant='contained'
+							color='secondary'
 							onClick={() => {
 								socket.emit('createGame', { playerName: ign, token: accessToken });
 								socket.on('gameCreated', (data) => {
 									dispatch(setHostSocketID(data.socketId));
+									dispatch(setPlayers([{ socketId: data.socketId, playerName: data.hostName }]));
 								});
 								handleChoice(true);
 							}}
@@ -76,16 +76,15 @@ function LobbyChoice() {
 							Host a lobby
 						</Button>
 						<Button
-							variant="contained"
-							color="secondary"
+							variant='contained'
+							color='secondary'
 							onClick={() => {
 								handleChoice(false);
-
 							}}
 						>
 							Join a lobby
 						</Button>
-						<Button variant="contained" color="error" onClick={() => dispatch(setActiveStep(activeStep - 1))}>
+						<Button variant='contained' color='error' onClick={() => dispatch(setActiveStep(activeStep - 1))}>
 							Go Back
 						</Button>
 					</Stack>
@@ -93,26 +92,26 @@ function LobbyChoice() {
 			)}
 
 			{lobbySelection && host && (
-				<Box id="lobbyCode" display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(6)}>
-					<Stack spacing={1} direction="column">
-						<Typography variant="h4" color="initial" align="center">
+				<Box id='lobbyCode' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(6)}>
+					<Stack spacing={1} direction='column'>
+						<Typography variant='h4' color='initial' align='center'>
 							Here is your lobby code.
 						</Typography>
-						<Typography variant="h6" color="initial" align="center">
+						<Typography variant='h6' color='initial' align='center'>
 							Share it to let people join your lobby!
 						</Typography>
 					</Stack>
 					<Box onClick={copyToClipboard} style={{ cursor: 'pointer' }}>
-						<Typography variant="p" color="initial">
+						<Typography variant='p' color='initial'>
 							{lobbyCode}
 						</Typography>
 					</Box>
 					<Box>
-						<Stack spacing={2} direction="row">
-							<Button variant="contained" color="error" onClick={() => dispatch(setLobbySelection(false))}>
+						<Stack spacing={2} direction='row'>
+							<Button variant='contained' color='error' onClick={() => dispatch(setLobbySelection(false))}>
 								Go Back
 							</Button>
-							<Button variant="contained" color="secondary" onClick={() => dispatch(setActiveStep(activeStep + 1))}>
+							<Button variant='contained' color='secondary' onClick={() => dispatch(setActiveStep(activeStep + 1))}>
 								Next Step
 							</Button>
 						</Stack>
@@ -120,17 +119,17 @@ function LobbyChoice() {
 				</Box>
 			)}
 			{lobbySelection && !host && (
-				<Box id="lobbyCode" display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(6)}>
-					<Typography variant="h4" color="intial">
+				<Box id='lobbyCode' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(6)}>
+					<Typography variant='h4' color='intial'>
 						Enter your lobby code.
 					</Typography>
-					<TextField id="joinCode" label="Enter lobby code" value={lobbyCode} onChange={(e) => dispatch(setLobbyCode(e.target.value))} />
+					<TextField id='joinCode' label='Enter lobby code' value={lobbyCode} onChange={(e) => dispatch(setLobbyCode(e.target.value))} />
 					<Box>
-						<Stack spacing={2} direction="row">
-							<Button variant="contained" color="error" onClick={() => dispatch(setLobbySelection(false))}>
+						<Stack spacing={2} direction='row'>
+							<Button variant='contained' color='error' onClick={() => dispatch(setLobbySelection(false))}>
 								Go Back
 							</Button>
-							<Button variant="contained" color="secondary" onClick={() => dispatch(setActiveStep(activeStep + 1))}>
+							<Button variant='contained' color='secondary' onClick={() => dispatch(setActiveStep(activeStep + 1))}>
 								Next step
 							</Button>
 						</Stack>

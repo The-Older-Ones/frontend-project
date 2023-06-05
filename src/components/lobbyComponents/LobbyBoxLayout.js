@@ -5,7 +5,7 @@ import HeadingCard from './cardComponents/HeadingCard';
 import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@emotion/react';
-import { setGameCategories, setSelectedCategory, setPending, setGuestGameCategories } from '../../store/slices/gameSlices/gameSettingSlice';
+import { setGameCategories, setSelectedCategory, setGuestGameCategories } from '../../store/slices/gameSlices/gameSettingSlice';
 import socket from '../../socket';
 
 function LobbyBoxLayout() {
@@ -34,7 +34,6 @@ function LobbyBoxLayout() {
 			navigate('/pointSelection');
 		};
 		socket.on('startedGame', handleStartedGame);
-		// Clean up the event listener when the component unmounts
 		return () => {
 			socket.off('startedGame', handleStartedGame);
 		};
@@ -42,8 +41,8 @@ function LobbyBoxLayout() {
 
 	return (
 		<Box
-			maxWidth="1100px"
-			mx="auto"
+			maxWidth='1100px'
+			mx='auto'
 			sx={{
 				width: '100%',
 				border: '1px solid black',
@@ -87,7 +86,6 @@ function LobbyBoxLayout() {
 								overflowY: 'scroll',
 								flexGrow: 1,
 								'&::-webkit-scrollbar': { display: 'none' },
-								// '-ms-overflow-style': 'none',
 								scrollbarWidth: 'none',
 							}}
 						>
@@ -111,7 +109,7 @@ function LobbyBoxLayout() {
 								))}
 							</Box>
 						</Paper>
-						<Button variant="contained" disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
+						<Button variant='contained' disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
 							Lock Categories
 						</Button>
 					</Box>
@@ -136,7 +134,7 @@ function LobbyBoxLayout() {
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 				<Button
-					variant="contained"
+					variant='contained'
 					sx={{ width: '80%', mt: '20px' }}
 					onClick={() => {
 						handleStartGame();

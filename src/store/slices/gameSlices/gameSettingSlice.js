@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { hostIGN, hostSocketID } from '../landingPageSlices/lobbySlice';
 import { toast } from 'react-toastify';
 const gameSettingSlice = createSlice({
 	name: 'gameSettings',
@@ -30,16 +29,6 @@ const gameSettingSlice = createSlice({
 			state.rounds = action.payload;
 		},
 		setPlayers: (state, action) => {
-			// Object.entries(action.payload.lobbyMember).forEach(([socketId, playerName]) => {
-			// 	const playerExists = state.players.find((player) => player.socketId === socketId);
-			// 	if (!playerExists) {
-			// 		const player = {
-			// 			playerName,
-			// 			socketId,
-			// 		};
-			// 		state.players.push(player);
-			// 	}
-			// });
 			console.log(action.payload);
 			action.payload.forEach(({ socketId, playerName }) => {
 				const playerExists = state.players.find((player) => player.socketId === socketId);
@@ -66,7 +55,11 @@ const gameSettingSlice = createSlice({
 
 			state.mappedCategories = mappedCategories;
 			const filterLockedCategories = state.mappedCategories.filter((category) => {
-				if (category.selected) return category;
+				if (category.selected) {
+					return category;
+				} else {
+					return null;
+				}
 			});
 			state.lockedCategories = filterLockedCategories;
 		},
@@ -91,16 +84,6 @@ const gameSettingSlice = createSlice({
 		},
 	},
 });
-
-// export const getHostInfo = () => (dispatch, getState) => {
-// 	const state = getState();
-// 	const hostID = hostSocketID(state);
-// 	const ign = hostIGN(state);
-// 	const lobbyMember = {
-// 		[hostID]: ign,
-// 	};
-// 	if (hostID && ign) dispatch(setPlayers({ lobbyMember }));
-// };
 
 export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending, setGuestGameCategories } = gameSettingSlice.actions;
 export default gameSettingSlice.reducer;

@@ -2,32 +2,23 @@ import React, { useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import LobbyBoxLayout from './LobbyBoxLayout';
 import { BaseColors } from '../../theme';
-// import HeadingCard from "./cardComponents/HeadingCard";
 import LeaderBoard from './playerComponents/LeaderBoard';
 import RuleSet from './ruleComponents/RuleSet';
 import socket from '../../socket';
 import { useDispatch } from 'react-redux';
-import { getHostInfo, setPlayers } from '../../store/slices/gameSlices/gameSettingSlice';
+import { setPlayers } from '../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyPageLayout() {
 	const dispatch = useDispatch();
-	// const {  } = useSelector((state) => state.gameSettings);
 	useEffect(() => {
-		dispatch(getHostInfo());
-
 		const handleJoinedLobby = (data) => {
 			console.log('Joined Lobby Event');
-			console.log(data);
-			// const lobbyMember = data.settings.lobbyMember.map((e) => {
-			// 	return e.playerName;
-			// });
 			dispatch(setPlayers(data.settings.lobbyMember));
 		};
 
 		const handlePlayerJoined = (data) => {
 			console.log('Player Joined Event');
-			console.log(data);
-			dispatch(setPlayers({ lobbyMember: { socketId: data.playerId, playerName: data.playerName } }));
+			dispatch(setPlayers([{ socketId: data.playerId, playerName: data.playerName }]));
 		};
 
 		socket.on('joinedLobby', handleJoinedLobby);
@@ -68,7 +59,6 @@ function LobbyPageLayout() {
 								flexDirection: 'column',
 							}}
 						>
-							{/* <HeadingCard variant={"2"} title={"Lobby Page"}/> */}
 							<LobbyBoxLayout />
 						</Box>
 					</Box>
