@@ -18,10 +18,10 @@ function LobbyPageLayout() {
 		const handleJoinedLobby = (data) => {
 			console.log('Joined Lobby Event');
 			console.log(data);
-			const lobbyMember = data.settings.lobbyMember.map((e) => {
-				return e.playerName;
-			});
-			dispatch(setPlayers({ lobbyMember: lobbyMember }));
+			// const lobbyMember = data.settings.lobbyMember.map((e) => {
+			// 	return e.playerName;
+			// });
+			dispatch(setPlayers(data.settings.lobbyMember));
 		};
 
 		const handlePlayerJoined = (data) => {
@@ -50,7 +50,7 @@ function LobbyPageLayout() {
 		>
 			<Grid container sx={{ minHeight: '100vh' }}>
 				<Grid item xs={12} md={2}>
-					<Box p={2} bgcolor="secondary.light" sx={{ height: '100%' }}>
+					<Box p={2} bgcolor='secondary.light' sx={{ height: '100%' }}>
 						<LeaderBoard />
 					</Box>
 				</Grid>
@@ -75,7 +75,7 @@ function LobbyPageLayout() {
 				</Grid>
 
 				<Grid item xs={12} md={2}>
-					<Box p={2} bgcolor="secondary.light" sx={{ height: '100%' }}>
+					<Box p={2} bgcolor='secondary.light' sx={{ height: '100%' }}>
 						<RuleSet />
 					</Box>
 				</Grid>
