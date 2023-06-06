@@ -79,7 +79,7 @@
 //                         <Box padding='20px'>
 //                             <Typography variant='h5' >
 //                                 But why couldn't this page be found?
-                              
+
 //                             </Typography>
 //                         </Box>
 //                         <Grid container my={4} rowSpacing={2} columnSpacing={1} m={4}>
@@ -113,6 +113,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Box, useTheme, Paper, Typography, Grid, Button } from '@mui/material';
+import Header from '../landingPageComponents/modularComponents/Header';
 
 function ErrorPage() {
   const theme = useTheme();
@@ -140,13 +141,16 @@ function ErrorPage() {
   const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
-    const message = "Test Text to test the second letter" //"But why couldn't this page be found?";
+    const message = "Bxut why couldn't this page be found?";
     let currentIndex = 0;
 
     const timer = setInterval(() => {
       if (currentIndex === message.length) {
         clearInterval(timer);
-        setShowButtons(true);
+        // setShowButtons(true);
+        setTimeout(() => {
+          setShowButtons(true);
+        }, 1000);
       } else {
         setText(prevText => prevText + message[currentIndex]);
         currentIndex++;
@@ -166,6 +170,7 @@ function ErrorPage() {
       }}
     >
       <Box style={mainContainerStyle}>
+        <Header />
         <Paper
           elevation={3}
           sx={{
@@ -180,6 +185,7 @@ function ErrorPage() {
             justifyContent: "center"
           }}
         >
+
           <Box style={howToPlayStyle}>
             <Grid container my={2} alignItems="center" justifyContent="center" >
               <Typography variant='h3'>
@@ -187,40 +193,60 @@ function ErrorPage() {
               </Typography>
             </Grid>
           </Box>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            bgcolor: theme.palette.secondary.light,
-            p: '16px',
-            width: '900px',
-            m: theme.spacing(2),
-            flexDirection: 'column',
-          }}>
-            <Box padding='20px'>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              bgcolor: theme.palette.secondary.light,
+              p: '16px',
+              width: '100%',
+              m: theme.spacing(2),
+              flexDirection: 'column',
+            }}
+          >
+            <Box padding='20px' 
+            sx={{ mr: theme.spacing(2),
+            ml: theme.spacing(2)}}>
               <Typography variant='h5'>
                 {text.slice(0, text.length - 9)}
               </Typography>
             </Box>
             {showButtons && (
-              <Grid container my={4} rowSpacing={2} columnSpacing={1} m={4}>
-                <Grid item xs={6}>
-                  <Button bgcolor={theme.palette.primary.light} variant="contained" sx={{ width: '100%' }}>
+              <Grid container my={4} spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    bgcolor={theme.palette.primary.light}
+                    variant="contained"
+                    sx={{ width: '100%' }}
+                  >
                     There is a Network Problem
                   </Button>
                 </Grid>
-                <Grid item xs={6}>
-                  <Button bgcolor={theme.palette.primary.light} variant="contained" sx={{ width: '100%' }}>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    bgcolor={theme.palette.primary.light}
+                    variant="contained"
+                    sx={{ width: '100%' }}
+                  >
                     This page does not exist
                   </Button>
                 </Grid>
-                <Grid item xs={6}>
-                  <Button bgcolor={theme.palette.primary.light} variant="contained" sx={{ width: '100%' }}>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    bgcolor={theme.palette.primary.light}
+                    variant="contained"
+                    sx={{ width: '100%' }}
+                  >
                     You can't see it
                   </Button>
                 </Grid>
-                <Grid item xs={6}>
-                  <Button bgcolor={theme.palette.primary.light} variant="contained" sx={{ width: '100%' }}>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    bgcolor={theme.palette.primary.light}
+                    variant="contained"
+                    sx={{ width: '100%' }}
+                  >
                     It is a Layer 8 Problem
                   </Button>
                 </Grid>
