@@ -3,7 +3,7 @@ import { Grid, Paper, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '../../../../socket';
-import { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints } from '../../../../store/slices/gameSlices/gameSlice';
+import { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, newQuestionSelected } from '../../../../store/slices/gameSlices/gameSlice';
 
 const TableLayout = () => {
 	const navigate = useNavigate();
@@ -30,6 +30,7 @@ const TableLayout = () => {
 			dispatch(setIsChosen(true));
 			dispatch(setChosenCategory(data.category));
 			dispatch(setChosenPoints(data.difficulty));
+			dispatch(newQuestionSelected()); // Add this line
 			navigate('/quiz');
 		};
 		socket.on('givenQuestion', handleChoseQuestion);

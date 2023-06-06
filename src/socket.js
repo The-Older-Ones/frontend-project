@@ -2,7 +2,9 @@
 import { io } from 'socket.io-client';
 // import { setSocketID, setLobbyCode } from './store/slices/landingPageSlices/socketSlice';
 
-const socket = io('http://localhost:80/api/game', {
+const socketURL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:80/api/game';
+const socketRouterURL = process.env.REACT_APP_SOCKET_ROUTER_URL;
+const socket = io(socketURL, {
 	autoConnect: false,
 	debug: true,
 });

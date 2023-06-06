@@ -8,7 +8,7 @@ const gameSlice = createSlice({
 		isChosen: false,
 		chosenCategory: null,
 		chosenPoints: 0,
-        everyoneAnswered: false,
+		everyoneAnswered: false,
 		rightAnswer: null,
 	},
 	reducers: {
@@ -27,14 +27,18 @@ const gameSlice = createSlice({
 		setChosenPoints: (state, action) => {
 			state.chosenPoints = action.payload;
 		},
-        setEveryoneAnswered: (state, action) => {
-            state.everyoneAnswered = action.payload;
-        },
+		setEveryoneAnswered: (state, action) => {
+			state.everyoneAnswered = action.payload;
+		},
 		setRightAnswer: (state, action) => {
 			state.rightAnswer = action.payload;
-		}
+		},
+		// NEW used after initally redirecting all players to the quiz page
+		newQuestionSelected: (state) => {
+			state.everyoneAnswered = false;
+		},
 	},
 });
 
-export const { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, setEveryoneAnswered, setRightAnswer } = gameSlice.actions;
+export const { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, setEveryoneAnswered, setRightAnswer, newQuestionSelected } = gameSlice.actions;
 export default gameSlice.reducer;

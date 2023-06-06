@@ -1,11 +1,12 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import socket from '../../../socket';
 const gameSettingSlice = createSlice({
 	name: 'gameSettings',
 	initialState: {
 		categories: [],
 		playerNumber: 0,
-		rounds: 0,
+		rounds: null,
 		players: [],
 		/**
 		 *  players: [{
@@ -111,6 +112,16 @@ const gameSettingSlice = createSlice({
 		},
 	},
 });
+
+export const handlePlayerIsReadyThunk = (socketID) => {
+	return (dispatch, getState) => {
+		dispatch(gameSettingSlice.actions.setPlayerIsReady({ socketID }));
+		const updatedPlayers = getState().gameSettings.players;
+		const dataToSend = { data: updatedPlayers };
+		console.log('Data sent to server: ', dataToSend);
+		socket.emit('lobbySynchro', dataToSend);
+	};
+};
 
 export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending, setGuestGameCategories, setPlayerIsReady } = gameSettingSlice.actions;
 export default gameSettingSlice.reducer;
