@@ -55,7 +55,7 @@ export const QuizPage = () => {
 			const redirectTimer = setTimeout(() => {
 				navigate('/pointSelection');
 				clearInterval(timer); // clear the countdown timer
-			}, 3000);
+			}, 10000);
 
 			return () => {
 				clearTimeout(redirectTimer); // clear the redirection timer
@@ -185,9 +185,9 @@ export const QuizPage = () => {
 								</React.Fragment>
 							))}
 						</List>
-						<Button variant='contained' color='success' onClick={handlePlayerIsReady}>
+						{/* <Button variant='contained' color='success' onClick={handlePlayerIsReady}>
 							I am ready
-						</Button>
+						</Button> */}
 					</Box>
 				</Box>
 			)}
