@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 
 const socketURL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:80/api/game';
 const socketRouterURL = process.env.REACT_APP_SOCKET_ROUTER_URL;
-const socket = io(socketURL, {
+const socket = io('http://localhost:80/api/game', {
 	autoConnect: false,
 	debug: true,
 });
