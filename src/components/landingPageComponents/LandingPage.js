@@ -13,7 +13,7 @@ function LandingPage() {
 		alignItems: 'center',
 		justifyContent: 'center',
 		width: '100%',
-		// minHeight: '100vh', // this ensures that mainContainerStyle takes up at least the full height of the viewport
+		minHeight: '100vh', // this ensures that mainContainerStyle takes up at least the full height of the viewport
 		background: `linear-gradient(${theme.palette.secondary.main}, ${theme.palette.secondary.light})`,
 	};
 
@@ -49,8 +49,8 @@ function LandingPage() {
 
 	return (
 		<div>
+			<Header />
 			<Box style={mainContainerStyle}>
-				<Header />
 				<LobbyCreation />
 				<Typography variant='h3' style={{ textAlign: 'center', marginTop: '10rem', marginBottom: '2rem' }}>
 					How to play

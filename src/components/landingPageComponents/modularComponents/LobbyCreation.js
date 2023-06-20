@@ -33,6 +33,8 @@ function LobbyCreation() {
 				flexDirection: 'column',
 				padding: theme.spacing(2),
 				width: '75%',
+				position: 'static',
+				marginTop: theme.spacing(5),
 				backgroundColor: theme.palette.primary.main,
 				borderRadius: '4px',
 			}}

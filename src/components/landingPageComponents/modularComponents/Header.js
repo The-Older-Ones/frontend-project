@@ -1,30 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Typography, useTheme, AppBar, Toolbar } from '@mui/material';
+import { Box, Typography, AppBar, Toolbar } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 import LoginModal from './LoginModal';
 
 function Header() {
-	const theme = useTheme();
 	const user = useSelector((state) => state.auth.user);
 
 	return (
-		<AppBar position='sticky' color='primary' sx={{ mb: theme.spacing(5) }}>
+		<AppBar position='sticky' color='primary'>
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				{/* <Typography variant='h3'>Triviosa</Typography> */}
-				<Typography variant='h3'>
+				<Typography variant='h2'>
 					<Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
-						Triviosa
+						TRIVIOSA
 					</Link>
 				</Typography>
 				<Box sx={{ display: 'flex', alignItems: 'center' }}>
-					{user && (
-						<Typography>
-							{user.user}
-						</Typography>
-					)}
-					<LoginModal />
+					{user && <Typography>{user.user}</Typography>}
+					<LoginModal>Login</LoginModal>
 				</Box>
 			</Toolbar>
 		</AppBar>
