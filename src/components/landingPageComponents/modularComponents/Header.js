@@ -20,7 +20,7 @@ function Header() {
 				</Typography>
 				<Box sx={{ display: 'flex', alignItems: 'center' }}>
 					{user && (
-						<Typography variant='p' sx={{ mr: 1 }}>
+						<Typography>
 							{user.user}
 						</Typography>
 					)}

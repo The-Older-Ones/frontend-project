@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
-import { Filter1, Filter2, Filter3 } from '@mui/icons-material';
+import { Box, Card, Typography, useTheme } from '@mui/material';
+import { Filter1, Filter2, Filter3, Filter4, Filter5 } from '@mui/icons-material';
 import Header from './modularComponents/Header';
 import LobbyCreation from './modularComponents/LobbyCreation';
 
@@ -12,75 +12,97 @@ function LandingPage() {
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
-		// minHeight: "calc(100vh - 96px)", // Updated
 		width: '100%',
-		background: `linear-gradient(${theme.palette.secondary.main}, white)`,
+		// minHeight: '100vh', // this ensures that mainContainerStyle takes up at least the full height of the viewport
+		background: `linear-gradient(${theme.palette.secondary.main}, ${theme.palette.secondary.light})`,
 	};
 
-	const howToPlayStyle = {
+	const cardContainerStyle = {
 		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'center',
+		flexWrap: 'wrap', // added this line
+		justifyContent: 'space-around', // changed from 'space-evenly' to 'space-around' for better spacing when wrapping occurs
 		alignItems: 'center',
 		width: '100%',
-		padding: '16px',
-		backgroundColor: 'transparent',
-		color: theme.palette.primary,
+		padding: '1rem', // added padding to prevent cards from sticking to the edges
 	};
 
-	const howToPlayListStyle = {
-		display: 'flex',
-		justifyContent: 'space-evenly',
-		alignItems: 'center',
-		width: '100%',
-		padding: '20px',
-		listStyle: 'none',
-	};
-
-	const listItemStyle = {
+	const cardStyle = {
+		position: 'relative', // added this line to establish a context for absolute positioning
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
+		padding: '2rem',
+		height: '200px',
+		width: '100%',
+		maxWidth: '500px',
+		background: theme.palette.secondary.main,
+		marginBottom: '1rem',
 	};
 
-	const numberedIcons = [<Filter1 />, <Filter2 />, <Filter3 />];
+	const iconStyle = {
+		position: 'absolute', // the icon will be positioned absolutely within the card
+		top: '1rem', // adjust as necessary to create space at the top
+		width: '100%', // this makes sure the icon is centered horizontally
+		textAlign: 'center', // this centers the icon horizontally
+	};
 
 	return (
-		<Box
-			sx={{
-				width: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-				minHeight: '100vh',
-			}}
-		>
+		<div>
 			<Box style={mainContainerStyle}>
 				<Header />
 				<LobbyCreation />
-				<Box style={howToPlayStyle}>
-					<Typography variant='h4'>How to play:</Typography>
-					<ul style={howToPlayListStyle}>
-						{[
-							<Typography variant='h5' style={{ textAlign: 'center', justifyContent: 'center' }}>
-								"Choose 5 categories for the questions."
-							</Typography>,
-							<Typography variant='h5' style={{ textAlign: 'center', justifyContent: 'center' }}>
-								"Choose a question from the board 100 points are easier questions. 1000 points are the hardest."
-							</Typography>,
-							<Typography variant='h5' style={{ textAlign: 'center', justifyContent: 'center' }}>
-								"Answer questions before time runs out."
-							</Typography>,
-						].map((text, index) => (
-							<li key={index} style={listItemStyle}>
-								{numberedIcons[index]}
-								{text}
-							</li>
-						))}
-					</ul>
-				</Box>
+				<Typography variant='h3' style={{ textAlign: 'center', marginTop: '10rem', marginBottom: '2rem' }}>
+					How to play
+				</Typography>
+
+				<div style={cardContainerStyle}>
+					<Card style={cardStyle}>
+						<div style={iconStyle}>
+							<Filter1 />
+						</div>
+						<Typography variant='h5' style={{ textAlign: 'center', margin: '2rem 2rem 0 0' }}>
+							As a Host, create a lobby, share the lobby code with your friends to join. <br />
+							As a Player, join a lobby with the lobby code.
+						</Typography>
+					</Card>
+					<Card style={cardStyle}>
+						<div style={iconStyle}>
+							<Filter2 />
+						</div>
+						<Typography variant='h5' style={{ textAlign: 'center', margin: '2rem 2rem 0 0' }}>
+							The host will select five categories for the game.
+						</Typography>
+					</Card>
+					<Card style={cardStyle}>
+						<div style={iconStyle}>
+							<Filter3 />
+						</div>
+						<Typography variant='h5' style={{ textAlign: 'center', margin: '2rem 2rem 0 0' }}>
+							Choose a question from the board: <br />
+							100 points are easier questions. <br />
+							1000 points are the hardest.
+						</Typography>
+					</Card>
+					<Card style={cardStyle}>
+						<div style={iconStyle}>
+							<Filter4 />
+						</div>
+						<Typography variant='h5' style={{ textAlign: 'center', margin: '2rem 2rem 0 0' }}>
+							Answer questions before time runs out.
+						</Typography>
+					</Card>
+					<Card style={cardStyle}>
+						<div style={iconStyle}>
+							<Filter5 />
+						</div>
+						<Typography variant='h5' style={{ textAlign: 'center', margin: '2rem 2rem 0 0' }}>
+							Be smarter than your friends and win the game!
+						</Typography>
+					</Card>
+				</div>
 			</Box>
-		</Box>
+		</div>
 	);
 }
 

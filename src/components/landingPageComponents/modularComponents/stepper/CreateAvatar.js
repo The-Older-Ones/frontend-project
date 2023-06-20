@@ -29,7 +29,7 @@ function CreateAvatar() {
 			elevation={3}
 			style={{
 				padding: '32px',
-				width: '50%',
+				width: '100%',
 				height: '75%',
 				backgroundColor: theme.palette.secondary.light,
 				borderRadius: '4px',
