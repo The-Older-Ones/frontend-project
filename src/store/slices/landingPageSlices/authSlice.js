@@ -94,7 +94,7 @@ export const loginUser = (credentials) => async (dispatch) => {
 			Authorization: `Basic ${btoa(`${credentials.userID}:${credentials.password}`)}`,
 		};
 
-		const response = await fetch(apiUrl + 'authenticate', {
+		const response = await fetch('http://localhost:80/api/authenticate', {
 			method: 'GET',
 			headers: headers,
 		});
@@ -121,7 +121,7 @@ export const loginUser = (credentials) => async (dispatch) => {
 export const signupUser = (credentials) => async (dispatch) => {
 	try {
 		dispatch(signupStart());
-		const response = await fetch(apiUrl + 'users', {
+		const response = await fetch('http://localhost:80/api/users', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

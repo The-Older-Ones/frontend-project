@@ -16,31 +16,34 @@ function ConfirmLobby() {
 	return (
 		<Paper
 			elevation={3}
-			style={{
-				my: theme.spacing(2),
-				padding: '32px',
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				p: theme.spacing(6),
 				width: '100%',
-				height: '75%',
-				backgroundColor: theme.palette.secondary.light,
+				height: '100%',
+				backgroundColor: theme.palette.primary.dark,
 				borderRadius: '4px',
-				margin: '10px',
+				m: theme.spacing(3),
+				gap: theme.spacing(2),
 			}}
 		>
-			<Box id='confirmLobby' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(3)}>
-				<Typography variant='h4' color='initial'>
-					Confirm your choice
+			<Box id="confirmLobby" display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(3)}>
+				<Typography variant="h6">
+					<span style={{ fontWeight: 'bold' }}>Your player name:</span> {ign}
 				</Typography>
-				<Typography variant='h6'>{ign}</Typography>
-				<Typography variant='h6'>Lobby Code: {lobbyCode}</Typography>
-				<Avatar alt='avatar' sx={{ width: 80, height: 80 }} />
+				<Typography variant="h6">
+					<span style={{ fontWeight: 'bold' }}>Lobby Code: </span> {lobbyCode}
+				</Typography>
+				<Avatar alt="avatar" sx={{ width: 80, height: 80 }} />
 				<Box>
-					<Stack spacing={2} direction='row'>
-						<Button variant='contained' color='error' onClick={() => dispatch(setActiveStep(activeStep - 1))}>
+					<Stack spacing={2} direction="row">
+						<Button variant="contained" color="error" onClick={() => dispatch(setActiveStep(activeStep - 1))}>
 							Go Back
 						</Button>
 						<Button
-							variant='contained'
-							color='success'
+							variant="contained"
+							color="success"
 							onClick={() => {
 								if (!host) {
 									socket.emit('joinLobby', {

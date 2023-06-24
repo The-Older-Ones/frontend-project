@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Box, Button, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Grid, Box, Button, Paper, FormGroup, FormControlLabel, Checkbox, useTheme } from '@mui/material';
 import HeadingCard from './cardComponents/HeadingCard';
 import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from '@emotion/react';
 import { setGameCategories, setSelectedCategory, setGuestGameCategories } from '../../store/slices/gameSlices/gameSettingSlice';
 import socket from '../../socket';
 
@@ -46,7 +45,7 @@ function LobbyBoxLayout() {
 				width: '100%',
 				border: '1px solid black',
 				height: '70vh',
-				borderRadius: 1,
+				borderRadius: theme.spacing(4),
 			}}
 		>
 			<Grid container sx={{ height: '100%' }}>
@@ -57,9 +56,12 @@ function LobbyBoxLayout() {
 							flexDirection: 'column',
 							alignItems: 'center',
 							height: '100%',
+							backgroundColor: theme.palette.primary.dark,
+							borderTopLeftRadius: theme.spacing(4),
+							borderBottomLeftRadius: theme.spacing(4),
 						}}
 					>
-						<HeadingCard variant={'6'} title={'Players'} />
+						<HeadingCard variant={'6'} title={'Players in lobby'} />
 						<Box>
 							<PlayerList />
 						</Box>
@@ -75,13 +77,14 @@ function LobbyBoxLayout() {
 						borderLeft: '1px solid gray',
 						flexGrow: 1,
 						height: '100%',
+						backgroundColor: theme.palette.primary.dark,
 					}}
 				>
 					<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 						<HeadingCard variant={'4'} title={'Choose options'} />
 						<Paper
 							sx={{
-								bgcolor: theme.palette.secondary.light,
+								bgcolor: theme.palette.primary.dark,
 								overflowY: 'scroll',
 								flexGrow: 1,
 								'&::-webkit-scrollbar': { display: 'none' },
@@ -95,6 +98,7 @@ function LobbyBoxLayout() {
 											<FormControlLabel
 												control={
 													<Checkbox
+														color="secondary"
 														disabled={host ? false : true}
 														checked={category.selected}
 														onChange={(e) => handleSelectedCategory(category.categoryName, e.target.checked)}
@@ -108,13 +112,13 @@ function LobbyBoxLayout() {
 								))}
 							</Box>
 						</Paper>
-						<Button variant="contained" disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
+						<Button variant="contained" color="secondary" disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
 							Lock Categories
 						</Button>
 					</Box>
 				</Grid>
 
-				{/* <Grid item xs={12} md={3}>
+				<Grid item xs={12} md={3}>
 					<Box
 						sx={{
 							display: 'flex',
@@ -122,18 +126,19 @@ function LobbyBoxLayout() {
 							justifyContent: 'space-between',
 							alignItems: 'center',
 							height: '100%',
+							backgroundColor: theme.palette.primary.dark,
+							borderTopRightRadius: theme.spacing(4),
+							borderBottomRightRadius: theme.spacing(4),
 						}}
 					>
-						<HeadingCard variant={'6'} title={'Lock it in'} />
-						<Button variant='contained' sx={{ mb: '20px' }}>
-							Lock Categories
-						</Button>
+						<HeadingCard variant={'6'} title={'Selected categories'} />
 					</Box>
-				</Grid> */}
+				</Grid>
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 				<Button
 					variant="contained"
+					color="success"
 					sx={{ width: '80%', mt: '20px' }}
 					onClick={() => {
 						handleStartGame();

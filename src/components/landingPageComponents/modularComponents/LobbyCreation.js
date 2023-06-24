@@ -19,7 +19,7 @@ function LobbyCreation() {
 			case 2:
 				return <ConfirmLobby />;
 			default:
-				<Typography variant='h4' color='initial'>
+				<Typography variant="h4" color="initial">
 					Unkown stepIndex
 				</Typography>;
 		}
@@ -34,26 +34,40 @@ function LobbyCreation() {
 				padding: theme.spacing(2),
 				width: '75%',
 				position: 'static',
-				marginTop: theme.spacing(5),
+				mt: theme.spacing(4),
 				backgroundColor: theme.palette.primary.main,
-				borderRadius: '4px',
+				borderRadius: theme.spacing(1),
+				height: '450px',
 			}}
 		>
-			<Box id='lobbyCreation'>
-				<Stepper activeStep={activeStep}>
+			<Box id="lobbyCreation">
+				<Stepper
+					activeStep={activeStep}
+					sx={{
+						backgroundColor: theme.palette.primary.dark,
+						borderRadius: theme.spacing(5),
+						p: theme.spacing(1),
+					}}
+				>
 					<Step key={0} style={{ display: activeStep === 0 ? 'block' : 'none' }}>
 						<StepLabel>
-							<Typography variant='h6'>Create your Avatar and enter your game name.</Typography>
+							<Typography fontWeight={'bold'} variant="h6">
+								Create your Avatar and enter your game name.
+							</Typography>
 						</StepLabel>
 					</Step>
 					<Step key={1} style={{ display: activeStep === 1 ? 'block' : 'none' }}>
 						<StepLabel>
-							<Typography variant='h6'>Select to host or join lobby and get your code</Typography>
+							<Typography fontWeight={'bold'} variant="h6">
+								Select to host or join lobby and get your code
+							</Typography>
 						</StepLabel>
 					</Step>
 					<Step key={2} last style={{ display: activeStep === 2 ? 'block' : 'none' }}>
 						<StepLabel>
-							<Typography variant='h6'>Confirm your choices.</Typography>
+							<Typography fontWeight={'bold'} variant="h6">
+								Confirm your choices.
+							</Typography>
 						</StepLabel>
 					</Step>
 				</Stepper>

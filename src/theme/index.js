@@ -1,15 +1,15 @@
 import { createTheme } from '@mui/material';
 
 export const BaseColors = {
-	mainOrange: '#F19F32',
-	darkOrange: '#D68434',
-	lightOrange: '#FFB340',
-	mainBlue: '#3B74A8',
+	mainBlue: '#191D63',
 	darkBlue: '#073763',
 	lightBlue: '#9FC5E8',
-	success: '#3DA024',
+	success: '#31CD63',
 	error: '#C82727',
 	neutral: '#D9D9D9',
+	mainWhite: '#F4F3F6',
+	mainBeige: '#EDE8E3',
+	mainGray: '#747475',
 };
 
 export const PointSelectionColors = {};
@@ -18,9 +18,9 @@ export const PrimaryTheme = createTheme({
 	palette: {
 		mode: 'light',
 		primary: {
-			main: BaseColors.mainOrange,
-			dark: BaseColors.darkOrange,
-			light: BaseColors.lightOrange,
+			main: BaseColors.mainBeige,
+			dark: BaseColors.mainGray,
+			light: BaseColors.mainWhite,
 		},
 		secondary: {
 			main: BaseColors.mainBlue,

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Avatar, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, Divider } from '@mui/material';
+import { Box, Avatar, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, Divider, useTheme} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
-import { useTheme } from '@emotion/react';
+
 import { useSelector } from 'react-redux';
 import { Star } from '@mui/icons-material';
 
@@ -11,7 +11,7 @@ function PlayerList() {
 	const { host } = useSelector((state) => state.lobby);
 
 	return (
-		<Box sx={{ bgcolor: 'wheat', px: theme.spacing(2) }}>
+		<Box sx={{ bgcolor: theme.palette.secondary.light, px: theme.spacing(2) }}>
 			<List>
 				{players.map((player, index) => (
 					<React.Fragment key={index}>
@@ -26,7 +26,7 @@ function PlayerList() {
 							<ListItemText primary={player.playerName} sx={{ mx: theme.spacing(2) }} />
 							{/* {host && <Star />} */}
 						</ListItem>
-						<Divider />
+						{index !== players.length - 1 && <Divider />}
 					</React.Fragment>
 				))}
 			</List>

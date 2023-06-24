@@ -8,7 +8,7 @@ const socket = io('http://localhost:80/api/game', {
 	autoConnect: false,
 	debug: true,
 });
-
+console.log(socketURL);
 // Connect the Socket.io client
 socket.connect();
 
