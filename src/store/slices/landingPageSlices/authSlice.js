@@ -4,8 +4,6 @@ import { closeModal } from './loginSlice';
 import jwt_decode from 'jwt-decode';
 
 const URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:80/api/';
-const ROUTER_URL = process.env.REACT_APP_BACKEND_ROUTER_URL;
-const apiUrl = URL;
 
 const authSlice = createSlice({
 	name: 'auth',
@@ -95,7 +93,7 @@ export const loginUser = (credentials) => async (dispatch) => {
 			Authorization: `Basic ${btoa(`${credentials.userID}:${credentials.password}`)}`,
 		};
 
-		const response = await fetch('http://localhost:80/api/authenticate', {
+		const response = await fetch(`${URL}authenticate`, {
 			method: 'GET',
 			headers: headers,
 		});
@@ -122,7 +120,7 @@ export const loginUser = (credentials) => async (dispatch) => {
 export const signupUser = (credentials) => async (dispatch) => {
 	try {
 		dispatch(signupStart());
-		const response = await fetch('http://localhost:80/api/users', {
+		const response = await fetch(`${URL}users`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
