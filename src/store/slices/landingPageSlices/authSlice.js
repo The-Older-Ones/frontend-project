@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 const URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:80/api/';
 const ROUTER_URL = process.env.REACT_APP_BACKEND_ROUTER_URL;
 const apiUrl = URL;
+
 const authSlice = createSlice({
 	name: 'auth',
 	initialState: {

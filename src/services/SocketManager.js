@@ -8,7 +8,10 @@ import { setRoute } from '../store/slices/routeSlice';
 class SocketManager {
 	constructor() {
 		// Here we initialize and configure our socket.io connection
-		this.socket = io('http://localhost:80/api/game', {
+		const localDevUrl = 'http://localhost:80/api/game';
+		const productionUrl = 'https://triviosa-backend-4250240969d4.herokuapp.com/api/game';
+        
+		this.socket = io(productionUrl, {
 			autoConnect: false,
 			debug: true,
 		});
