@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import { Grid, Paper, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import socket from '../../../../socket';
+// import socket from '../../../../socket';
 import { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, newQuestionSelected } from '../../../../store/slices/gameSlices/gameSlice';
+import SocketManager from '../../../../services/SocketManager';
 
 const TableLayout = () => {
 	const navigate = useNavigate();
 	const { isChosen } = useSelector((state) => state.game);
+	const { path } = useSelector((state) => state.route);
 	const dispatch = useDispatch();
 	const { gameCategories } = useSelector((state) => state.gameSettings);
 	const handleClick = (event) => {
@@ -18,26 +20,36 @@ const TableLayout = () => {
 		const chosenCategory = gameCategories[pointPosition[2]];
 		dispatch(setChosenCategory(chosenCategory));
 		dispatch(setChosenPoints(points));
-		socket.emit('giveQuestion', {
-			category: chosenCategory,
-			difficulty: points,
-		});
+		SocketManager.giveQuestion(chosenCategory, points);
+		// SocketManager.setRedirectCallback(() => {
+		// 	navigate('/quiz');
+		// });
+		// socket.emit('giveQuestion', {
+		// 	category: chosenCategory,
+		// 	difficulty: points,
+		// });
 	};
+
 	useEffect(() => {
-		const handleChoseQuestion = (data) => {
-			dispatch(setQuestion(data.question));
-			dispatch(setAnswers(data.allAnswers));
-			dispatch(setIsChosen(true));
-			dispatch(setChosenCategory(data.category));
-			dispatch(setChosenPoints(data.difficulty));
-			dispatch(newQuestionSelected()); // Add this line
+		if (path === '/quiz') {
 			navigate('/quiz');
-		};
-		socket.on('givenQuestion', handleChoseQuestion);
-		return () => {
-			socket.off('givenQuestion', handleChoseQuestion);
-		};
-	}, [dispatch, navigate]);
+		}
+	}, [path, navigate]);
+	// useEffect(() => {
+	// 	const handleChoseQuestion = (data) => {
+	// 		dispatch(setQuestion(data.question));
+	// 		dispatch(setAnswers(data.allAnswers));
+	// 		dispatch(setIsChosen(true));
+	// 		dispatch(setChosenCategory(data.category));
+	// 		dispatch(setChosenPoints(data.difficulty));
+	// 		dispatch(newQuestionSelected()); // Add this line
+	// 		navigate('/quiz');
+	// 	};
+	// 	socket.on('givenQuestion', handleChoseQuestion);
+	// 	return () => {
+	// 		socket.off('givenQuestion', handleChoseQuestion);
+	// 	};
+	// }, [dispatch, navigate]);
 
 	const rows = [
 		[100, 100, 100, 100, 100],

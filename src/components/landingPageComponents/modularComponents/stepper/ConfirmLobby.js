@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import socket from '../../../../socket';
 import { setCategories } from '../../../../store/slices/gameSlices/gameSettingSlice';
+import SocketManager from '../../../../services/SocketManager';
 
 function ConfirmLobby() {
 	const dispatch = useDispatch();
@@ -12,6 +13,10 @@ function ConfirmLobby() {
 	const navigate = useNavigate();
 	const { activeStep, ign, lobbyCode, host } = useSelector((state) => state.lobby);
 	const { accessToken } = useSelector((state) => state.auth);
+
+	const joinLobby = () => {
+		SocketManager.joinLobby(lobbyCode, ign, accessToken);
+	};
 
 	return (
 		<Paper
@@ -46,16 +51,17 @@ function ConfirmLobby() {
 							color="success"
 							onClick={() => {
 								if (!host) {
-									socket.emit('joinLobby', {
-										gameId: lobbyCode,
-										playerName: ign,
-										token: accessToken || undefined,
-									});
-									socket.on('joinedLobby', (data) => {
-										console.log(data.socketId);
-										dispatch(setPlayerSocketId(data.socketId));
-										dispatch(setCategories(data.settings.list));
-									});
+									// socket.emit('joinLobby', {
+									// 	gameId: lobbyCode,
+									// 	playerName: ign,
+									// 	token: accessToken || undefined,
+									// });
+									joinLobby();
+									// socket.on('joinedLobby', (data) => {
+									// 	console.log(data.socketId);
+									// 	dispatch(setPlayerSocketId(data.socketId));
+									// 	dispatch(setCategories(data.settings.list));
+									// });
 								}
 								navigate('/lobby');
 							}}

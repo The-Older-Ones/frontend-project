@@ -5,7 +5,8 @@ import HeadingCard from './cardComponents/HeadingCard';
 import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGameCategories, setSelectedCategory, setGuestGameCategories } from '../../store/slices/gameSlices/gameSettingSlice';
-import socket from '../../socket';
+import SocketManager from '../../services/SocketManager';
+// import socket from '../../socket';
 
 function LobbyBoxLayout() {
 	const theme = useTheme();
@@ -14,33 +15,42 @@ function LobbyBoxLayout() {
 
 	const { mappedCategories, lockedCategories, gameCategories } = useSelector((state) => state.gameSettings);
 	const { host } = useSelector((state) => state.lobby);
+	const { path } = useSelector((state) => state.route);
 
 	const handleSelectedCategory = (categoryName, checked) => {
 		dispatch(setSelectedCategory({ categoryName, selected: checked }));
 	};
 	const isLockedDisabled = lockedCategories.length !== 5; // 5 wird ersetzt durch spätere Spieleinstellungsvariable
-
-	const handleStartGame = () => {
+	console.log(path);
+	const startGame = () => {
 		console.log('Start Game Event');
-		socket.emit('startGame', { list: gameCategories });
+		SocketManager.startGame(gameCategories);
+		// socket.emit('startGame', { list: gameCategories });
 	};
+	console.log('Route: ' + path);
 
 	useEffect(() => {
-		const handleStartedGame = (data) => {
-			console.log('Started Game Event');
-			dispatch(setGuestGameCategories(data.list));
+		if (path === '/pointSelection') {
 			navigate('/pointSelection');
-		};
-		socket.on('startedGame', handleStartedGame);
-		return () => {
-			socket.off('startedGame', handleStartedGame);
-		};
-	}, [dispatch, navigate]);
+		}
+	}, [path, navigate]);
+
+	// useEffect(() => {
+	// 	const handleStartedGame = (data) => {
+	// 		console.log('Started Game Event');
+	// 		dispatch(setGuestGameCategories(data.list));
+	// 		navigate('/pointSelection');
+	// 	};
+	// 	// socket.on('startedGame', handleStartedGame);
+	// 	return () => {
+	// 		// socket.off('startedGame', handleStartedGame);
+	// 	};
+	// }, [dispatch, navigate]);
 
 	return (
 		<Box
-			maxWidth="1100px"
-			mx="auto"
+			maxWidth='1100px'
+			mx='auto'
 			sx={{
 				width: '100%',
 				border: '1px solid black',
@@ -98,7 +108,7 @@ function LobbyBoxLayout() {
 											<FormControlLabel
 												control={
 													<Checkbox
-														color="secondary"
+														color='secondary'
 														disabled={host ? false : true}
 														checked={category.selected}
 														onChange={(e) => handleSelectedCategory(category.categoryName, e.target.checked)}
@@ -112,7 +122,7 @@ function LobbyBoxLayout() {
 								))}
 							</Box>
 						</Paper>
-						<Button variant="contained" color="secondary" disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
+						<Button variant='contained' color='secondary' disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
 							Lock Categories
 						</Button>
 					</Box>
@@ -137,11 +147,12 @@ function LobbyBoxLayout() {
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 				<Button
-					variant="contained"
-					color="success"
+					variant='contained'
+					color='success'
 					sx={{ width: '80%', mt: '20px' }}
 					onClick={() => {
-						handleStartGame();
+						startGame();
+						// navigate('/pointSelection');
 					}}
 				>
 					Start Game

@@ -5,6 +5,7 @@ import lobbyReducer from './slices/landingPageSlices/lobbySlice';
 import socketReducer from './slices/landingPageSlices/socketSlice';
 import gameSettingReducer from './slices/gameSlices/gameSettingSlice';
 import gameReducer from './slices/gameSlices/gameSlice';
+import routeReducer from './slices/routeSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
 		socket: socketReducer,
 		gameSettings: gameSettingReducer,
 		game: gameReducer,
+		route: routeReducer,
 	},
 	devTools: true,
 });
