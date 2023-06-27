@@ -3,11 +3,9 @@ import { Box, Stack, Button, List, Divider, Grid, useTheme, Paper, Typography, L
 import PersonIcon from '@mui/icons-material/Person';
 import { CheckCircle } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-// import socket from '../../socket';
 import { setEveryoneAnswered, setRightAnswer } from '../../store/slices/gameSlices/gameSlice';
 import { setPlayerIsReady, setPlayers, setRounds } from '../../store/slices/gameSlices/gameSettingSlice';
 import { handlePlayerIsReadyThunk } from '../../store/slices/gameSlices/gameSettingSlice';
-// Used to redirect to the next page, needs to be replaced after ready button works.
 import { useNavigate } from 'react-router-dom';
 import SocketManager from '../../services/SocketManager';
 
@@ -27,25 +25,7 @@ export const QuizPage = () => {
 	const handleSetAnswer = (e) => {
 		const answer = e.target.value;
 		SocketManager.setAnswer(answer);
-		// socket.emit('setAnswer', { answer: answer });
 	};
-
-	// useEffect(() => {
-	// 	const handlePlayerAnswered = (data) => {
-	// 		console.log('Start of handlePlayerAnswered: ' + data);
-	// 	};
-	// 	// socket.on('playerAnswered', handlePlayerAnswered);
-	// 	// socket.on('roundFinished', (data) => {
-	// 	// 	console.log(data);
-	// 	// 	dispatch(setRightAnswer(data.rightAnswer));
-	// 	// 	dispatch(setEveryoneAnswered(!everyoneAnswered));
-	// 	// 	dispatch(setRounds(data.roundsLeft));
-	// 	// });
-	// 	// socket.on('synchronizedLobby', (data) => {
-	// 	// 	console.log(data);
-	// 	// 	dispatch(setPlayers(data.data));
-	// 	// });
-	// });
 
 	// useEffect(() => {
 	// 	if (everyoneAnswered) {

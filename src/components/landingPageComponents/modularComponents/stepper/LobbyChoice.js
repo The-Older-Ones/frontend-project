@@ -1,13 +1,10 @@
 import React from 'react';
-// import socket from '../../../../socket';
 import SocketManager from '../../../../services/SocketManager';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Box, Typography, Paper, Button, useTheme, TextField, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveStep, setHost, setLobbyCode, setLobbySelection, setHostSocketID } from '../../../../store/slices/landingPageSlices/lobbySlice';
-
-// import { setRounds, setPlayerNumber, setCategories, setPlayers } from '../../../../store/slices/gameSlices/gameSettingSlice';
+import { setActiveStep, setHost, setLobbyCode, setLobbySelection } from '../../../../store/slices/landingPageSlices/lobbySlice';
 
 function LobbyChoice() {
 	const theme = useTheme();
@@ -23,13 +20,6 @@ function LobbyChoice() {
 	const createGame = () => {
 		SocketManager.createGame(ign, accessToken);
 	};
-
-	// socket.on('gameCreated', function (data) {
-	// 	dispatch(setLobbyCode(data.gameId));
-	// 	dispatch(setCategories(data.settings.list));
-	// 	dispatch(setPlayerNumber(data.settings.playerNumber));
-	// 	dispatch(setRounds(data.settings.rounds));
-	// });
 
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(lobbyCode).then(() => {
@@ -69,20 +59,8 @@ function LobbyChoice() {
 							color='secondary'
 							onClick={() => {
 								createGame();
-								// socket.on('gameCreated', (data) => {
-								// 	dispatch(setHostSocketID(data.socketId));
-								// 	dispatch(setPlayers([{ socketId: data.socketId, playerName: data.hostName }]));
-								// });
 								handleChoice(true);
 							}}
-							// onClick={() => {
-							// 	socket.emit('createGame', { playerName: ign, token: accessToken });
-							// 	socket.on('gameCreated', (data) => {
-							// 		dispatch(setHostSocketID(data.socketId));
-							// 		dispatch(setPlayers([{ socketId: data.socketId, playerName: data.hostName }]));
-							// 	});
-							// 	handleChoice(true);
-							// }}
 						>
 							Host a lobby
 						</Button>

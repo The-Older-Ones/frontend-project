@@ -1,14 +1,9 @@
-// socketManager.js
-
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
-import { useNavigate } from 'react-router-dom';
-// import socket from '../socket';
 import { setLobbyCode, setHostSocketID, setPlayerSocketId } from '../store/slices/landingPageSlices/lobbySlice';
 import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories } from '../store/slices/gameSlices/gameSettingSlice';
 import { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, newQuestionSelected, setRightAnswer, setEveryoneAnswered } from '../store/slices/gameSlices/gameSlice';
 import { setRoute } from '../store/slices/routeSlice';
-// import { action1, action2 } from './actions'; // import the actions you want to dispatch
 
 class SocketManager {
 	constructor() {
@@ -29,17 +24,13 @@ class SocketManager {
 
 		// This listener is for the 'connected' event
 		this.socket.on('connected', (data) => {
-			console.log(data.message);
 			// We dispatch a Redux action in response to the event
-			// store.dispatch(action1(data));
+			console.log(data.message);
 		});
-
-		this.redirectCallback = null;
 
 		this.socket.on('gameCreated', (data) => {
 			console.log('SocketManager gameCreated:');
 			console.log(data);
-			// We dispatch a Redux action in response to the event
 			store.dispatch(setLobbyCode(data.gameId));
 			store.dispatch(setCategories(data.settings.list));
 			store.dispatch(setPlayerNumber(data.settings.playerNumber));
@@ -97,11 +88,11 @@ class SocketManager {
 			store.dispatch(setPlayers(data.data));
 		});
 
-        // this.socket.on("gameEnded", (data) => {
-        //     console.log("gameEnded Event");
-        //     console.log(data);
-        //     store.dispatch(setRoute("/endScreen"));
-        // });
+		// this.socket.on("gameEnded", (data) => {
+		//     console.log("gameEnded Event");
+		//     console.log(data);
+		//     store.dispatch(setRoute("/endScreen"));
+		// });
 		// More listeners can be added here in a similar manner
 		// Just use the `this.socket.on` method to set up the listener
 		// and define a callback function to handle the event
@@ -139,6 +130,10 @@ class SocketManager {
 
 	giveQuestion(chosenCategory, chosenPoints) {
 		this.socket.emit('giveQuestion', { category: chosenCategory, difficulty: chosenPoints });
+	}
+
+	lobbySync(dataToSend) {
+		this.socket.emit('lobbySynchro', dataToSend);
 	}
 }
 

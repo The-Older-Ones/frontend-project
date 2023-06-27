@@ -13,7 +13,7 @@ function LandingPage() {
 		// backgroundImage: `url('./pxfuel.jpg')`,
 		// backgroundImage: 'url(./Background1.png)',
 		// backgroundImage: 'url(./Background2.png)',
-		backgroundImage: 'url(./Background3.png)',
+		backgroundImage: 'url(./Background3-blur.jpg)',
 		backgroundSize: 'cover',
 	};
 

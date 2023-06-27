@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Box, Typography, TextField, Avatar, Paper, IconButton, useTheme, FormControl, Button, Stack } from '@mui/material';
 
@@ -25,24 +24,24 @@ function CreateAvatar() {
 				m: theme.spacing(3),
 			}}
 		>
-			<Box id="createAvatar" display={'flex'} flexDirection={'column'} alignItems={'center'}>
+			<Box id='createAvatar' display={'flex'} flexDirection={'column'} alignItems={'center'}>
 				<FormControl>
 					<TextField
 						label={user ? '' : "What's your name?"}
-						variant="filled"
+						variant='filled'
 						fullWidth
 						sx={{ bgcolor: theme.palette.primary.main }}
 						value={ign}
 						placeholder={user ? user.user : ''}
 						onChange={(e) => dispatch(setIGN(e.target.value))}
 					/>
-					<Stack alignItems="center">
+					<Stack alignItems='center'>
 						<Typography style={{ marginTop: '16px', marginBottom: '8px' }}>Choose an Avatar</Typography>
 						<Box sx={{ display: 'flex', alignItems: 'center' }}>
 							<IconButton>
 								<ArrowBack />
 							</IconButton>
-							<Avatar alt="avatar" src={avatars[0]} sx={{ width: 80, height: 80 }} />
+							<Avatar alt='avatar' src={avatars[0]} sx={{ width: 80, height: 80 }} />
 							<IconButton>
 								<ArrowForward />
 							</IconButton>
@@ -52,10 +51,10 @@ function CreateAvatar() {
 						<Stack spacing={2}>
 							<Button
 								sx={{
-									m: theme.spacing(2)
+									m: theme.spacing(2),
 								}}
-								variant="contained"
-								color="secondary"
+								variant='contained'
+								color='secondary'
 								onClick={() => {
 									if (!ign) {
 										toast.error({

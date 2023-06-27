@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Avatar, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, Divider, useTheme} from '@mui/material';
+import { Box, Avatar, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, Divider, useTheme } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 import { useSelector } from 'react-redux';

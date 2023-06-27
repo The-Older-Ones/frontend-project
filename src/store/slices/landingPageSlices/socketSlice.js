@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 // Import socket.io connection, this triggers the connection.
-import socket from '../../../socket';
 
 const socketSlice = createSlice({
 	name: 'socket',

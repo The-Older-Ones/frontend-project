@@ -1,6 +1,6 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import socket from '../../../socket';
+import SocketManager from '../../../services/SocketManager';
 const gameSettingSlice = createSlice({
 	name: 'gameSettings',
 	initialState: {
@@ -119,7 +119,7 @@ export const handlePlayerIsReadyThunk = (socketID) => {
 		const updatedPlayers = getState().gameSettings.players;
 		const dataToSend = { data: updatedPlayers };
 		console.log('Data sent to server: ', dataToSend);
-		socket.emit('lobbySynchro', dataToSend);
+		SocketManager.lobbySync(dataToSend);
 	};
 };
 

@@ -4,9 +4,8 @@ import { Grid, Box, Button, Paper, FormGroup, FormControlLabel, Checkbox, useThe
 import HeadingCard from './cardComponents/HeadingCard';
 import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGameCategories, setSelectedCategory, setGuestGameCategories } from '../../store/slices/gameSlices/gameSettingSlice';
+import { setGameCategories, setSelectedCategory } from '../../store/slices/gameSlices/gameSettingSlice';
 import SocketManager from '../../services/SocketManager';
-// import socket from '../../socket';
 
 function LobbyBoxLayout() {
 	const theme = useTheme();
@@ -25,7 +24,6 @@ function LobbyBoxLayout() {
 	const startGame = () => {
 		console.log('Start Game Event');
 		SocketManager.startGame(gameCategories);
-		// socket.emit('startGame', { list: gameCategories });
 	};
 	console.log('Route: ' + path);
 
@@ -34,18 +32,6 @@ function LobbyBoxLayout() {
 			navigate('/pointSelection');
 		}
 	}, [path, navigate]);
-
-	// useEffect(() => {
-	// 	const handleStartedGame = (data) => {
-	// 		console.log('Started Game Event');
-	// 		dispatch(setGuestGameCategories(data.list));
-	// 		navigate('/pointSelection');
-	// 	};
-	// 	// socket.on('startedGame', handleStartedGame);
-	// 	return () => {
-	// 		// socket.off('startedGame', handleStartedGame);
-	// 	};
-	// }, [dispatch, navigate]);
 
 	return (
 		<Box
@@ -146,15 +132,7 @@ function LobbyBoxLayout() {
 				</Grid>
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Button
-					variant='contained'
-					color='success'
-					sx={{ width: '80%', mt: '20px' }}
-					onClick={() => {
-						startGame();
-						// navigate('/pointSelection');
-					}}
-				>
+				<Button variant='contained' color='success' sx={{ width: '80%', mt: '20px' }} onClick={startGame()}>
 					Start Game
 				</Button>
 			</Box>
