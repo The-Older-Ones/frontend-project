@@ -98,13 +98,13 @@ class SocketManager {
 		// and define a callback function to handle the event
 	}
 
-	setAnswer(answer) {
-		this.socket.emit('setAnswer', { answer: answer });
-	}
-
 	connect() {
 		// Connect the socket
 		this.socket.connect();
+	}
+
+	setAnswer(answer) {
+		this.socket.emit('setAnswer', { answer: answer });
 	}
 
 	// This is a method that we can call to emit a socket.io event
