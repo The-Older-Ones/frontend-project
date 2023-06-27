@@ -10,6 +10,11 @@ export const BaseColors = {
 	mainWhite: '#F4F3F6',
 	mainBeige: '#EDE8E3',
 	mainGray: '#747475',
+	categoryOne: '#AC92EB',
+	categoryTwo: '#4FC1E8',
+	categoryThree: '#A0D568',
+	categoryFour: '#FFCE54',
+	categoryFive: '#ED5564',
 };
 
 export const PointSelectionColors = {};
