@@ -1,7 +1,4 @@
-import { useTheme } from '@emotion/react';
-import { Card, Box, Typography, Divider } from '@mui/material';
-// import IconButton from '@mui/material/IconButton'
-// import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import { Card, Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 
 function Header() {
@@ -9,10 +6,10 @@ function Header() {
 	return (
 		<Box
 			sx={{
-				minHeight: '150px',
+				minHeight: theme.spacing(10),
 				display: 'flex',
 				justifyContent: 'center',
-				bgcolor: 'secondary.main',
+				bgcolor: theme.palette.secondary.main,
 			}}
 		>
 			<Card
@@ -22,17 +19,14 @@ function Header() {
 					justifyContent: 'center',
 					alignItems: 'center',
 					my: theme.spacing(2),
+          px: theme.spacing(10)
 				}}
 			>
-				<Typography variant='h1' component='h1' fontWeight='bold'>
+				<Typography variant="h2" component="h1" fontWeight="bold">
 					Choose points
 				</Typography>
-				<Divider />
-				<Typography variant='h5'>Next player choosing: Sert</Typography>
+				<Typography variant="h5">Next player choosing: </Typography>
 			</Card>
-			{/* <IconButton> */}
-			{/* <TimerOutlinedIcon fontSize="large"/> */}
-			{/* </IconButton> */}
 		</Box>
 	);
 }

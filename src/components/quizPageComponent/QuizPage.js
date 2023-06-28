@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Stack, Button, List, Divider, Grid, useTheme, Paper, Typography, ListItem, ListItemText, ListItemIcon, ListItemAvatar, Avatar } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import { CheckCircle } from '@mui/icons-material';
+import { Box, Button, Grid, useTheme, Paper, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEveryoneAnswered, setRightAnswer } from '../../store/slices/gameSlices/gameSlice';
 import { setPlayerIsReady, setPlayers, setRounds } from '../../store/slices/gameSlices/gameSettingSlice';
 import { handlePlayerIsReadyThunk } from '../../store/slices/gameSlices/gameSettingSlice';
+import { setPlayers, setRounds } from '../../store/slices/gameSlices/gameSettingSlice';
+// import { handlePlayerIsReadyThunk } from '../../store/slices/gameSlices/gameSettingSlice';
+// Used to redirect to the next page, needs to be replaced after ready button works.
 import { useNavigate } from 'react-router-dom';
 import SocketManager from '../../services/SocketManager';
 
@@ -13,13 +14,15 @@ export const QuizPage = () => {
 	// Used to redirect to the next page, needs to be replaced after ready button works.
 	const navigate = useNavigate();
 	const [countdown, setCountdown] = useState(null);
-	const rounds = useSelector((state) => state.gameSettings.rounds);
+	const [selectedAnswer, setSelectedAnswer] = useState(null);
+	const { rounds, players } = useSelector((state) => state.gameSettings);
+	console.log(players);
 	//
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
-	const { players } = useSelector((state) => state.gameSettings);
-	const { playerSocketID, hostSocketID } = useSelector((state) => state.lobby);
+
+	// const { playerSocketID, hostSocketID } = useSelector((state) => state.lobby);
 	const { question, answers, chosenCategory, chosenPoints, everyoneAnswered, rightAnswer } = useSelector((state) => state.game);
 
 	const handleSetAnswer = (e) => {
@@ -55,29 +58,69 @@ export const QuizPage = () => {
 	// 	});
 	// 	// }
 	// }, [everyoneAnswered, navigate, rounds]);
+		setSelectedAnswer(answer);
+		socket.emit('setAnswer', { answer: answer });
+	};
+
+	useEffect(() => {
+		const handlePlayerAnswered = (data) => {
+			console.log('Start of handlePlayerAnswered: ' + data);
+		};
+		socket.on('playerAnswered', handlePlayerAnswered);
+		socket.on('roundFinished', (data) => {
+			dispatch(setRightAnswer(data.rightAnswer));
+			dispatch(setEveryoneAnswered(!everyoneAnswered));
+			dispatch(setRounds(data.roundsLeft));
+		});
+		socket.on('synchronizedLobby', (data) => {
+			dispatch(setPlayers(data.data));
+		});
+	});
+
+	useEffect(() => {
+		if (everyoneAnswered) {
+			setCountdown(30); // initialize countdown
+			const timer = setInterval(() => {
+				setCountdown((countdown) => countdown - 1);
+			}, 1000);
+
+			const redirectTimer = setTimeout(() => {
+				navigate('/pointSelection');
+				clearInterval(timer); // clear the countdown timer
+			}, 30 * 1000);
+
+			return () => {
+				clearTimeout(redirectTimer); // clear the redirection timer
+				clearInterval(timer); // clear the countdown timer
+			};
+		}
+		// if (rounds === 0) {
+		socket.on('gameFinished', (data) => {
+			setTimeout(() => {
+				navigate('/'); // replace '/' with the correct path to your landing page if necessary
+				window.location.reload();
+			}, 5000);
+		});
+		// }
+	}, [everyoneAnswered, navigate, rounds]);
 
 	// const handlePlayerIsReady = () => {
 	// 	const socketID = hostSocketID || playerSocketID;
 	// 	if (socketID) {
-	// 		dispatch(setPlayerIsReady({ socketID }));
-	// 		const dataToSend = { data: players };
-	// 		console.log('Data sent to server: ', dataToSend);
-	// 		socket.emit('lobbySynchro', { data: players });
+	// 		dispatch(handlePlayerIsReadyThunk(socketID));
 	// 	}
 	// };
 
-	const handlePlayerIsReady = () => {
-		const socketID = hostSocketID || playerSocketID;
-		if (socketID) {
-			dispatch(handlePlayerIsReadyThunk(socketID));
-		}
-	};
-
 	return (
-		<Stack
+		<Box
 			sx={{
+				display: 'flex',
+				flexDirection: 'column',
 				alignItems: 'center',
 				justifyContent: 'center',
+				minHeight: '100vh',
+				backgroundImage: 'url(/QuizPattern.jpeg)',
+				backgroundSize: 'cover',
 			}}
 		>
 			{!everyoneAnswered && (
@@ -86,27 +129,42 @@ export const QuizPage = () => {
 						bgcolor: theme.palette.secondary.light,
 						width: '800px',
 						height: '500px',
-						p: '16px',
-						m: '50px',
+						p: theme.spacing(2),
+						m: theme.spacing(8),
+						borderRadius: theme.spacing(4),
 					}}
 				>
 					<Paper
 						elevation={6}
 						sx={{
-							bgcolor: theme.palette.secondary.main,
-							padding: '20px',
+							bgcolor: theme.palette.secondary.dark,
+							p: theme.spacing(2),
+							m: theme.spacing(4),
+							borderRadius: theme.spacing(2),
 						}}
 					>
 						<Grid container my={2}>
 							<Grid item xs={9}>
-								{'Category: ' + chosenCategory}
+								<Typography variant="body1" color="white" fontWeight={'medium'}>
+									{'Category: ' + chosenCategory}
+								</Typography>
 							</Grid>
 							<Grid item xs={3}>
-								{chosenPoints + ' Points'}
+								<Typography variant="body1" color="white" fontWeight={'medium'}>
+									{chosenPoints + ' Points'}
+								</Typography>
 							</Grid>
 						</Grid>
 					</Paper>
-					<Box padding='20px'>{question}</Box>
+					<Box
+						sx={{
+							p: theme.spacing(7),
+						}}
+					>
+						<Typography variant="body1" fontSize={'h6.fontSize'}>
+							{question}
+						</Typography>
+					</Box>
 				</Box>
 			)}
 
@@ -117,59 +175,39 @@ export const QuizPage = () => {
 						width: '800px',
 						height: '500px',
 						p: theme.spacing(2),
-						m: theme.spacing(6),
+						m: theme.spacing(8),
+						borderRadius: theme.spacing(4),
 					}}
 				>
 					<Paper
 						elevation={6}
 						sx={{
-							bgcolor: theme.palette.secondary.main,
-							padding: '20px',
+							bgcolor: theme.palette.secondary.dark,
+							p: theme.spacing(2),
+							m: theme.spacing(4),
+							borderRadius: theme.spacing(2),
 						}}
 					>
 						<Grid container my={2}>
 							<Grid item xs={9}>
-								<Typography variant='h5' color='initial' textAlign={'center'} alignContent={'center'}>
-									Are all players ready for the next round?
+								<Typography variant="h5" color="white" textAlign={'center'} alignContent={'center'}>
+									Get ready for the next round.
 									{countdown !== null && <div>Redirecting in {countdown} seconds...</div>}
 								</Typography>
 							</Grid>
 						</Grid>
 					</Paper>
-					<Box padding='20px'>
-						<List
-							sx={{
-								bgcolor: theme.palette.primary.main,
-								m: theme.spacing(2),
-							}}
-						>
-							{players.map((player, index) => (
-								<React.Fragment key={index}>
-									<Divider />
-									<ListItem>
-										<ListItemIcon>
-											<ListItemAvatar>
-												<Avatar>
-													<PersonIcon />
-												</Avatar>
-											</ListItemAvatar>
-										</ListItemIcon>
-										<ListItemText primary={player.playerName} />
-										<ListItemIcon>
-											{player.readyForNextRound && (
-												<ListItemAvatar>
-													<CheckCircle color='success' fontSize='large' />
-												</ListItemAvatar>
-											)}
-										</ListItemIcon>
-									</ListItem>
-									<Divider />
-								</React.Fragment>
-							))}
-						</List>
-						{/* <Button variant='contained' color='success' onClick={handlePlayerIsReady}>
-							I am ready
-						</Button> */}
+					<Box>
+						<Typography variant="h3" color="initial" fontWeight={'bold'}>
+							Current standings
+						</Typography>
+						{players.map((e, index) => (
+							<Box key={index}>
+								<Typography variant="body1" color="initial">
+									{e.playerName}
+								</Typography>
+							</Box>
+						))}
 					</Box>
 				</Box>
 			)}
@@ -177,34 +215,63 @@ export const QuizPage = () => {
 			<Box
 				sx={{
 					bgcolor: theme.palette.secondary.light,
-					p: '16px',
+					p: theme.spacing(2),
 					width: '900px',
 					m: theme.spacing(2),
+					borderRadius: theme.spacing(4),
 				}}
 			>
 				{!everyoneAnswered && (
-					<Grid container my={4} rowSpacing={2} columnSpacing={1} m={4}>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							flexWrap: 'wrap',
+						}}
+					>
 						{answers.map((answer, index) => (
-							<Grid item xs={6} key={index}>
-								<Button bgcolor={theme.palette.primary.light} variant='contained' value={answer} onClick={handleSetAnswer}>
-									{answer}
-								</Button>
-							</Grid>
+							<Button
+								key={index}
+								variant="contained"
+								value={answer}
+								onClick={handleSetAnswer}
+								sx={{
+									my: theme.spacing(4),
+									width: 'calc(50% - 25px)',
+									backgroundColor: selectedAnswer === answer ? theme.palette.primary.dark : theme.palette.primary.light,
+								}}
+							>
+								{answer}
+							</Button>
 						))}
-					</Grid>
+					</Box>
 				)}
 				{everyoneAnswered && (
-					<Grid container my={4} rowSpacing={2} columnSpacing={1} m={4}>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							flexWrap: 'wrap',
+						}}
+					>
 						{answers.map((answer, index) => (
-							<Grid item xs={6} key={index}>
-								<Button variant='contained' color={rightAnswer === answer ? 'success' : 'error'}>
-									{answer}
-								</Button>
-							</Grid>
+							<Button
+								key={index}
+								color={rightAnswer === answer ? 'success' : 'error'}
+								variant="contained"
+								value={answer}
+								onClick={handleSetAnswer}
+								sx={{
+									my: theme.spacing(4),
+									width: 'calc(50% - 25px)',
+								}}
+							>
+								{answer}
+							</Button>
 						))}
-					</Grid>
+					</Box>
 				)}
 			</Box>
-		</Stack>
+		</Box>
 	);
 };
