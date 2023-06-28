@@ -10,6 +10,7 @@ const gameSlice = createSlice({
 		chosenPoints: 0,
 		everyoneAnswered: false,
 		rightAnswer: null,
+		leaderboard: [],
 	},
 	reducers: {
 		setQuestion: (state, action) => {
@@ -37,8 +38,16 @@ const gameSlice = createSlice({
 		newQuestionSelected: (state) => {
 			state.everyoneAnswered = false;
 		},
+		// TEST
+		setLeaderboard: (state, action) => {
+			state.leaderboard = action.payload;
+		},
+		clearLeaderboard: (state) => {
+			state.leaderboard = [];
+		},
 	},
 });
 
-export const { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, setEveryoneAnswered, setRightAnswer, newQuestionSelected } = gameSlice.actions;
+export const { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, setEveryoneAnswered, setRightAnswer, newQuestionSelected, setLeaderboard, clearLeaderboard } =
+	gameSlice.actions;
 export default gameSlice.reducer;

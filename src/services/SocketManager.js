@@ -2,7 +2,17 @@ import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
 import { setLobbyCode, setHostSocketID, setPlayerSocketId } from '../store/slices/landingPageSlices/lobbySlice';
 import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories } from '../store/slices/gameSlices/gameSettingSlice';
-import { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, newQuestionSelected, setRightAnswer, setEveryoneAnswered } from '../store/slices/gameSlices/gameSlice';
+import {
+	setQuestion,
+	setAnswers,
+	setIsChosen,
+	setChosenCategory,
+	setChosenPoints,
+	newQuestionSelected,
+	setRightAnswer,
+	setEveryoneAnswered,
+	setLeaderboard,
+} from '../store/slices/gameSlices/gameSlice';
 import { setRoute } from '../store/slices/routeSlice';
 
 class SocketManager {
@@ -98,6 +108,8 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io gameFinished event:', data);
 			}
+			store.dispatch(setRoute('/scoreboard'));
+			store.dispatch(setLeaderboard(data.leaderboard));
 			// TODO: Add your implementation here
 		});
 
@@ -175,6 +187,7 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io playerAnswered event:', data);
 			}
+			store.dispatch(setPlayerSocketId(data.playerId));
 		});
 
 		this.socket.on('roundFinished', (data) => {
@@ -184,6 +197,7 @@ class SocketManager {
 			store.dispatch(setRightAnswer(data.rightAnswer));
 			store.dispatch(setEveryoneAnswered(!data.everyoneAnswered)); // !everyoneAnswered
 			store.dispatch(setRounds(data.roundsLeft));
+			store.dispatch(setRoute('/pointSelection'));
 		});
 	}
 
