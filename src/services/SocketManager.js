@@ -18,9 +18,14 @@ import { setRoute } from '../store/slices/routeSlice';
 class SocketManager {
 	constructor() {
 		// *** Here we initialize and configure our socket.io connection ***
-		const URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:80/api/';
-
-		this.socket = io(`${URL}game`, {
+		// const URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:80/api/';
+		const URL = process.env.REACT_APP_BACKEND_URL || 'https://triviosa-backend-4250240969d4.herokuapp.com/api';
+		console.log(URL);
+		// this.socket = io(`${URL}game`, {
+		// 	autoConnect: false,
+		// 	debug: true,
+		// });
+		this.socket = io('https://triviosa-backend-4250240969d4.herokuapp.com/api/game', {
 			autoConnect: false,
 			debug: true,
 		});
