@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Grid, Paper, Typography, Button, LinearProgress, useTheme, Box } from '@mui/material';
+import { Grid, Paper, Typography, Button, LinearProgress, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setChosenCategory, setChosenPoints } from '../../../../store/slices/gameSlices/gameSlice';
 import SocketManager from '../../../../services/SocketManager';
-import socket from '../../../../socket';
 import { BaseColors } from '../../../../theme';
-import { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, newQuestionSelected } from '../../../../store/slices/gameSlices/gameSlice';
+import { setChosenCategory, setChosenPoints } from '../../../../store/slices/gameSlices/gameSlice';
 
 const TableLayout = () => {
 	const rows = useMemo(
@@ -55,10 +53,7 @@ const TableLayout = () => {
 			const chosenCategory = gameCategories[randomCellIndex];
 			dispatch(setChosenCategory(chosenCategory));
 			dispatch(setChosenPoints(points));
-			socket.emit('giveQuestion', {
-				category: chosenCategory,
-				difficulty: points,
-			});
+			SocketManager.giveQuestion(chosenCategory, points);
 			setRandomButtonSelected(true);
 		}
 	}, [timer, randomButtonSelected, dispatch, gameCategories, rows]);
@@ -81,8 +76,8 @@ const TableLayout = () => {
 		<Box m={0}>
 			<Grid container spacing={8}>
 				<Grid item xs={12}>
-					<LinearProgress variant="determinate" value={(timer / 30) * 100} color="error" />
-					<Typography variant="h6" align="center">
+					<LinearProgress variant='determinate' value={(timer / 30) * 100} color='error' />
+					<Typography variant='h6' align='center'>
 						{timer > 0 ? `Time remaining: ${timer}` : 'Time is up! Random question will be selected.'}
 					</Typography>
 				</Grid>
@@ -91,7 +86,9 @@ const TableLayout = () => {
 						{gameCategories.map((category, index) => (
 							<Grid item xs key={index}>
 								<Paper elevation={6} sx={{ display: 'flex', justifyContent: 'center', my: 2, mx: 2, bgcolor: columnColors[index] }}>
-									<Typography variant="h6" fontWeight={"bold"}>{category}</Typography>
+									<Typography variant='h6' fontWeight={'bold'}>
+										{category}
+									</Typography>
 								</Paper>
 							</Grid>
 						))}
@@ -112,7 +109,7 @@ const TableLayout = () => {
 											}}
 										>
 											<Button
-												variant="contained"
+												variant='contained'
 												sx={{ width: '100%', bgcolor: columnColors[cellIndex] }}
 												value={[index, cellIndex]}
 												onClick={(e) => {

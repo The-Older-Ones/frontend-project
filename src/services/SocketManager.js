@@ -144,4 +144,6 @@ class SocketManager {
 // We export a new instance of the SocketManager class
 // This means that whenever we import this file, we'll be working with the same SocketManager instance
 // This is important because we want to have a single socket.io connection that's used throughout our app
-export default new SocketManager();
+const socketManager = new SocketManager();
+
+export default socketManager;

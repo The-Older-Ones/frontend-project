@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import { Box, Typography, TextField, Avatar, Paper, IconButton, useTheme, FormControl, Button, Stack } from '@mui/material';
-
 import { setActiveStep, setIGN } from '../../../../store/slices/landingPageSlices/lobbySlice';
 import { ArrowForward, ArrowBack } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';

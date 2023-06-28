@@ -1,81 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid, useTheme, Paper, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { setEveryoneAnswered, setRightAnswer } from '../../store/slices/gameSlices/gameSlice';
-import { setPlayerIsReady, setPlayers, setRounds } from '../../store/slices/gameSlices/gameSettingSlice';
-import { handlePlayerIsReadyThunk } from '../../store/slices/gameSlices/gameSettingSlice';
-import { setPlayers, setRounds } from '../../store/slices/gameSlices/gameSettingSlice';
-// import { handlePlayerIsReadyThunk } from '../../store/slices/gameSlices/gameSettingSlice';
-// Used to redirect to the next page, needs to be replaced after ready button works.
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SocketManager from '../../services/SocketManager';
 
 export const QuizPage = () => {
-	// Used to redirect to the next page, needs to be replaced after ready button works.
 	const navigate = useNavigate();
 	const [countdown, setCountdown] = useState(null);
 	const [selectedAnswer, setSelectedAnswer] = useState(null);
-	const { rounds, players } = useSelector((state) => state.gameSettings);
-	console.log(players);
-	//
+	const { players } = useSelector((state) => state.gameSettings);
 
 	const theme = useTheme();
-	const dispatch = useDispatch();
 
-	// const { playerSocketID, hostSocketID } = useSelector((state) => state.lobby);
 	const { question, answers, chosenCategory, chosenPoints, everyoneAnswered, rightAnswer } = useSelector((state) => state.game);
 
 	const handleSetAnswer = (e) => {
 		const answer = e.target.value;
 		SocketManager.setAnswer(answer);
-	};
-
-	// useEffect(() => {
-	// 	if (everyoneAnswered) {
-	// 		setCountdown(10); // initialize countdown
-	// 		const timer = setInterval(() => {
-	// 			setCountdown((countdown) => countdown - 1);
-	// 		}, 1000);
-
-	// 		const redirectTimer = setTimeout(() => {
-	// 			navigate('/pointSelection');
-	// 			clearInterval(timer); // clear the countdown timer
-	// 		}, 10000);
-
-	// 		return () => {
-	// 			clearTimeout(redirectTimer); // clear the redirection timer
-	// 			clearInterval(timer); // clear the countdown timer
-	// 		};
-	// 	}
-	// 	console.log(rounds);
-	// 	// if (rounds === 0) {
-	// 	socket.on('gameFinished', (data) => {
-	// 		console.log(data);
-	// 		setTimeout(() => {
-	// 			navigate('/'); // replace '/' with the correct path to your landing page if necessary
-	// 			window.location.reload();
-	// 		}, 5000);
-	// 	});
-	// 	// }
-	// }, [everyoneAnswered, navigate, rounds]);
 		setSelectedAnswer(answer);
-		socket.emit('setAnswer', { answer: answer });
 	};
-
-	useEffect(() => {
-		const handlePlayerAnswered = (data) => {
-			console.log('Start of handlePlayerAnswered: ' + data);
-		};
-		socket.on('playerAnswered', handlePlayerAnswered);
-		socket.on('roundFinished', (data) => {
-			dispatch(setRightAnswer(data.rightAnswer));
-			dispatch(setEveryoneAnswered(!everyoneAnswered));
-			dispatch(setRounds(data.roundsLeft));
-		});
-		socket.on('synchronizedLobby', (data) => {
-			dispatch(setPlayers(data.data));
-		});
-	});
 
 	useEffect(() => {
 		if (everyoneAnswered) {
@@ -94,22 +37,7 @@ export const QuizPage = () => {
 				clearInterval(timer); // clear the countdown timer
 			};
 		}
-		// if (rounds === 0) {
-		socket.on('gameFinished', (data) => {
-			setTimeout(() => {
-				navigate('/'); // replace '/' with the correct path to your landing page if necessary
-				window.location.reload();
-			}, 5000);
-		});
-		// }
-	}, [everyoneAnswered, navigate, rounds]);
-
-	// const handlePlayerIsReady = () => {
-	// 	const socketID = hostSocketID || playerSocketID;
-	// 	if (socketID) {
-	// 		dispatch(handlePlayerIsReadyThunk(socketID));
-	// 	}
-	// };
+	}, [everyoneAnswered, navigate]);
 
 	return (
 		<Box
@@ -145,12 +73,12 @@ export const QuizPage = () => {
 					>
 						<Grid container my={2}>
 							<Grid item xs={9}>
-								<Typography variant="body1" color="white" fontWeight={'medium'}>
+								<Typography variant='body1' color='white' fontWeight={'medium'}>
 									{'Category: ' + chosenCategory}
 								</Typography>
 							</Grid>
 							<Grid item xs={3}>
-								<Typography variant="body1" color="white" fontWeight={'medium'}>
+								<Typography variant='body1' color='white' fontWeight={'medium'}>
 									{chosenPoints + ' Points'}
 								</Typography>
 							</Grid>
@@ -161,7 +89,7 @@ export const QuizPage = () => {
 							p: theme.spacing(7),
 						}}
 					>
-						<Typography variant="body1" fontSize={'h6.fontSize'}>
+						<Typography variant='body1' fontSize={'h6.fontSize'}>
 							{question}
 						</Typography>
 					</Box>
@@ -190,7 +118,7 @@ export const QuizPage = () => {
 					>
 						<Grid container my={2}>
 							<Grid item xs={9}>
-								<Typography variant="h5" color="white" textAlign={'center'} alignContent={'center'}>
+								<Typography variant='h5' color='white' textAlign={'center'} alignContent={'center'}>
 									Get ready for the next round.
 									{countdown !== null && <div>Redirecting in {countdown} seconds...</div>}
 								</Typography>
@@ -198,12 +126,12 @@ export const QuizPage = () => {
 						</Grid>
 					</Paper>
 					<Box>
-						<Typography variant="h3" color="initial" fontWeight={'bold'}>
+						<Typography variant='h3' color='initial' fontWeight={'bold'}>
 							Current standings
 						</Typography>
 						{players.map((e, index) => (
 							<Box key={index}>
-								<Typography variant="body1" color="initial">
+								<Typography variant='body1' color='initial'>
 									{e.playerName}
 								</Typography>
 							</Box>
@@ -232,7 +160,7 @@ export const QuizPage = () => {
 						{answers.map((answer, index) => (
 							<Button
 								key={index}
-								variant="contained"
+								variant='contained'
 								value={answer}
 								onClick={handleSetAnswer}
 								sx={{
@@ -258,7 +186,7 @@ export const QuizPage = () => {
 							<Button
 								key={index}
 								color={rightAnswer === answer ? 'success' : 'error'}
-								variant="contained"
+								variant='contained'
 								value={answer}
 								onClick={handleSetAnswer}
 								sx={{
