@@ -15,6 +15,8 @@ class SocketManager {
 			debug: true,
 		});
 
+		this.loggingEnabled = null;
+
 		/**
 		 * * Socket.io event listeners
 		 * * Here we set up our socket.io event listeners
@@ -22,82 +24,108 @@ class SocketManager {
 		 * * that will be executed when the event is received
 		 */
 
-		this.socket.on('error', (error) => {
-			console.error('Socket.io error:', error);
+		this.socket.on('error', (data) => {
+			if (this.loggingEnabled) {
+				console.error('[Event Listener] Socket.io error event:', data);
+			}
 		});
 
 		this.socket.on('connected', (data) => {
-			console.log(data.message);
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io connected event:', data);
+			}
+			// console.log(data.message);
 		});
 
-		this.socket.on('disconnect', (reason) => {
-			console.log('disconnect Event');
-			console.log(reason);
+		this.socket.on('disconnect', (data) => {
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io disconnect event:', data);
+			}
 		});
 
-		this.socket.on('reconnect', (attemptNumber) => {
-			console.log('reconnect Event');
-			console.log(attemptNumber);
+		this.socket.on('reconnect', (data) => {
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io reconnect event:', data);
+			}
 		});
-
-		// this.socket.on('lobbyMemberUpdated', (data) => {
-		// 	console.log('lobbyMemberUpdated Event');
-		// 	// TODO: Add your implementation here
-		// });
 
 		this.socket.on('playerLeft', (data) => {
-			console.log('playerLeft Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io playerLeft event:', data);
+			}
 			// TODO: Add your implementation here
+			store.dispatch(setPlayerSocketId(data.playerId));
 		});
 
 		this.socket.on('updatedHost', (data) => {
-			console.log('updatedHost Event');
-			// TODO: Add your implementation here
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io updatedHost event:', data);
+			}
+			store.dispatch(setHostSocketID(data.newHost));
 		});
 
 		this.socket.on('updatedRounds', (data) => {
-			console.log('updatedRounds Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io updatedRounds event:', data);
+			}
 			// TODO: Add your implementation here
 		});
 
 		this.socket.on('updatedPlayerNumber', (data) => {
-			console.log('updatedPlayerNumber Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io updatedPlayerNumber event:', data);
+			}
 			// TODO: Add your implementation here
 		});
 
 		this.socket.on('updateExtension', (data) => {
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io updateExtension event:', data);
+			}
 			console.log('updateExtension Event');
 			// TODO: Add your implementation here
 		});
 
 		this.socket.on('resetLobby', (data) => {
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io resetLobby event:', data);
+			}
 			console.log('resetLobby Event');
 			// TODO: Add your implementation here
 		});
 
 		this.socket.on('gameFinished', (data) => {
-			console.log('gameFinished Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io gameFinished event:', data);
+			}
 			// TODO: Add your implementation here
 		});
 
 		this.socket.on('gameExtended', (data) => {
-			console.log('gameExtended Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io gameExtended event:', data);
+			}
 			// TODO: Add your implementation here
 		});
 
 		this.socket.on('roundFinished', (data) => {
-			console.log('roundFinished Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io roundFinished event:', data);
+			}
 			// TODO: Add your implementation here
 		});
 
 		this.socket.on('synchronizedLobby', (data) => {
-			console.log('synchronizedLobby Event');
-			// TODO: Add your implementation here
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io error event:', data);
+			}
+			store.dispatch(setPlayers(data.data));
 		});
 
 		this.socket.on('gameCreated', (data) => {
-			console.log('SocketManager gameCreated:');
-			console.log(data);
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io gameCreated event:', data);
+			}
 			store.dispatch(setLobbyCode(data.gameId));
 			store.dispatch(setCategories(data.settings.list));
 			store.dispatch(setPlayerNumber(data.settings.playerNumber));
@@ -107,26 +135,33 @@ class SocketManager {
 		});
 
 		this.socket.on('startedGame', (data) => {
-			console.log('Started Game Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io startedGame event:', data);
+			}
 			store.dispatch(setGuestGameCategories(data.list));
 			store.dispatch(setRoute('/pointSelection'));
 		});
 
 		this.socket.on('joinedLobby', (data) => {
-			console.log('Joined Lobby Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io joinedLobby event:', data);
+			}
 			store.dispatch(setPlayers(data.settings.lobbyMember));
-			console.log(data.socketId);
 			store.dispatch(setPlayerSocketId(data.socketId));
 			store.dispatch(setCategories(data.settings.list));
 		});
 
 		this.socket.on('playerJoined', (data) => {
-			console.log('Player Joined Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io playerJoined event:', data);
+			}
 			store.dispatch(setPlayers([{ socketId: data.playerId, playerName: data.playerName }]));
 		});
 
 		this.socket.on('givenQuestion', (data) => {
-			console.log('givenQuestion Event');
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io givenQuestion event:', data);
+			}
 			store.dispatch(setQuestion(data.question));
 			store.dispatch(setAnswers(data.allAnswers));
 			store.dispatch(setIsChosen(true));
@@ -137,39 +172,48 @@ class SocketManager {
 		});
 
 		this.socket.on('playerAnswered', (data) => {
-			console.log('playerAnswered Event');
-			console.log(data);
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io playerAnswered event:', data);
+			}
 		});
 
 		this.socket.on('roundFinished', (data) => {
-			console.log('roundFinished Event');
-			console.log(data);
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io roundFinished event:', data);
+			}
 			store.dispatch(setRightAnswer(data.rightAnswer));
 			store.dispatch(setEveryoneAnswered(!data.everyoneAnswered)); // !everyoneAnswered
 			store.dispatch(setRounds(data.roundsLeft));
 		});
-
-		this.socket.on('synchronizedLobby', (data) => {
-			console.log('synchronizedLobby Event');
-			console.log(data);
-			store.dispatch(setPlayers(data.data));
-		});
 	}
 
 	// *** Socket.io event emitters ***
+
 	connect() {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io connect event');
+		}
 		this.socket.connect();
 	}
 
 	disconnect() {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io disconnect event');
+		}
 		this.socket.disconnect();
 	}
 
 	createGame(playerName, token) {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io createGame event:', { playerName, token });
+		}
 		this.socket.emit('createGame', { playerName, token });
 	}
 
 	joinLobby(lobbyCode, ign, accessToken) {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io joinLobby event:', { lobbyCode, ign, accessToken });
+		}
 		this.socket.emit('joinLobby', {
 			gameId: lobbyCode,
 			playerName: ign,
@@ -179,44 +223,81 @@ class SocketManager {
 
 	// TODO: Add your implementation here
 	updateHost() {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io updateHost event');
+		}
 		this.socket.emit('updateHost');
 	}
 
 	// TODO: Add your implementation here
 	setRounds(rounds) {
-		this.socket.emit('setRounds', { rounds: rounds });
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io setRounds event:', { rounds });
+		}
+		this.socket.emit('setRounds', { rounds });
 	}
 
 	// TODO: Add your implementation here
 	setPlayerNumber(playerNumber) {
-		this.socket.emit('setPlayerNumber', { playerNumber: playerNumber });
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io setPlayerNumber event:', { playerNumber });
+		}
+		this.socket.emit('setPlayerNumber', { playerNumber });
 	}
 
 	startGame(gameCategories) {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io startGame event:', { gameCategories });
+		}
 		this.socket.emit('startGame', { list: gameCategories });
 	}
 
 	giveQuestion(chosenCategory, chosenPoints) {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io giveQuestion event:', { chosenCategory, chosenPoints });
+		}
 		this.socket.emit('giveQuestion', { category: chosenCategory, difficulty: chosenPoints });
 	}
 
 	setAnswer(answer) {
-		this.socket.emit('setAnswer', { answer: answer });
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io setAnswer event:', { answer });
+		}
+		this.socket.emit('setAnswer', { answer });
 	}
 
 	// TODO: Add your implementation here
 	setExtension() {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io setExtension event');
+		}
 		this.socket.emit('setExtension');
 	}
 
 	// TODO: Add your implementation here
 	newGame() {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io newGame event');
+		}
 		this.socket.emit('newGame');
 	}
 
 	// TODO: Add your implementation here
 	lobbySynchro(dataToSend) {
+		if (this.loggingEnabled) {
+			console.log('[Event Emitter] Socket.io lobbySynchro event:', { dataToSend });
+		}
 		this.socket.emit('lobbySynchro', dataToSend);
+	}
+
+	// Additional methods for enabling/disabling logging
+
+	enableLogging() {
+		this.loggingEnabled = true;
+	}
+
+	disableLogging() {
+		this.loggingEnabled = false;
 	}
 }
 

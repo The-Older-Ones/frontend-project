@@ -132,7 +132,7 @@ function LobbyBoxLayout() {
 				</Grid>
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Button variant='contained' color='success' sx={{ width: '80%', mt: '20px' }} onClick={startGame()}>
+				<Button variant='contained' color='success' sx={{ width: '80%', mt: '20px' }} onClick={startGame}>
 					Start Game
 				</Button>
 			</Box>

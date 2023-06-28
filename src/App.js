@@ -8,11 +8,12 @@ import socketManager from './services/SocketManager';
 
 function App() {
 	/**
-	 * This useEffect hook is used to connect the socket.io client to the server
-	 *
+	 * * This useEffect hook is used to connect the socket.io client to the server
+	 * * and enable logging for socket.io events
 	 */
 	useEffect(() => {
 		socketManager.connect();
+		socketManager.enableLogging();
 	}, []);
 
 	return (

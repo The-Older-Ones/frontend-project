@@ -3,7 +3,7 @@ import { Grid, Paper, Typography, Button, LinearProgress, Box } from '@mui/mater
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SocketManager from '../../../../services/SocketManager';
-import { BaseColors } from '../../../../theme';
+import { BaseColors } from '../../../../theme/theme';
 import { setChosenCategory, setChosenPoints } from '../../../../store/slices/gameSlices/gameSlice';
 
 const TableLayout = () => {

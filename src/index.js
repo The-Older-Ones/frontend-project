@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { ThemeProvider } from "@mui/material";
-import { PrimaryTheme } from "./theme";
+import { PrimaryTheme } from "./theme/theme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
