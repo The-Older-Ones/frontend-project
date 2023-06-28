@@ -7,9 +7,7 @@ import { setRoute } from '../store/slices/routeSlice';
 
 class SocketManager {
 	constructor() {
-		// Here we initialize and configure our socket.io connection
-		// const localDevUrl = 'http://localhost:80/api/game';
-		// const productionUrl = 'https://triviosa-backend-4250240969d4.herokuapp.com/api/game';
+		// *** Here we initialize and configure our socket.io connection ***
 		const URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:80/api/';
 
 		this.socket = io(`${URL}game`, {
@@ -17,19 +15,84 @@ class SocketManager {
 			debug: true,
 		});
 
-		// Here we set up our socket.io event listeners
-		// For each event that we want to listen for, we define a callback function
-		// that will be executed when the event is received
+		/**
+		 * * Socket.io event listeners
+		 * * Here we set up our socket.io event listeners
+		 * * For each event that we want to listen for, we define a callback function
+		 * * that will be executed when the event is received
+		 */
 
-		// This listener is for the 'error' event
 		this.socket.on('error', (error) => {
 			console.error('Socket.io error:', error);
 		});
 
-		// This listener is for the 'connected' event
 		this.socket.on('connected', (data) => {
-			// We dispatch a Redux action in response to the event
 			console.log(data.message);
+		});
+
+		this.socket.on('disconnect', (reason) => {
+			console.log('disconnect Event');
+			console.log(reason);
+		});
+
+		this.socket.on('reconnect', (attemptNumber) => {
+			console.log('reconnect Event');
+			console.log(attemptNumber);
+		});
+
+		// this.socket.on('lobbyMemberUpdated', (data) => {
+		// 	console.log('lobbyMemberUpdated Event');
+		// 	// TODO: Add your implementation here
+		// });
+
+		this.socket.on('playerLeft', (data) => {
+			console.log('playerLeft Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('updatedHost', (data) => {
+			console.log('updatedHost Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('updatedRounds', (data) => {
+			console.log('updatedRounds Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('updatedPlayerNumber', (data) => {
+			console.log('updatedPlayerNumber Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('updateExtension', (data) => {
+			console.log('updateExtension Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('resetLobby', (data) => {
+			console.log('resetLobby Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('gameFinished', (data) => {
+			console.log('gameFinished Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('gameExtended', (data) => {
+			console.log('gameExtended Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('roundFinished', (data) => {
+			console.log('roundFinished Event');
+			// TODO: Add your implementation here
+		});
+
+		this.socket.on('synchronizedLobby', (data) => {
+			console.log('synchronizedLobby Event');
+			// TODO: Add your implementation here
 		});
 
 		this.socket.on('gameCreated', (data) => {
@@ -91,38 +154,20 @@ class SocketManager {
 			console.log(data);
 			store.dispatch(setPlayers(data.data));
 		});
-
-		// this.socket.on("gameEnded", (data) => {
-		//     console.log("gameEnded Event");
-		//     console.log(data);
-		//     store.dispatch(setRoute("/endScreen"));
-		// });
-		// More listeners can be added here in a similar manner
-		// Just use the `this.socket.on` method to set up the listener
-		// and define a callback function to handle the event
 	}
 
+	// *** Socket.io event emitters ***
 	connect() {
-		// Connect the socket
 		this.socket.connect();
 	}
 
-	setAnswer(answer) {
-		this.socket.emit('setAnswer', { answer: answer });
+	disconnect() {
+		this.socket.disconnect();
 	}
 
-	// This is a method that we can call to emit a socket.io event
-	// In this case, it's a 'createGame' event, but you can define methods for any events you need to emit
 	createGame(playerName, token) {
 		this.socket.emit('createGame', { playerName, token });
 	}
-
-	startGame(gameCategories) {
-		this.socket.emit('startGame', { list: gameCategories });
-	}
-
-	// More methods can be added here to emit other events
-	// Just define a new method and use `this.socket.emit` to send the event
 
 	joinLobby(lobbyCode, ign, accessToken) {
 		this.socket.emit('joinLobby', {
@@ -132,11 +177,45 @@ class SocketManager {
 		});
 	}
 
+	// TODO: Add your implementation here
+	updateHost() {
+		this.socket.emit('updateHost');
+	}
+
+	// TODO: Add your implementation here
+	setRounds(rounds) {
+		this.socket.emit('setRounds', { rounds: rounds });
+	}
+
+	// TODO: Add your implementation here
+	setPlayerNumber(playerNumber) {
+		this.socket.emit('setPlayerNumber', { playerNumber: playerNumber });
+	}
+
+	startGame(gameCategories) {
+		this.socket.emit('startGame', { list: gameCategories });
+	}
+
 	giveQuestion(chosenCategory, chosenPoints) {
 		this.socket.emit('giveQuestion', { category: chosenCategory, difficulty: chosenPoints });
 	}
 
-	lobbySync(dataToSend) {
+	setAnswer(answer) {
+		this.socket.emit('setAnswer', { answer: answer });
+	}
+
+	// TODO: Add your implementation here
+	setExtension() {
+		this.socket.emit('setExtension');
+	}
+
+	// TODO: Add your implementation here
+	newGame() {
+		this.socket.emit('newGame');
+	}
+
+	// TODO: Add your implementation here
+	lobbySynchro(dataToSend) {
 		this.socket.emit('lobbySynchro', dataToSend);
 	}
 }
