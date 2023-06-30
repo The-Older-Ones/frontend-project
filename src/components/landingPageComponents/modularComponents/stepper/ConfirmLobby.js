@@ -24,29 +24,32 @@ function ConfirmLobby() {
 				flexDirection: 'column',
 				p: theme.spacing(6),
 				width: '100%',
-				height: '100%',
+				height: '355px',
 				backgroundColor: theme.palette.primary.dark,
-				borderRadius: '4px',
+				borderRadius: theme.spacing(4),
 				m: theme.spacing(3),
 				gap: theme.spacing(2),
+				justifyContent: 'center',
+				alignContent: 'center'
 			}}
 		>
-			<Box id='confirmLobby' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(3)}>
-				<Typography variant='h6'>
+			<Box id="confirmLobby" display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(3)}>
+				<Typography variant="h6">
 					<span style={{ fontWeight: 'bold' }}>Your player name:</span> {ign}
 				</Typography>
-				<Typography variant='h6'>
+				<Typography variant="h6">
 					<span style={{ fontWeight: 'bold' }}>Lobby Code: </span> {lobbyCode}
 				</Typography>
-				<Avatar alt='avatar' sx={{ width: 80, height: 80 }} />
+				<Avatar alt="avatar" sx={{ width: 80, height: 80 }} />
 				<Box>
-					<Stack spacing={2} direction='row'>
-						<Button variant='contained' color='error' onClick={() => dispatch(setActiveStep(activeStep - 1))}>
+					<Stack spacing={2} direction="row">
+						<Button sx={{ py: theme.spacing(2), borderRadius: theme.spacing(4) }} variant="contained" color="error" onClick={() => dispatch(setActiveStep(activeStep - 1))}>
 							Go Back
 						</Button>
 						<Button
-							variant='contained'
-							color='success'
+							sx={{ py: theme.spacing(2), borderRadius: theme.spacing(4) }}
+							variant="contained"
+							color="success"
 							onClick={() => {
 								if (!host) {
 									joinLobby();

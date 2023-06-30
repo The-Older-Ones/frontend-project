@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Box, Button, Paper, FormGroup, FormControlLabel, Checkbox, useTheme } from '@mui/material';
+import { Grid, Box, Button, Paper, FormGroup, FormControlLabel, Checkbox, useTheme, Typography } from '@mui/material';
 import HeadingCard from './cardComponents/HeadingCard';
 import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ function LobbyBoxLayout() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const { mappedCategories, lockedCategories, gameCategories } = useSelector((state) => state.gameSettings);
+	const { mappedCategories, lockedCategories, gameCategories, categoryCheck } = useSelector((state) => state.gameSettings);
 	const { host } = useSelector((state) => state.lobby);
 	const { path } = useSelector((state) => state.route);
 
@@ -20,6 +20,7 @@ function LobbyBoxLayout() {
 		dispatch(setSelectedCategory({ categoryName, selected: checked }));
 	};
 	const isLockedDisabled = lockedCategories.length !== 5; // 5 wird ersetzt durch spätere Spieleinstellungsvariable
+	const isStartGameDisabled = gameCategories.length === 0;
 	console.log(path);
 	const startGame = () => {
 		console.log('Start Game Event');
@@ -33,14 +34,23 @@ function LobbyBoxLayout() {
 		}
 	}, [path, navigate]);
 
+	useEffect(() => {
+		if (gameCategories.length === 5 && categoryCheck) {
+			SocketManager.lobbySynchro({
+				flag: 'GAME_CATEGORIES',
+				data: gameCategories,
+			});
+		}
+	}, [gameCategories, categoryCheck]);
+	console.log(gameCategories);
 	return (
 		<Box
-			maxWidth='1100px'
-			mx='auto'
+			maxWidth="1100px"
+			mx="auto"
 			sx={{
 				width: '100%',
 				border: '1px solid black',
-				height: '70vh',
+				height: '60vh',
 				borderRadius: theme.spacing(4),
 			}}
 		>
@@ -77,7 +87,7 @@ function LobbyBoxLayout() {
 					}}
 				>
 					<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-						<HeadingCard variant={'4'} title={'Choose options'} />
+						<HeadingCard variant={'4'} title={'Choose categories'} />
 						<Paper
 							sx={{
 								bgcolor: theme.palette.primary.dark,
@@ -94,7 +104,7 @@ function LobbyBoxLayout() {
 											<FormControlLabel
 												control={
 													<Checkbox
-														color='secondary'
+														color="secondary"
 														disabled={host ? false : true}
 														checked={category.selected}
 														onChange={(e) => handleSelectedCategory(category.categoryName, e.target.checked)}
@@ -108,7 +118,15 @@ function LobbyBoxLayout() {
 								))}
 							</Box>
 						</Paper>
-						<Button variant='contained' color='secondary' disabled={isLockedDisabled} sx={{ mb: '20px' }} onClick={() => dispatch(setGameCategories())}>
+						<Button
+							variant="contained"
+							color="secondary"
+							disabled={isLockedDisabled}
+							sx={{ p: theme.spacing(2), borderRadius: theme.spacing(4), mb: theme.spacing(1) }}
+							onClick={() => {
+								dispatch(setGameCategories());
+							}}
+						>
 							Lock Categories
 						</Button>
 					</Box>
@@ -119,20 +137,33 @@ function LobbyBoxLayout() {
 						sx={{
 							display: 'flex',
 							flexDirection: 'column',
-							justifyContent: 'space-between',
 							alignItems: 'center',
 							height: '100%',
 							backgroundColor: theme.palette.primary.dark,
 							borderTopRightRadius: theme.spacing(4),
 							borderBottomRightRadius: theme.spacing(4),
+							gap: theme.spacing(2),
 						}}
 					>
 						<HeadingCard variant={'6'} title={'Selected categories'} />
+						{gameCategories.map((category, index) => (
+							<Paper key={index} elevation={3} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', justifyItems: 'center' }}>
+								<Typography variant="h6" color="initial">
+									{category}
+								</Typography>
+							</Paper>
+						))}
 					</Box>
 				</Grid>
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Button variant='contained' color='success' sx={{ width: '80%', mt: '20px' }} onClick={startGame}>
+				<Button
+					variant="contained"
+					disabled={isStartGameDisabled}
+					color="success"
+					sx={{ width: '80%', mt: theme.spacing(2), py: theme.spacing(2), borderRadius: theme.spacing(4) }}
+					onClick={startGame}
+				>
 					Start Game
 				</Button>
 			</Box>

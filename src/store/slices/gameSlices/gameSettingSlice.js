@@ -19,6 +19,7 @@ const gameSettingSlice = createSlice({
 		lockedCategories: [],
 		gameCategories: [],
 		pending: false,
+		categoryCheck: false,
 	},
 	reducers: {
 		setCategories: (state, action) => {
@@ -83,9 +84,11 @@ const gameSettingSlice = createSlice({
 				progress: undefined,
 				theme: 'light',
 			});
+			state.categoryCheck = true;
 		},
 		setGuestGameCategories: (state, action) => {
 			state.gameCategories = action.payload;
+			state.categoryCheck = false;
 		},
 		setPending: (state, action) => {
 			state.pending = action.payload;

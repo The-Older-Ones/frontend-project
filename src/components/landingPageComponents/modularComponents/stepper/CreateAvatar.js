@@ -15,45 +15,59 @@ function CreateAvatar() {
 		<Paper
 			elevation={3}
 			sx={{
+				display: 'flex',
 				p: theme.spacing(6),
 				width: '100%',
-				height: '100%',
+				height: '355px',
 				backgroundColor: theme.palette.primary.dark,
-				borderRadius: '4px',
+				borderRadius: theme.spacing(4),
 				m: theme.spacing(3),
+				justifyContent: 'center',
+				alignContent: 'center',
+				alignItems: 'center',
+				justifyItems: 'center',
 			}}
 		>
-			<Box id='createAvatar' display={'flex'} flexDirection={'column'} alignItems={'center'}>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center', // Center vertically
+					alignItems: 'center', // Center horizontally
+					height: '100%',
+				}}
+			>
 				<FormControl>
 					<TextField
 						label={user ? '' : "What's your name?"}
-						variant='filled'
-						fullWidth
-						sx={{ bgcolor: theme.palette.primary.main }}
+						variant="filled"
+						sx={{ my: theme.spacing(4), bgcolor: theme.palette.primary.main }}
 						value={ign}
 						placeholder={user ? user.user : ''}
 						onChange={(e) => dispatch(setIGN(e.target.value))}
+						color="secondary"
 					/>
-					<Stack alignItems='center'>
-						<Typography style={{ marginTop: '16px', marginBottom: '8px' }}>Choose an Avatar</Typography>
-						<Box sx={{ display: 'flex', alignItems: 'center' }}>
-							<IconButton>
-								<ArrowBack />
-							</IconButton>
-							<Avatar alt='avatar' src={avatars[0]} sx={{ width: 80, height: 80 }} />
-							<IconButton>
-								<ArrowForward />
-							</IconButton>
-						</Box>
-					</Stack>
+					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', my: theme.spacing(4), gap: theme.spacing(2) }}>
+						<IconButton>
+							<ArrowBack />
+						</IconButton>
+						<Avatar alt="avatar" src={avatars[0]} sx={{ width: 80, height: 80 }} />
+						<IconButton>
+							<ArrowForward />
+						</IconButton>
+					</Box>
+
 					<Box>
-						<Stack spacing={2}>
+						<Box>
 							<Button
 								sx={{
 									m: theme.spacing(2),
+									py: theme.spacing(2),
+									borderRadius: theme.spacing(4),
 								}}
-								variant='contained'
-								color='secondary'
+								size="large"
+								variant="contained"
+								color="secondary"
 								onClick={() => {
 									if (!ign) {
 										toast.error({
@@ -71,9 +85,9 @@ function CreateAvatar() {
 									}
 								}}
 							>
-								Go Next
+								Create Avatar
 							</Button>
-						</Stack>
+						</Box>
 					</Box>
 				</FormControl>
 			</Box>

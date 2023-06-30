@@ -209,6 +209,7 @@ import { Box, Button, Grid, useTheme, Paper, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SocketManager from '../../services/SocketManager';
+import ScoreBoard from '../scoreboardPage/ScoreBoard';
 
 export const QuizPage = () => {
 	const navigate = useNavigate();
@@ -279,6 +280,7 @@ export const QuizPage = () => {
 			sx={{
 				my: theme.spacing(4),
 				width: 'calc(50% - 25px)',
+				py: theme.spacing(2), borderRadius: theme.spacing(4),
 				backgroundColor:
 					!everyoneAnswered && selectedAnswer === answer ? theme.palette.primary.dark : everyoneAnswered && rightAnswer === answer ? theme.palette.success.main : theme.palette.primary.light,
 			}}
@@ -359,13 +361,7 @@ export const QuizPage = () => {
 						<Typography variant='h3' color='initial' fontWeight={'bold'}>
 							Current standings
 						</Typography>
-						{players.map((e, index) => (
-							<Box key={index}>
-								<Typography variant='body1' color='initial'>
-									{e.playerName}
-								</Typography>
-							</Box>
-						))}
+						<ScoreBoard/>
 					</Box>
 				</BoxStyling>
 			)}

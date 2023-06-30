@@ -11,7 +11,7 @@ function PlayerList() {
 	const { host } = useSelector((state) => state.lobby);
 
 	return (
-		<Box sx={{ bgcolor: theme.palette.secondary.light, px: theme.spacing(2) }}>
+		<Box sx={{ bgcolor: theme.palette.secondary.light, px: theme.spacing(2), borderRadius: theme.spacing(4), mt: theme.spacing(2) }}>
 			<List>
 				{players.map((player, index) => (
 					<React.Fragment key={index}>

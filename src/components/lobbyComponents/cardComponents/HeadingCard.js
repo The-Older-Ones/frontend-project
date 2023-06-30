@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Paper, Typography } from '@mui/material';
-import { useTheme } from '@emotion/react';
+import { Box, Paper, Typography, useTheme } from '@mui/material';
 
 function HeadingCard({ variant, title }) {
 	const theme = useTheme();
@@ -15,7 +14,7 @@ function HeadingCard({ variant, title }) {
 				margin: theme.spacing(2),
 			}}
 		>
-			<Paper elevation={6}>
+			<Paper elevation={6} sx={{borderRadius: theme.spacing(4)}}>
 				<Typography
 					variant={`h${variant}`}
 					sx={{

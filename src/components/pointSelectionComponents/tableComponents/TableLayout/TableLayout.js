@@ -133,7 +133,7 @@
 // export default TableLayout;
 
 import React, { useEffect, useReducer, useMemo } from 'react';
-import { Grid, Paper, Typography, Button, LinearProgress, Box } from '@mui/material';
+import { Grid, Paper, Typography, Button, LinearProgress, Box, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SocketManager from '../../../../services/SocketManager';
@@ -165,7 +165,7 @@ const reducer = (state, action) => {
 
 const TableLayout = () => {
 	const [state, dispatchState] = useReducer(reducer, initialState);
-
+	const theme = useTheme();
 	const navigate = useNavigate();
 	const { isChosen } = useSelector((state) => state.game);
 	const { path } = useSelector((state) => state.route);
@@ -221,8 +221,8 @@ const TableLayout = () => {
 		<Box m={0}>
 			<Grid container spacing={8}>
 				<Grid item xs={12}>
-					<LinearProgress variant='determinate' value={(state.timer / TIMER_VALUE) * 100} color='error' />
-					<Typography variant='h6' align='center'>
+					<LinearProgress variant="determinate" value={(state.timer / TIMER_VALUE) * 100} color="error" />
+					<Typography variant="h6" align="center">
 						{state.timer > 0 ? `Time remaining: ${state.timer}` : 'Time is up! Random question will be selected.'}
 					</Typography>
 				</Grid>
@@ -231,7 +231,7 @@ const TableLayout = () => {
 						{gameCategories.map((category, index) => (
 							<Grid item xs key={category}>
 								<Paper elevation={6} sx={{ display: 'flex', justifyContent: 'center', my: 2, mx: 2, bgcolor: COLUMN_COLORS[index] }}>
-									<Typography variant='h6' fontWeight={'bold'}>
+									<Typography variant="h6" fontWeight={'bold'}>
 										{category}
 									</Typography>
 								</Paper>
@@ -250,17 +250,18 @@ const TableLayout = () => {
 											display: 'flex',
 											justifyContent: 'center',
 											mx: 3,
+											borderRadius: theme.spacing(4)
 										}}
 									>
 										<Button
-											variant='contained'
-											sx={{ width: '100%', bgcolor: COLUMN_COLORS[cellIndex] }}
+											variant="contained"
+											sx={{ width: '100%', bgcolor: COLUMN_COLORS[cellIndex], py: theme.spacing(2), borderRadius: theme.spacing(4) }}
 											value={[rowIndex, cellIndex]}
 											onClick={(e) => {
 												handleClick(e);
 											}}
 										>
-											{cell}
+											<Typography variant="h5" color="initial" fontWeight={"bold"}>{cell}</Typography>
 										</Button>
 									</Paper>
 								</Grid>

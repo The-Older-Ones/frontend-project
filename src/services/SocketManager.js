@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
 import { setLobbyCode, setHostSocketID, setPlayerSocketId } from '../store/slices/landingPageSlices/lobbySlice';
-import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories } from '../store/slices/gameSlices/gameSettingSlice';
+import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setGameCategories } from '../store/slices/gameSlices/gameSettingSlice';
 import {
 	setQuestion,
 	setAnswers,
@@ -125,19 +125,12 @@ class SocketManager {
 			// TODO: Add your implementation here
 		});
 
-		this.socket.on('roundFinished', (data) => {
-			if (this.loggingEnabled) {
-				console.log('[Event Listener] Socket.io roundFinished event:', data);
-			}
-			// TODO: Add your implementation here
-		});
-
-		this.socket.on('synchronizedLobby', (data) => {
-			if (this.loggingEnabled) {
-				console.log('[Event Listener] Socket.io error event:', data);
-			}
-			store.dispatch(setPlayers(data.data));
-		});
+		// this.socket.on('roundFinished', (data) => {
+		// 	if (this.loggingEnabled) {
+		// 		console.log('[Event Listener] Socket.io roundFinished event:', data);
+		// 	}
+		// 	// TODO: Add your implementation here
+		// });
 
 		this.socket.on('gameCreated', (data) => {
 			if (this.loggingEnabled) {
@@ -202,7 +195,20 @@ class SocketManager {
 			store.dispatch(setRightAnswer(data.rightAnswer));
 			store.dispatch(setEveryoneAnswered(!data.everyoneAnswered)); // !everyoneAnswered
 			store.dispatch(setRounds(data.roundsLeft));
+			store.dispatch(setLeaderboard(data.leaderboard));
 			store.dispatch(setRoute('/pointSelection'));
+		});
+
+		this.socket.on('synchronizedLobby', (data) => {
+			console.log(data);
+			if (this.loggingEnabled) {
+				console.log('[Event Listener] Socket.io error event:', data);
+			}
+			if (data.flag === 'GAME_CATEGORIES') {
+				console.log(data.data);
+				store.dispatch(setGuestGameCategories(data.data));
+			}
+			// store.dispatch(setPlayers(data.data));
 		});
 	}
 

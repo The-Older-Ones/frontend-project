@@ -20,7 +20,7 @@ function LobbyCreation() {
 				return <ConfirmLobby />;
 			default:
 				<Typography variant="h4" color="initial">
-					Unkown stepIndex
+					How the fuck did you get here?
 				</Typography>;
 		}
 	};
@@ -32,12 +32,10 @@ function LobbyCreation() {
 				display: 'flex',
 				flexDirection: 'column',
 				padding: theme.spacing(2),
-				width: '75%',
+				width: '70%',
 				position: 'static',
-				mt: theme.spacing(4),
 				backgroundColor: theme.palette.primary.main,
-				borderRadius: theme.spacing(1),
-				height: '450px',
+				borderRadius: theme.spacing(4),
 			}}
 		>
 			<Box id="lobbyCreation">
@@ -47,6 +45,7 @@ function LobbyCreation() {
 						backgroundColor: theme.palette.primary.dark,
 						borderRadius: theme.spacing(5),
 						p: theme.spacing(1),
+						mx: theme.spacing(3),
 					}}
 				>
 					<Step key={0} style={{ display: activeStep === 0 ? 'block' : 'none' }}>
