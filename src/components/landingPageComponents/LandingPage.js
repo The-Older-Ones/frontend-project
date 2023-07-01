@@ -10,10 +10,11 @@ function LandingPage() {
 		alignItems: 'center',
 		justifyContent: 'center',
 		flex: 1,
-		// backgroundImage: `url('./pxfuel.jpg')`,
+		backgroundColor: 'black',
+		backgroundImage: `url('./QuizPattern.jpeg')`,
 		// backgroundImage: 'url(./Background1.png)',
 		// backgroundImage: 'url(./Background2.png)',
-		backgroundImage: 'url(./Background3-blur.jpg)',
+		// backgroundImage: 'url(./Background3-blur.jpg)',
 		backgroundSize: 'cover',
 	};
 

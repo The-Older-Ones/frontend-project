@@ -11,7 +11,7 @@ function LobbyPageLayout() {
 				display: 'flex',
 				flexDirection: 'column',
 				minHeight: '100vh',
-				backgroundImage: 'url(./Background3.png)',
+				backgroundImage: 'url(./QuizPattern.jpeg)',
 				backgroundSize: 'cover',
 			}}
 		>

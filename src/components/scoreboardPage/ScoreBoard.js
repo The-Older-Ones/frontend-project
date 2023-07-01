@@ -13,17 +13,17 @@ function ScoreBoard() {
 	});
 
 	return (
-		<TableContainer component={Paper}>
-			<Table>
+		<TableContainer component={Paper} sx={{ borderRadius: theme.spacing(4) }}>
+			<Table size='small'>
 				<TableHead sx={{ bgcolor: theme.palette.secondary.dark }}>
 					<TableRow>
 						<TableCell>
-							<Typography variant="h4" color={BaseColors.mainWhite}>
+							<Typography variant="h6" color={BaseColors.mainWhite} pl={theme.spacing(4)}>
 								Player Name
 							</Typography>
 						</TableCell>
 						<TableCell align="right">
-							<Typography variant="h4" color={BaseColors.mainWhite}>
+							<Typography variant="h6" color={BaseColors.mainWhite} pr={theme.spacing(4)}>
 								Score
 							</Typography>
 						</TableCell>
@@ -33,13 +33,15 @@ function ScoreBoard() {
 					{scoreBoard.map((row, index) => (
 						<TableRow key={index}>
 							<TableCell component="th" scope="row">
-								<Typography variant="h6" color="secondary" fontWeight={'bold'}>
+								<Typography variant="body" color="secondary" fontWeight={'bold'} pl={theme.spacing(4)}>
 									{row.playerName}
 								</Typography>
 							</TableCell>
 							<TableCell align="right">
-                                <Typography variant="h6" color="secondary" fontWeight={"bold"}>{row.points}</Typography>
-                            </TableCell>
+								<Typography variant="body" color="secondary" fontWeight={'bold'} pr={theme.spacing(4)}>
+									{row.points}
+								</Typography>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

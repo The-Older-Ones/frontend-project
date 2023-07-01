@@ -176,11 +176,13 @@ const TableLayout = () => {
 
 	const handleClick = (event) => {
 		const pointPosition = event.target.value;
-		const points = ROW_VALUES[pointPosition[0]][0];
-		const chosenCategory = gameCategories[pointPosition[2]];
-		dispatch(setChosenCategory(chosenCategory));
-		dispatch(setChosenPoints(points));
-		SocketManager.giveQuestion(chosenCategory, points);
+		if (pointPosition && pointPosition[0] !== undefined && pointPosition[2] !== undefined) {
+			const points = ROW_VALUES[pointPosition[0]][0];
+			const chosenCategory = gameCategories[pointPosition[2]];
+			dispatch(setChosenCategory(chosenCategory));
+			dispatch(setChosenPoints(points));
+			SocketManager.giveQuestion(chosenCategory, points);
+		}
 	};
 
 	useEffect(() => {
@@ -211,6 +213,7 @@ const TableLayout = () => {
 			dispatchState({ type: 'RESET_TIMER' });
 		}
 	}, [isChosen]);
+
 	useEffect(() => {
 		if (path === '/quiz') {
 			navigate('/quiz');
@@ -250,7 +253,7 @@ const TableLayout = () => {
 											display: 'flex',
 											justifyContent: 'center',
 											mx: 3,
-											borderRadius: theme.spacing(4)
+											borderRadius: theme.spacing(4),
 										}}
 									>
 										<Button
@@ -261,7 +264,9 @@ const TableLayout = () => {
 												handleClick(e);
 											}}
 										>
-											<Typography variant="h5" color="initial" fontWeight={"bold"}>{cell}</Typography>
+											<Typography variant="h5" color="initial" fontWeight={'bold'}>
+												{cell}
+											</Typography>
 										</Button>
 									</Paper>
 								</Grid>

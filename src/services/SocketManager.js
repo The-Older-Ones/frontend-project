@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
 import { setLobbyCode, setHostSocketID, setPlayerSocketId } from '../store/slices/landingPageSlices/lobbySlice';
-import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setGameCategories } from '../store/slices/gameSlices/gameSettingSlice';
+import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories } from '../store/slices/gameSlices/gameSettingSlice';
 import {
 	setQuestion,
 	setAnswers,
@@ -12,6 +12,7 @@ import {
 	setRightAnswer,
 	setEveryoneAnswered,
 	setLeaderboard,
+	setGameFinished,
 } from '../store/slices/gameSlices/gameSlice';
 import { setRoute } from '../store/slices/routeSlice';
 
@@ -113,9 +114,12 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io gameFinished event:', data);
 			}
-			store.dispatch(setRoute('/scoreboard'));
+			store.dispatch(setGameFinished(true));
+			store.dispatch(setRightAnswer(data.rightAnswer));
+			store.dispatch(setEveryoneAnswered(true));
 			store.dispatch(setLeaderboard(data.leaderboard));
 			// TODO: Add your implementation here
+			// store.dispatch(setRoute('/scoreboard'));
 		});
 
 		this.socket.on('gameExtended', (data) => {

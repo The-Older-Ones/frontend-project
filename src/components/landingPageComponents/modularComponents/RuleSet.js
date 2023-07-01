@@ -1,8 +1,9 @@
 import React from 'react';
 import { IconButton, Modal, Box, useTheme, Card, Typography, Paper, Grid } from '@mui/material';
-import { MenuBook, Filter1, Filter2, Filter3, Filter4, Filter5, Filter6 } from '@mui/icons-material';
+import { MenuBook, Filter1, Filter2, Filter3, Filter4, Filter5, Filter6, Close } from '@mui/icons-material';
 import { openRuleModal, closeRuleModal } from '../../../store/slices/landingPageSlices/loginSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { BaseColors } from '../../../theme/theme';
 
 function RuleSet() {
 	const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function RuleSet() {
 		background: 'white',
 		height: '150px',
 		mx: theme.spacing(5),
+		borderRadius: theme.spacing(3),
 	};
 
 	const iconStyle = {
@@ -46,14 +48,29 @@ function RuleSet() {
 	return (
 		<>
 			<IconButton onClick={handleOpen}>
-				<MenuBook fontSize='large' color='secondary' />
+				<MenuBook fontSize="large" color="secondary" />
 			</IconButton>
 			<Modal open={ruleSetOpen} onClose={handleClose}>
 				<Box>
-					<Paper sx={{ width: '50%', mx: 'auto' }}>
-						<Typography variant='h3' fontWeight={'bold'} sx={{ textAlign: 'center', my: theme.spacing(3), py: theme.spacing(2) }}>
+					<Paper sx={{ width: '50%', mx: 'auto', borderRadius: theme.spacing(3) }}>
+						<Typography variant="h3" fontWeight={'bold'} sx={{ textAlign: 'center', my: theme.spacing(3), py: theme.spacing(2) }}>
 							How to play
 						</Typography>
+						<IconButton
+							size="large"
+							onClick={handleClose}
+							sx={{
+								bgcolor: BaseColors.mainWhite,
+								position: 'absolute',
+								top: theme.spacing(5),
+								right: theme.spacing(10),
+								':hover': {
+									bgcolor: BaseColors.mainGray,
+								},
+							}}
+						>
+							<Close />
+						</IconButton>
 					</Paper>
 					<div style={cardContainerStyle}>
 						<Grid container spacing={2}>
@@ -62,7 +79,7 @@ function RuleSet() {
 									<div style={iconStyle}>
 										<Filter1 />
 									</div>
-									<Typography variant='h5' align='center' sx={{ mt: 4 }}>
+									<Typography variant="h5" align="center" sx={{ mt: 4 }}>
 										As a Host, create a lobby, share the lobby code with your friends to join. As a regular player, join a lobby with the lobby code.
 									</Typography>
 								</Card>
@@ -72,7 +89,7 @@ function RuleSet() {
 									<div style={iconStyle}>
 										<Filter2 />
 									</div>
-									<Typography variant='h5' align='center' sx={{ mt: 4 }}>
+									<Typography variant="h5" align="center" sx={{ mt: 4 }}>
 										The host will select five categories for the game.
 									</Typography>
 								</Card>
@@ -82,7 +99,7 @@ function RuleSet() {
 									<div style={iconStyle}>
 										<Filter3 />
 									</div>
-									<Typography variant='h5' align='center' sx={{ mt: 4 }}>
+									<Typography variant="h5" align="center" sx={{ mt: 4 }}>
 										Choose a question from the board: <br />
 										100 points are easier questions. <br />
 										1000 points are the hardest.
@@ -94,7 +111,7 @@ function RuleSet() {
 									<div style={iconStyle}>
 										<Filter4 />
 									</div>
-									<Typography variant='h5' align='center' sx={{ mt: 4 }}>
+									<Typography variant="h5" align="center" sx={{ mt: 4 }}>
 										Answer questions before time runs out.
 									</Typography>
 								</Card>
@@ -104,7 +121,7 @@ function RuleSet() {
 									<div style={iconStyle}>
 										<Filter5 />
 									</div>
-									<Typography variant='h5' align='center' sx={{ mt: 4 }}>
+									<Typography variant="h5" align="center" sx={{ mt: 4 }}>
 										Be smarter than your friends and win the game!
 									</Typography>
 								</Card>
@@ -114,7 +131,7 @@ function RuleSet() {
 									<div style={iconStyle}>
 										<Filter6 />
 									</div>
-									<Typography variant='h5' align='center' sx={{ mt: 4 }}>
+									<Typography variant="h5" align="center" sx={{ mt: 4 }}>
 										Enjoy and have fun!
 									</Typography>
 								</Card>

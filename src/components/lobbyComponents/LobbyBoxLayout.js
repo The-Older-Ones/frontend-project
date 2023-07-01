@@ -12,10 +12,10 @@ function LobbyBoxLayout() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const { mappedCategories, lockedCategories, gameCategories, categoryCheck } = useSelector((state) => state.gameSettings);
+	const { mappedCategories, lockedCategories, gameCategories, categoryCheck, players } = useSelector((state) => state.gameSettings);
 	const { host } = useSelector((state) => state.lobby);
 	const { path } = useSelector((state) => state.route);
-
+	console.log(players);
 	const handleSelectedCategory = (categoryName, checked) => {
 		dispatch(setSelectedCategory({ categoryName, selected: checked }));
 	};
@@ -42,7 +42,6 @@ function LobbyBoxLayout() {
 			});
 		}
 	}, [gameCategories, categoryCheck]);
-	console.log(gameCategories);
 	return (
 		<Box
 			maxWidth="1100px"
@@ -147,7 +146,7 @@ function LobbyBoxLayout() {
 					>
 						<HeadingCard variant={'6'} title={'Selected categories'} />
 						{gameCategories.map((category, index) => (
-							<Paper key={index} elevation={3} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', justifyItems: 'center' }}>
+							<Paper key={index} elevation={3} sx={{ width: '80%', display: 'flex', justifyContent: 'center', alignItems: 'center', justifyItems: 'center' }}>
 								<Typography variant="h6" color="initial">
 									{category}
 								</Typography>

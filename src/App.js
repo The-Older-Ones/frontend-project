@@ -18,13 +18,13 @@ function App() {
 	}, []);
 
 	return (
-		<div className='App'>
+		<div className="App">
 			<Routes>
-				<Route path='/' element={<LandingPage />} />
-				<Route path='/lobby' element={<LobbyPageLayout />} />
-				<Route path='/pointSelection' element={<PointSelectionPageLayout />} />
-				<Route path='/quiz' element={<QuizPage />} />
-				<Route path='/scoreboard' element={<ScoreboardPage />} />
+				<Route path="/" element={<LandingPage />} />
+				<Route path="/lobby" element={<LobbyPageLayout />} />
+				<Route path="/pointSelection" element={<PointSelectionPageLayout />} />
+				<Route path="/quiz" element={<QuizPage />} />
+				<Route path="/scoreboard" element={<ScoreboardPage />} />
 			</Routes>
 		</div>
 	);

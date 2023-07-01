@@ -1,35 +1,74 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Typography, useTheme, Paper } from '@mui/material';
 import ScoreBoard from './ScoreBoard';
+import HeadingCard from '../lobbyComponents/cardComponents/HeadingCard';
+import { BaseColors } from '../../theme/theme';
 
 export const ScoreboardPage = () => {
 	const navigate = useNavigate();
-	const { leaderboard } = useSelector((state) => state.game);
-	const { players } = useSelector((state) => state.gameSettings);
-	// mapping of the socketId with the playername
-	const scoreBoard = leaderboard.map((element) => {
-		const playerName = players.find((player) => player.socketId === element.socketId)?.playerName;
-		return { ...element, playerName };
-	});
+	const theme = useTheme();
 
-	console.log(scoreBoard);
-
-	const handleButtonClick = () => {
+	const handleGoToHomepage = () => {
 		navigate('/');
 		window.location.reload();
 	};
 
 	return (
-		<Box>
-			<Typography variant="h1" color="initial">
-				End Result
-			</Typography>
-			<ScoreBoard />
-			<Button variant="contained" color="primary" onClick={handleButtonClick}>
-				Back to Landing Page
-			</Button>
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+				minHeight: '100vh',
+				backgroundImage: 'url(/QuizPattern.jpeg)',
+				backgroundSize: 'cover',
+			}}
+		>
+			<HeadingCard title={'End Result'} variant={'3'} />
+			<Box
+				sx={{
+					bgcolor: BaseColors.mainGray,
+					width: '800px',
+					height: '500px',
+					p: theme.spacing(2),
+					m: theme.spacing(4),
+					borderRadius: theme.spacing(4),
+				}}
+			>
+				<ScoreBoard />
+			</Box>
+			<Box
+				sx={{
+					display: 'flex',
+					gap: theme.spacing(10),
+				}}
+			>
+				<Button
+					variant="contained"
+					color="primary"
+					size="large"
+					onClick={handleGoToHomepage}
+					sx={{
+						borderRadius: theme.spacing(4),
+						p: theme.spacing(2),
+					}}
+				>
+					Back to Home
+				</Button>
+				<Button
+					variant="contained"
+					color="primary"
+					size="large"
+					sx={{
+						borderRadius: theme.spacing(4),
+						p: theme.spacing(2),
+					}}
+				>
+					Play again
+				</Button>
+			</Box>
 		</Box>
 	);
 };

@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import SocketManager from '../../../services/SocketManager';
 const gameSettingSlice = createSlice({
@@ -38,6 +38,7 @@ const gameSettingSlice = createSlice({
 			state.rounds = action.payload;
 		},
 		setPlayers: (state, action) => {
+			console.log(action);
 			action.payload.forEach(({ socketId, playerName }) => {
 				const playerExists = state.players.find((player) => player.socketId === socketId);
 				if (!playerExists) {
@@ -93,26 +94,6 @@ const gameSettingSlice = createSlice({
 		setPending: (state, action) => {
 			state.pending = action.payload;
 		},
-		setPlayerIsReady: (state, action) => {
-			const { socketID } = action.payload;
-
-			// Find the player object with the specified socketId
-			const playerIndex = state.players.findIndex((player) => player.socketId === socketID);
-
-			// If the player object is found in the state
-			if (playerIndex !== -1) {
-				// Use immer's `produce` function to safely update the state
-				state.players = current(state.players).map((player, index) => {
-					if (index === playerIndex) {
-						return {
-							...player,
-							readyForNextRound: !player.readyForNextRound,
-						};
-					}
-					return player;
-				});
-			}
-		},
 	},
 });
 
@@ -126,5 +107,5 @@ export const handlePlayerIsReadyThunk = (socketID) => {
 	};
 };
 
-export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending, setGuestGameCategories, setPlayerIsReady } = gameSettingSlice.actions;
+export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending, setGuestGameCategories } = gameSettingSlice.actions;
 export default gameSettingSlice.reducer;
