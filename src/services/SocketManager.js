@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
 import { setLobbyCode, setHostSocketID, setPlayerSocketId } from '../store/slices/landingPageSlices/lobbySlice';
-import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories } from '../store/slices/gameSlices/gameSettingSlice';
+import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setNextPlayer } from '../store/slices/gameSlices/gameSettingSlice';
 import {
 	setQuestion,
 	setAnswers,
@@ -15,6 +15,8 @@ import {
 	setGameFinished,
 } from '../store/slices/gameSlices/gameSlice';
 import { setRoute } from '../store/slices/routeSlice';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 class SocketManager {
 	constructor() {
@@ -43,6 +45,20 @@ class SocketManager {
 		this.socket.on('error', (data) => {
 			if (this.loggingEnabled) {
 				console.error('[Event Listener] Socket.io error event:', data);
+			}
+
+			if (data.message === 'Lobby is full') {
+				toast.error('Lobby is full. You will get redirected.', {
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: 'light',
+				});
+				store.dispatch(setRoute('/'))
 			}
 		});
 
@@ -84,6 +100,7 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io updatedRounds event:', data);
 			}
+			store.dispatch(setRounds(data.rounds));
 			// TODO: Add your implementation here
 		});
 
@@ -91,6 +108,7 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io updatedPlayerNumber event:', data);
 			}
+			store.dispatch(setPlayerNumber(data.playerNumber));
 			// TODO: Add your implementation here
 		});
 
@@ -161,6 +179,8 @@ class SocketManager {
 				console.log('[Event Listener] Socket.io joinedLobby event:', data);
 			}
 			store.dispatch(setPlayers(data.settings.lobbyMember));
+			store.dispatch(setRounds(data.settings.rounds));
+			store.dispatch(setPlayerNumber(data.settings.playerNumber));
 			store.dispatch(setPlayerSocketId(data.socketId));
 			store.dispatch(setCategories(data.settings.list));
 		});
@@ -209,15 +229,17 @@ class SocketManager {
 				console.log('[Event Listener] Socket.io error event:', data);
 			}
 			if (data.flag === 'GAME_CATEGORIES') {
-				console.log(data.data);
+				
 				store.dispatch(setGuestGameCategories(data.data));
+			}
+			if(data.flag === 'SYNC_PLAYER_LIST'){
+				store.dispatch(setPlayers(data.data));
 			}
 			// store.dispatch(setPlayers(data.data));
 		});
 	}
 
 	// *** Socket.io event emitters ***
-
 	connect() {
 		if (this.loggingEnabled) {
 			console.log('[Event Emitter] Socket.io connect event');

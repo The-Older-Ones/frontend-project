@@ -1,8 +1,11 @@
-import { Card, Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
+import { Card, Box, Typography, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 function Header() {
 	const theme = useTheme();
+	const { nextPlayer, players } = useSelector((state) => state.gameSettings);
+
 	return (
 		<Box
 			sx={{
@@ -19,13 +22,13 @@ function Header() {
 					justifyContent: 'center',
 					alignItems: 'center',
 					my: theme.spacing(2),
-          px: theme.spacing(10)
+					px: theme.spacing(10),
 				}}
 			>
 				<Typography variant="h2" component="h1" fontWeight="bold">
 					Choose points
 				</Typography>
-				<Typography variant="h5">Next player choosing: </Typography>
+				<Typography variant="h5">Next player choosing: {nextPlayer === null ? players[0].playerName : nextPlayer.playerName}</Typography>
 			</Card>
 		</Box>
 	);

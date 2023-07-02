@@ -5,6 +5,7 @@ import HeadingCard from './cardComponents/HeadingCard';
 import { useSelector } from 'react-redux';
 function LobbyPageLayout() {
 	const { lobbyCode } = useSelector((state) => state.lobby);
+	const { playerNumber, rounds } = useSelector((state) => state.gameSettings);
 	return (
 		<Box
 			sx={{
@@ -22,11 +23,14 @@ function LobbyPageLayout() {
 					flexDirection: 'column',
 					alignItems: 'center',
 					justifyContent: 'center',
-
 				}}
 			>
-				<HeadingCard variant={'6'} title={'The host will choose 5 categories. The selected categories will be displayed on the right column'} />
-				<HeadingCard variant={'6'} title={'Lobby Code: ' + lobbyCode} />
+				<HeadingCard variant={"6"} title={'The host will choose 5 categories. The selected categories will be displayed on the right column'} />
+				<Box sx={{ display: 'flex' }}>
+					<HeadingCard variant={'6'} title={'Total amount of players: ' + playerNumber} />
+					<HeadingCard variant={'6'} title={'Lobby Code: ' + lobbyCode} />
+					<HeadingCard variant={'6'} title={'Game rounds: ' + rounds} />
+				</Box>
 				<LobbyBoxLayout />
 			</Box>
 		</Box>

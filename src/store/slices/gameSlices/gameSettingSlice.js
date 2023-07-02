@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import SocketManager from '../../../services/SocketManager';
+// import SocketManager from '../../../services/SocketManager';
 const gameSettingSlice = createSlice({
 	name: 'gameSettings',
 	initialState: {
 		categories: [],
 		playerNumber: 0,
-		rounds: null,
+		rounds: 0,
 		players: [],
 		/**
 		 *  players: [{
@@ -20,6 +20,8 @@ const gameSettingSlice = createSlice({
 		gameCategories: [],
 		pending: false,
 		categoryCheck: false,
+		modalRuleSet: false,
+		nextPlayer: null,
 	},
 	reducers: {
 		setCategories: (state, action) => {
@@ -30,6 +32,12 @@ const gameSettingSlice = createSlice({
 					selected: false,
 				};
 			});
+		},
+		setOpenModalRuleSet: (state) => {
+			state.modalRuleSet = true;
+		},
+		setCloseModalRuleSet: (state) => {
+			state.modalRuleSet = false;
 		},
 		setPlayerNumber: (state, action) => {
 			state.playerNumber = action.payload;
@@ -94,18 +102,35 @@ const gameSettingSlice = createSlice({
 		setPending: (state, action) => {
 			state.pending = action.payload;
 		},
+		setNextPlayer: (state, action) => {
+			state.nextPlayer = action.payload;
+		},
 	},
 });
 
-export const handlePlayerIsReadyThunk = (socketID) => {
-	return (dispatch, getState) => {
-		dispatch(gameSettingSlice.actions.setPlayerIsReady({ socketID }));
-		const updatedPlayers = getState().gameSettings.players;
-		const dataToSend = { data: updatedPlayers };
-		console.log('Data sent to server: ', dataToSend);
-		SocketManager.lobbySync(dataToSend);
-	};
-};
+// export const handlePlayerIsReadyThunk = (socketID) => {
+// 	return (dispatch, getState) => {
+// 		dispatch(gameSettingSlice.actions.setPlayerIsReady({ socketID }));
+// 		const updatedPlayers = getState().gameSettings.players;
+// 		const dataToSend = { data: updatedPlayers };
+// 		console.log('Data sent to server: ', dataToSend);
+// 		SocketManager.lobbySync(dataToSend);
+// 	};
+// };
 
-export const { setCategories, setPlayerNumber, setRounds, setPlayers, setSelectedCategory, setGameCategories, setPending, setGuestGameCategories } = gameSettingSlice.actions;
+export const {
+	setCategories,
+	setPlayerNumber,
+	setRounds,
+	setPlayers,
+
+	setSelectedCategory,
+	setGameCategories,
+	setPending,
+	setGuestGameCategories,
+	setOpenModalRuleSet,
+	setCloseModalRuleSet,
+	setNextPlayer,
+} = gameSettingSlice.actions;
+
 export default gameSettingSlice.reducer;

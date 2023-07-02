@@ -6,6 +6,7 @@ import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGameCategories, setSelectedCategory } from '../../store/slices/gameSlices/gameSettingSlice';
 import SocketManager from '../../services/SocketManager';
+import { setNextPlayer } from '../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyBoxLayout() {
 	const theme = useTheme();
@@ -15,7 +16,6 @@ function LobbyBoxLayout() {
 	const { mappedCategories, lockedCategories, gameCategories, categoryCheck, players } = useSelector((state) => state.gameSettings);
 	const { host } = useSelector((state) => state.lobby);
 	const { path } = useSelector((state) => state.route);
-	console.log(players);
 	const handleSelectedCategory = (categoryName, checked) => {
 		dispatch(setSelectedCategory({ categoryName, selected: checked }));
 	};
@@ -31,6 +31,9 @@ function LobbyBoxLayout() {
 	useEffect(() => {
 		if (path === '/pointSelection') {
 			navigate('/pointSelection');
+		}
+		if (path === '/') {
+			navigate('/');
 		}
 	}, [path, navigate]);
 
@@ -124,6 +127,10 @@ function LobbyBoxLayout() {
 							sx={{ p: theme.spacing(2), borderRadius: theme.spacing(4), mb: theme.spacing(1) }}
 							onClick={() => {
 								dispatch(setGameCategories());
+								SocketManager.lobbySynchro({
+									flag: 'SYNC_PLAYER_LIST',
+									data: players,
+								});
 							}}
 						>
 							Lock Categories

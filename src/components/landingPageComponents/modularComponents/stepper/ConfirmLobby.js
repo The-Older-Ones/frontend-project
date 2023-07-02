@@ -4,6 +4,7 @@ import { setActiveStep } from '../../../../store/slices/landingPageSlices/lobbyS
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SocketManager from '../../../../services/SocketManager';
+import { setRoute } from '../../../../store/slices/routeSlice';
 
 function ConfirmLobby() {
 	const dispatch = useDispatch();
@@ -30,7 +31,7 @@ function ConfirmLobby() {
 				m: theme.spacing(3),
 				gap: theme.spacing(2),
 				justifyContent: 'center',
-				alignContent: 'center'
+				alignContent: 'center',
 			}}
 		>
 			<Box id="confirmLobby" display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(3)}>
@@ -55,6 +56,7 @@ function ConfirmLobby() {
 									joinLobby();
 								}
 								navigate('/lobby');
+								dispatch(setRoute('/lobby'));
 							}}
 						>
 							Confirm

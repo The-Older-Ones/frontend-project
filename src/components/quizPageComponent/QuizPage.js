@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import SocketManager from '../../services/SocketManager';
 import ScoreBoard from '../scoreboardPage/ScoreBoard';
 import { setRoute } from '../../store/slices/routeSlice';
+import { setNextPlayer } from '../../store/slices/gameSlices/gameSettingSlice';
 
 export const QuizPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [countdown, setCountdown] = useState(null);
 	const [selectedAnswer, setSelectedAnswer] = useState(null);
-	const { players } = useSelector((state) => state.gameSettings);
+	const { players, nextPlayer } = useSelector((state) => state.gameSettings);
 
 	const theme = useTheme();
 	const { question, answers, chosenCategory, chosenPoints, everyoneAnswered, rightAnswer, gameFinished, leaderboard } = useSelector((state) => state.game);
@@ -39,6 +40,14 @@ export const QuizPage = () => {
 		const answer = e.target.value;
 		SocketManager.setAnswer(answer);
 		setSelectedAnswer(answer);
+		if (nextPlayer === null) {
+			dispatch(setNextPlayer(players[0]));
+		} else {
+			const currentPlayerIndex = players.findIndex((player) => player.socketId === nextPlayer.socketId);
+			const nextPlayerIndex = currentPlayerIndex + 1;
+			const nextInTurn = players[nextPlayerIndex];
+			dispatch(setNextPlayer(nextInTurn));
+		}
 	};
 
 	const handleGoToScorePage = () => {
