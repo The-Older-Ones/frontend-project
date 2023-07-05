@@ -29,8 +29,6 @@ const reducer = (state, action) => {
 	}
 };
 
-
-
 const TableLayout = () => {
 	const [state, dispatchState] = useReducer(reducer, initialState);
 	const theme = useTheme();
@@ -87,12 +85,37 @@ const TableLayout = () => {
 		}
 	}, [path, navigate]);
 
+	//______________________________________________________________________________________________________________________
+	const { playerSocketID } = useSelector((state) => state.lobby);
+	const { currentPlayerIndex, players } = useSelector((state) => state.gameSettings);
+	const currentUser = players[currentPlayerIndex];
+	console.log('PLAYERS: ' + JSON.stringify(players));
+	console.log('CURRENT USER: ' + JSON.stringify(currentUser.socketId));
+	console.log('CURRENT PLAYER:' + playerSocketID);
+	console.log(players[currentPlayerIndex]?.socketId !== playerSocketID); // true
+
+	// const handleClick2 = (event) => {
+	// 	// If the current user is not the current player, return early and do nothing
+	// 	if (currentPlayer.playerName !== playerName) {
+	// 		return;
+	// 	}
+
+	// 	const pointPosition = event.target.value;
+	// 	if (pointPosition && pointPosition[0] !== undefined && pointPosition[2] !== undefined) {
+	// 		const points = ROW_VALUES[pointPosition[0]][0];
+	// 		const chosenCategory = gameCategories[pointPosition[2]];
+	// 		dispatch(setChosenCategory(chosenCategory));
+	// 		dispatch(setChosenPoints(points));
+	// 		SocketManager.giveQuestion(chosenCategory, points);
+	// 	}
+	// };
+
 	return (
 		<Box m={0}>
 			<Grid container spacing={8}>
 				<Grid item xs={12}>
-					<LinearProgress variant="determinate" value={(state.timer / TIMER_VALUE) * 100} color="error" />
-					<Typography variant="h6" align="center">
+					<LinearProgress variant='determinate' value={(state.timer / TIMER_VALUE) * 100} color='error' />
+					<Typography variant='h6' align='center'>
 						{state.timer > 0 ? `Time remaining: ${state.timer}` : 'Time is up! Random question will be selected.'}
 					</Typography>
 				</Grid>
@@ -101,7 +124,7 @@ const TableLayout = () => {
 						{gameCategories.map((category, index) => (
 							<Grid item xs key={category}>
 								<Paper elevation={6} sx={{ display: 'flex', justifyContent: 'center', my: 2, mx: 2, bgcolor: COLUMN_COLORS[index] }}>
-									<Typography variant="h6" fontWeight={'bold'}>
+									<Typography variant='h6' fontWeight={'bold'}>
 										{category}
 									</Typography>
 								</Paper>
@@ -124,14 +147,16 @@ const TableLayout = () => {
 										}}
 									>
 										<Button
-											variant="contained"
+											variant='contained'
+											// TODO: disable the button if the current user is not the current player
+											disabled={players[currentPlayerIndex]?.socketId !== playerSocketID}
 											sx={{ width: '100%', bgcolor: COLUMN_COLORS[cellIndex], py: theme.spacing(2), borderRadius: theme.spacing(4) }}
 											value={[rowIndex, cellIndex]}
 											onClick={(e) => {
 												handleClick(e);
 											}}
 										>
-											<Typography variant="h5" color="initial" fontWeight={'bold'}>
+											<Typography variant='h5' color='initial' fontWeight={'bold'}>
 												{cell}
 											</Typography>
 										</Button>

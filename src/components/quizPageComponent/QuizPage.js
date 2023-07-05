@@ -11,6 +11,7 @@ export const QuizPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [countdown, setCountdown] = useState(null);
+	const [endCountdown, setEndCountdown] = useState(null);
 	const [selectedAnswer, setSelectedAnswer] = useState(null);
 	const { players, nextPlayer } = useSelector((state) => state.gameSettings);
 
@@ -40,14 +41,14 @@ export const QuizPage = () => {
 		const answer = e.target.value;
 		SocketManager.setAnswer(answer);
 		setSelectedAnswer(answer);
-		if (nextPlayer === null) {
-			dispatch(setNextPlayer(players[0]));
-		} else {
-			const currentPlayerIndex = players.findIndex((player) => player.socketId === nextPlayer.socketId);
-			const nextPlayerIndex = currentPlayerIndex + 1;
-			const nextInTurn = players[nextPlayerIndex];
-			dispatch(setNextPlayer(nextInTurn));
-		}
+		// if (nextPlayer === null) {
+		// 	dispatch(setNextPlayer(players[0]));
+		// } else {
+		// 	const currentPlayerIndex = players.findIndex((player) => player.socketId === nextPlayer.socketId);
+		// 	const nextPlayerIndex = currentPlayerIndex + 1;
+		// 	const nextInTurn = players[nextPlayerIndex];
+		// 	dispatch(setNextPlayer(nextInTurn));
+		// }
 	};
 
 	const handleGoToScorePage = () => {
@@ -63,8 +64,10 @@ export const QuizPage = () => {
 	};
 
 	useEffect(() => {
+		// Start countdown when everyone has answered
 		if (everyoneAnswered && path === '/pointSelection') {
-			setCountdown(10);
+			const delay = 5;
+			setCountdown(delay);
 
 			const countdownTimer = setInterval(() => {
 				setCountdown((countdown) => countdown - 1);
@@ -74,18 +77,39 @@ export const QuizPage = () => {
 				if (path === '/pointSelection') {
 					navigate('/pointSelection');
 				}
-			}, 10 * 1000); // Change this value to adjust the delay before navigation
+			}, delay * 1000);
 
 			return () => {
 				clearInterval(countdownTimer);
 				clearTimeout(navigateTimer);
 			};
 		}
-	}, [everyoneAnswered, navigate, path]);
+
+		// Start countdown when the game has finished
+		if (gameFinished) {
+			const delay = 10; // delay in seconds
+			setEndCountdown(delay);
+
+			const countdownTimer = setInterval(() => {
+				setEndCountdown((endCountdown) => endCountdown - 1);
+			}, 1000);
+
+			const navigateTimer = setTimeout(() => {
+				navigate('/scoreboard');
+			}, delay * 1000); // Change this value to adjust the delay before navigation
+
+			return () => {
+				clearInterval(countdownTimer);
+				clearTimeout(navigateTimer);
+			};
+		}
+	}, [everyoneAnswered, navigate, path, gameFinished]);
 
 	useEffect(() => {
 		if (path === '/scoreboard') {
-			navigate('/scoreboard');
+			setTimeout(() => {
+				navigate('/scoreboard');
+			}, 10 * 1000); // Change this value to adjust the delay before navigation
 		}
 	}, [path, navigate]);
 
@@ -107,7 +131,7 @@ export const QuizPage = () => {
 	const AnswerButton = ({ answer, index }) => (
 		<Button
 			key={index}
-			variant="contained"
+			variant='contained'
 			value={answer}
 			onClick={!everyoneAnswered ? handleSetAnswer : null}
 			sx={{
@@ -148,12 +172,12 @@ export const QuizPage = () => {
 					>
 						<Grid container my={2}>
 							<Grid item xs={9}>
-								<Typography variant="body1" color="white" fontWeight={'medium'}>
+								<Typography variant='body1' color='white' fontWeight={'medium'}>
 									{'Category: ' + chosenCategory}
 								</Typography>
 							</Grid>
 							<Grid item xs={3}>
-								<Typography variant="body1" color="white" fontWeight={'medium'}>
+								<Typography variant='body1' color='white' fontWeight={'medium'}>
 									{chosenPoints + ' Points'}
 								</Typography>
 							</Grid>
@@ -164,7 +188,7 @@ export const QuizPage = () => {
 							p: theme.spacing(7),
 						}}
 					>
-						<Typography variant="body1" fontSize={'h6.fontSize'}>
+						<Typography variant='body1' fontSize={'h6.fontSize'}>
 							{question}
 						</Typography>
 					</Box>
@@ -188,17 +212,23 @@ export const QuizPage = () => {
 					>
 						{/* <Grid container my={2}> */}
 						{/* <Grid item> */}
-						<Typography variant="h5" color="white" fontWeight={'bold'} textAlign={'center'}>
+						<Typography variant='h5' color='white' fontWeight={'bold'} textAlign={'center'}>
+							{gameFinished ? 'Game has ended' : 'Get ready for the next round.'}
+							{countdown !== null && <div>Redirecting to point selection page in {countdown} seconds...</div>}
+							{endCountdown !== null && <div>Redirecting to scoreboard in {endCountdown} seconds...</div>}
+						</Typography>
+
+						{/* <Typography variant='h5' color='white' fontWeight={'bold'} textAlign={'center'}>
 							{gameFinished ? 'Game has ended' : 'Get ready for the next round.'}
 							{countdown !== null && <div>Redirecting in {countdown} seconds...</div>}
-						</Typography>
+						</Typography> */}
 						{/* </Grid> */}
 						{/* </Grid> */}
 					</Paper>
 					<Box>
 						{gameFinished ? (
 							<>
-								<Typography variant="body1" fontSize={'h6.fontSize'}>
+								<Typography variant='body1' fontSize={'h6.fontSize'}>
 									{question}
 								</Typography>
 							</>
@@ -224,14 +254,15 @@ export const QuizPage = () => {
 							whiteSpace: 'nowrap',
 						}}
 					>
-						<Typography variant="h6" color="white">
+						<Typography variant='h6' color='white'>
 							Correct Answer: {rightAnswer}
 						</Typography>
 					</Box>
-					{gameFinished && (
+
+					{/* {gameFinished && (
 						<Button
-							variant="contained"
-							color="primary"
+							variant='contained'
+							color='primary'
 							onClick={handleGoToScorePage}
 							sx={{
 								p: theme.spacing(2),
@@ -241,7 +272,7 @@ export const QuizPage = () => {
 						>
 							See the end result.
 						</Button>
-					)}
+					)} */}
 				</Box>
 			)}
 

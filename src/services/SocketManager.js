@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
-import { setLobbyCode, setHostSocketID, setPlayerSocketId } from '../store/slices/landingPageSlices/lobbySlice';
-import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setNextPlayer } from '../store/slices/gameSlices/gameSettingSlice';
+import { setLobbyCode, setHostSocketID, setPlayerSocketId, setHost } from '../store/slices/landingPageSlices/lobbySlice';
+import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setNextPlayer, setCurrentPlayerIndex } from '../store/slices/gameSlices/gameSettingSlice';
 import {
 	setQuestion,
 	setAnswers,
@@ -137,7 +137,7 @@ class SocketManager {
 			store.dispatch(setEveryoneAnswered(true));
 			store.dispatch(setLeaderboard(data.leaderboard));
 			// TODO: Add your implementation here
-			// store.dispatch(setRoute('/scoreboard'));
+			store.dispatch(setRoute('/scoreboard'));
 		});
 
 		this.socket.on('gameExtended', (data) => {
@@ -162,7 +162,10 @@ class SocketManager {
 			store.dispatch(setCategories(data.settings.list));
 			store.dispatch(setPlayerNumber(data.settings.playerNumber));
 			store.dispatch(setRounds(data.settings.rounds));
-			store.dispatch(setHostSocketID(data.socketId));
+			store.dispatch(setHost(true));
+			// store.dispatch(setHostSocketID(data.socketId));
+			// TODO
+			store.dispatch(setPlayerSocketId(data.socketId));
 			store.dispatch(setPlayers([{ socketId: data.socketId, playerName: data.hostName }]));
 		});
 
@@ -181,6 +184,7 @@ class SocketManager {
 			store.dispatch(setPlayers(data.settings.lobbyMember));
 			store.dispatch(setRounds(data.settings.rounds));
 			store.dispatch(setPlayerNumber(data.settings.playerNumber));
+			console.log("JOINED LOBBY SOCKET ID:"+data.socketId);
 			store.dispatch(setPlayerSocketId(data.socketId));
 			store.dispatch(setCategories(data.settings.list));
 		});
@@ -209,19 +213,41 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io playerAnswered event:', data);
 			}
-			store.dispatch(setPlayerSocketId(data.playerId));
+			// store.dispatch(setPlayerSocketId(data.playerId));
 		});
+
+		// this.socket.on('roundFinished', (data) => {
+		// 	if (this.loggingEnabled) {
+		// 		console.log('[Event Listener] Socket.io roundFinished event:', data);
+		// 	}
+		// 	store.dispatch(setRightAnswer(data.rightAnswer));
+		// 	store.dispatch(setEveryoneAnswered(!data.everyoneAnswered)); // !everyoneAnswered
+		// 	store.dispatch(setRounds(data.roundsLeft));
+		// 	store.dispatch(setLeaderboard(data.leaderboard));
+		// 	store.dispatch(setRoute('/pointSelection'));
+		// });
 
 		this.socket.on('roundFinished', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io roundFinished event:', data);
 			}
+		
+			// Retrieve the current state of the game from the store
+			let state = store.getState().gameSettings;
+			let currentPlayerIndex = state.currentPlayerIndex;
+			let players = state.players;
+		
+			// Increment the currentPlayerIndex, and reset to 0 if we've gone through all players
+			currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+			store.dispatch(setCurrentPlayerIndex(currentPlayerIndex));
+		
 			store.dispatch(setRightAnswer(data.rightAnswer));
 			store.dispatch(setEveryoneAnswered(!data.everyoneAnswered)); // !everyoneAnswered
 			store.dispatch(setRounds(data.roundsLeft));
 			store.dispatch(setLeaderboard(data.leaderboard));
 			store.dispatch(setRoute('/pointSelection'));
 		});
+		
 
 		this.socket.on('synchronizedLobby', (data) => {
 			console.log(data);

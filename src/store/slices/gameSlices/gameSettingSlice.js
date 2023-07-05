@@ -7,14 +7,8 @@ const gameSettingSlice = createSlice({
 		categories: [],
 		playerNumber: 0,
 		rounds: 0,
+		currentPlayerIndex: 0,
 		players: [],
-		/**
-		 *  players: [{
-		 * 		socketId,
-		 * 		playerName,
-		 * 		readyForNextRound
-		 * }]
-		 */
 		mappedCategories: [],
 		lockedCategories: [],
 		gameCategories: [],
@@ -45,6 +39,9 @@ const gameSettingSlice = createSlice({
 		setRounds: (state, action) => {
 			state.rounds = action.payload;
 		},
+		setCurrentPlayerIndex: (state, action) => {
+			state.currentPlayerIndex = action.payload;
+		},
 		setPlayers: (state, action) => {
 			console.log(action);
 			action.payload.forEach(({ socketId, playerName }) => {
@@ -53,11 +50,12 @@ const gameSettingSlice = createSlice({
 					const player = {
 						playerName,
 						socketId,
-						readyForNextRound: false,
+						// readyForNextRound: false,
 					};
 					state.players.push(player);
 				}
 			});
+			console.log("PLAYERS: "+ JSON.stringify(state.players));
 		},
 		setSelectedCategory: (state, action) => {
 			const { categoryName, selected } = action.payload;
@@ -123,7 +121,7 @@ export const {
 	setPlayerNumber,
 	setRounds,
 	setPlayers,
-
+	setCurrentPlayerIndex,
 	setSelectedCategory,
 	setGameCategories,
 	setPending,

@@ -57,7 +57,7 @@ export const ScoreboardPage = () => {
 				>
 					Back to Home
 				</Button>
-				<Button
+				{/* <Button
 					variant="contained"
 					color="primary"
 					size="large"
@@ -67,7 +67,7 @@ export const ScoreboardPage = () => {
 					}}
 				>
 					Play again
-				</Button>
+				</Button> */}
 			</Box>
 		</Box>
 	);

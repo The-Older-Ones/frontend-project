@@ -28,7 +28,7 @@ function Header() {
 				<Typography variant="h2" component="h1" fontWeight="bold">
 					Choose points
 				</Typography>
-				<Typography variant="h5">Next player choosing: {nextPlayer === null ? players[0].playerName : nextPlayer.playerName}</Typography>
+				{/* <Typography variant="h5">Next player choosing: {nextPlayer === null ? players[0].playerName : nextPlayer.playerName}</Typography> */}
 			</Card>
 		</Box>
 	);

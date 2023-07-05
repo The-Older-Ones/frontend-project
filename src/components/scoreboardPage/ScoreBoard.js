@@ -18,12 +18,12 @@ function ScoreBoard() {
 				<TableHead sx={{ bgcolor: theme.palette.secondary.dark }}>
 					<TableRow>
 						<TableCell>
-							<Typography variant="h6" color={BaseColors.mainWhite} pl={theme.spacing(4)}>
+							<Typography variant='h6' color={BaseColors.mainWhite} pl={theme.spacing(4)}>
 								Player Name
 							</Typography>
 						</TableCell>
-						<TableCell align="right">
-							<Typography variant="h6" color={BaseColors.mainWhite} pr={theme.spacing(4)}>
+						<TableCell align='right'>
+							<Typography variant='h6' color={BaseColors.mainWhite} pr={theme.spacing(4)}>
 								Score
 							</Typography>
 						</TableCell>
@@ -32,13 +32,13 @@ function ScoreBoard() {
 				<TableBody sx={{ bgcolor: theme.palette.secondary.light }}>
 					{scoreBoard.map((row, index) => (
 						<TableRow key={index}>
-							<TableCell component="th" scope="row">
-								<Typography variant="body" color="secondary" fontWeight={'bold'} pl={theme.spacing(4)}>
+							<TableCell component='th' scope='row'>
+								<Typography variant='body' color='secondary' fontWeight={'bold'} pl={theme.spacing(4)}>
 									{row.playerName}
 								</Typography>
 							</TableCell>
-							<TableCell align="right">
-								<Typography variant="body" color="secondary" fontWeight={'bold'} pr={theme.spacing(4)}>
+							<TableCell align='right'>
+								<Typography variant='body' color='secondary' fontWeight={'bold'} pr={theme.spacing(4)}>
 									{row.points}
 								</Typography>
 							</TableCell>
