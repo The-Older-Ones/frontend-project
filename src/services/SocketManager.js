@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
 import { setLobbyCode, setHostSocketID, setPlayerSocketId, setHost } from '../store/slices/landingPageSlices/lobbySlice';
-import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setNextPlayer, setCurrentPlayerIndex } from '../store/slices/gameSlices/gameSettingSlice';
+import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setCurrentPlayerIndex } from '../store/slices/gameSlices/gameSettingSlice';
 import {
 	setQuestion,
 	setAnswers,
@@ -16,7 +16,6 @@ import {
 } from '../store/slices/gameSlices/gameSlice';
 import { setRoute } from '../store/slices/routeSlice';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
 
 class SocketManager {
 	constructor() {
@@ -24,10 +23,7 @@ class SocketManager {
 		// const URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:80/api/';
 		const URL = process.env.REACT_APP_BACKEND_URL || 'https://triviosa-backend-4250240969d4.herokuapp.com/api';
 		console.log(URL);
-		// this.socket = io(`${URL}game`, {
-		// 	autoConnect: false,
-		// 	debug: true,
-		// });
+
 		this.socket = io('https://triviosa-backend-4250240969d4.herokuapp.com/api/game', {
 			autoConnect: false,
 			debug: true,
@@ -58,7 +54,7 @@ class SocketManager {
 					progress: undefined,
 					theme: 'light',
 				});
-				store.dispatch(setRoute('/'))
+				store.dispatch(setRoute('/'));
 			}
 		});
 
@@ -66,7 +62,6 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io connected event:', data);
 			}
-			// console.log(data.message);
 		});
 
 		this.socket.on('disconnect', (data) => {
@@ -81,14 +76,15 @@ class SocketManager {
 			}
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('playerLeft', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io playerLeft event:', data);
 			}
-			// TODO: Add your implementation here
 			store.dispatch(setPlayerSocketId(data.playerId));
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('updatedHost', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io updatedHost event:', data);
@@ -96,36 +92,33 @@ class SocketManager {
 			store.dispatch(setHostSocketID(data.newHost));
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('updatedRounds', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io updatedRounds event:', data);
 			}
 			store.dispatch(setRounds(data.rounds));
-			// TODO: Add your implementation here
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('updatedPlayerNumber', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io updatedPlayerNumber event:', data);
 			}
-			store.dispatch(setPlayerNumber(data.playerNumber));
-			// TODO: Add your implementation here
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('updateExtension', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io updateExtension event:', data);
 			}
-			console.log('updateExtension Event');
-			// TODO: Add your implementation here
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('resetLobby', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io resetLobby event:', data);
 			}
-			console.log('resetLobby Event');
-			// TODO: Add your implementation here
 		});
 
 		this.socket.on('gameFinished', (data) => {
@@ -136,23 +129,15 @@ class SocketManager {
 			store.dispatch(setRightAnswer(data.rightAnswer));
 			store.dispatch(setEveryoneAnswered(true));
 			store.dispatch(setLeaderboard(data.leaderboard));
-			// TODO: Add your implementation here
 			store.dispatch(setRoute('/scoreboard'));
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('gameExtended', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io gameExtended event:', data);
 			}
-			// TODO: Add your implementation here
 		});
-
-		// this.socket.on('roundFinished', (data) => {
-		// 	if (this.loggingEnabled) {
-		// 		console.log('[Event Listener] Socket.io roundFinished event:', data);
-		// 	}
-		// 	// TODO: Add your implementation here
-		// });
 
 		this.socket.on('gameCreated', (data) => {
 			if (this.loggingEnabled) {
@@ -163,8 +148,6 @@ class SocketManager {
 			store.dispatch(setPlayerNumber(data.settings.playerNumber));
 			store.dispatch(setRounds(data.settings.rounds));
 			store.dispatch(setHost(true));
-			// store.dispatch(setHostSocketID(data.socketId));
-			// TODO
 			store.dispatch(setPlayerSocketId(data.socketId));
 			store.dispatch(setPlayers([{ socketId: data.socketId, playerName: data.hostName }]));
 		});
@@ -184,7 +167,6 @@ class SocketManager {
 			store.dispatch(setPlayers(data.settings.lobbyMember));
 			store.dispatch(setRounds(data.settings.rounds));
 			store.dispatch(setPlayerNumber(data.settings.playerNumber));
-			console.log("JOINED LOBBY SOCKET ID:"+data.socketId);
 			store.dispatch(setPlayerSocketId(data.socketId));
 			store.dispatch(setCategories(data.settings.list));
 		});
@@ -209,45 +191,33 @@ class SocketManager {
 			store.dispatch(setRoute('/quiz'));
 		});
 
+		// TODO: Add your implementation here
 		this.socket.on('playerAnswered', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io playerAnswered event:', data);
 			}
-			// store.dispatch(setPlayerSocketId(data.playerId));
 		});
-
-		// this.socket.on('roundFinished', (data) => {
-		// 	if (this.loggingEnabled) {
-		// 		console.log('[Event Listener] Socket.io roundFinished event:', data);
-		// 	}
-		// 	store.dispatch(setRightAnswer(data.rightAnswer));
-		// 	store.dispatch(setEveryoneAnswered(!data.everyoneAnswered)); // !everyoneAnswered
-		// 	store.dispatch(setRounds(data.roundsLeft));
-		// 	store.dispatch(setLeaderboard(data.leaderboard));
-		// 	store.dispatch(setRoute('/pointSelection'));
-		// });
 
 		this.socket.on('roundFinished', (data) => {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io roundFinished event:', data);
 			}
-		
+
 			// Retrieve the current state of the game from the store
 			let state = store.getState().gameSettings;
 			let currentPlayerIndex = state.currentPlayerIndex;
 			let players = state.players;
-		
+
 			// Increment the currentPlayerIndex, and reset to 0 if we've gone through all players
 			currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 			store.dispatch(setCurrentPlayerIndex(currentPlayerIndex));
-		
+
 			store.dispatch(setRightAnswer(data.rightAnswer));
 			store.dispatch(setEveryoneAnswered(!data.everyoneAnswered)); // !everyoneAnswered
 			store.dispatch(setRounds(data.roundsLeft));
 			store.dispatch(setLeaderboard(data.leaderboard));
 			store.dispatch(setRoute('/pointSelection'));
 		});
-		
 
 		this.socket.on('synchronizedLobby', (data) => {
 			console.log(data);
@@ -255,10 +225,9 @@ class SocketManager {
 				console.log('[Event Listener] Socket.io error event:', data);
 			}
 			if (data.flag === 'GAME_CATEGORIES') {
-				
 				store.dispatch(setGuestGameCategories(data.data));
 			}
-			if(data.flag === 'SYNC_PLAYER_LIST'){
+			if (data.flag === 'SYNC_PLAYER_LIST') {
 				store.dispatch(setPlayers(data.data));
 			}
 			// store.dispatch(setPlayers(data.data));

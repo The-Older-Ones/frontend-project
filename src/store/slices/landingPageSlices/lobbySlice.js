@@ -4,13 +4,11 @@ const lobbySlice = createSlice({
 	name: 'lobby',
 	initialState: {
 		ign: '',
-		// host: true,
 		host: false,
 		hostSocketID: undefined,
 		playerSocketID: undefined,
-		avatar: 'avatar1.png', //
-		colorIndex: 0, //
-		//Stepper states
+		avatar: 'avatar1.png',
+		colorIndex: 0,
 		activeStep: 0,
 		lobbySelection: false,
 		lobbyCode: '',
@@ -24,8 +22,8 @@ const lobbySlice = createSlice({
 		},
 		setPlayerSocketId: (state, action) => {
 			state.playerSocketID = action.payload;
-			console.log("LOBBY SLICE: " + action.payload);
-			console.log("LOBBY SLICE: " + state.playerSocketID);
+			console.log('LOBBY SLICE: ' + action.payload);
+			console.log('LOBBY SLICE: ' + state.playerSocketID);
 		},
 		setActiveStep: (state, action) => {
 			if (state.activeStep <= 2 && state.activeStep >= 0) {

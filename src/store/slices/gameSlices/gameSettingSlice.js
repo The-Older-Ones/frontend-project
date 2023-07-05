@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-// import SocketManager from '../../../services/SocketManager';
 const gameSettingSlice = createSlice({
 	name: 'gameSettings',
 	initialState: {
@@ -50,12 +49,11 @@ const gameSettingSlice = createSlice({
 					const player = {
 						playerName,
 						socketId,
-						// readyForNextRound: false,
 					};
 					state.players.push(player);
 				}
 			});
-			console.log("PLAYERS: "+ JSON.stringify(state.players));
+			console.log('PLAYERS: ' + JSON.stringify(state.players));
 		},
 		setSelectedCategory: (state, action) => {
 			const { categoryName, selected } = action.payload;
@@ -105,16 +103,6 @@ const gameSettingSlice = createSlice({
 		},
 	},
 });
-
-// export const handlePlayerIsReadyThunk = (socketID) => {
-// 	return (dispatch, getState) => {
-// 		dispatch(gameSettingSlice.actions.setPlayerIsReady({ socketID }));
-// 		const updatedPlayers = getState().gameSettings.players;
-// 		const dataToSend = { data: updatedPlayers };
-// 		console.log('Data sent to server: ', dataToSend);
-// 		SocketManager.lobbySync(dataToSend);
-// 	};
-// };
 
 export const {
 	setCategories,

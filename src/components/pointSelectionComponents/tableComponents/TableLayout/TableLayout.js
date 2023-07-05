@@ -39,6 +39,10 @@ const TableLayout = () => {
 	const { gameCategories } = useSelector((state) => state.gameSettings);
 	const COLUMN_COLORS = useMemo(() => [BaseColors.categoryOne, BaseColors.categoryTwo, BaseColors.categoryThree, BaseColors.categoryFour, BaseColors.categoryFive], []);
 
+	//______________________________________________________________________________________________________________________
+	const { playerSocketID } = useSelector((state) => state.lobby);
+	const { currentPlayerIndex, players } = useSelector((state) => state.gameSettings);
+
 	const handleClick = (event) => {
 		const pointPosition = event.target.value;
 		if (pointPosition && pointPosition[0] !== undefined && pointPosition[2] !== undefined) {
@@ -85,31 +89,6 @@ const TableLayout = () => {
 		}
 	}, [path, navigate]);
 
-	//______________________________________________________________________________________________________________________
-	const { playerSocketID } = useSelector((state) => state.lobby);
-	const { currentPlayerIndex, players } = useSelector((state) => state.gameSettings);
-	const currentUser = players[currentPlayerIndex];
-	console.log('PLAYERS: ' + JSON.stringify(players));
-	console.log('CURRENT USER: ' + JSON.stringify(currentUser.socketId));
-	console.log('CURRENT PLAYER:' + playerSocketID);
-	console.log(players[currentPlayerIndex]?.socketId !== playerSocketID); // true
-
-	// const handleClick2 = (event) => {
-	// 	// If the current user is not the current player, return early and do nothing
-	// 	if (currentPlayer.playerName !== playerName) {
-	// 		return;
-	// 	}
-
-	// 	const pointPosition = event.target.value;
-	// 	if (pointPosition && pointPosition[0] !== undefined && pointPosition[2] !== undefined) {
-	// 		const points = ROW_VALUES[pointPosition[0]][0];
-	// 		const chosenCategory = gameCategories[pointPosition[2]];
-	// 		dispatch(setChosenCategory(chosenCategory));
-	// 		dispatch(setChosenPoints(points));
-	// 		SocketManager.giveQuestion(chosenCategory, points);
-	// 	}
-	// };
-
 	return (
 		<Box m={0}>
 			<Grid container spacing={8}>
@@ -148,7 +127,6 @@ const TableLayout = () => {
 									>
 										<Button
 											variant='contained'
-											// TODO: disable the button if the current user is not the current player
 											disabled={players[currentPlayerIndex]?.socketId !== playerSocketID}
 											sx={{ width: '100%', bgcolor: COLUMN_COLORS[cellIndex], py: theme.spacing(2), borderRadius: theme.spacing(4) }}
 											value={[rowIndex, cellIndex]}

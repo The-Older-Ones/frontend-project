@@ -6,7 +6,6 @@ import PlayerList from './playerComponents/PlayerList';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGameCategories, setSelectedCategory } from '../../store/slices/gameSlices/gameSettingSlice';
 import SocketManager from '../../services/SocketManager';
-import { setNextPlayer } from '../../store/slices/gameSlices/gameSettingSlice';
 
 function LobbyBoxLayout() {
 	const theme = useTheme();
@@ -19,7 +18,7 @@ function LobbyBoxLayout() {
 	const handleSelectedCategory = (categoryName, checked) => {
 		dispatch(setSelectedCategory({ categoryName, selected: checked }));
 	};
-	const isLockedDisabled = lockedCategories.length !== 5; // 5 wird ersetzt durch spätere Spieleinstellungsvariable
+	const isLockedDisabled = lockedCategories.length !== 5;
 	const isStartGameDisabled = gameCategories.length === 0;
 	console.log(path);
 	const startGame = () => {
@@ -47,8 +46,8 @@ function LobbyBoxLayout() {
 	}, [gameCategories, categoryCheck]);
 	return (
 		<Box
-			maxWidth="1100px"
-			mx="auto"
+			maxWidth='1100px'
+			mx='auto'
 			sx={{
 				width: '100%',
 				border: '1px solid black',
@@ -106,7 +105,7 @@ function LobbyBoxLayout() {
 											<FormControlLabel
 												control={
 													<Checkbox
-														color="secondary"
+														color='secondary'
 														disabled={host ? false : true}
 														checked={category.selected}
 														onChange={(e) => handleSelectedCategory(category.categoryName, e.target.checked)}
@@ -121,8 +120,8 @@ function LobbyBoxLayout() {
 							</Box>
 						</Paper>
 						<Button
-							variant="contained"
-							color="secondary"
+							variant='contained'
+							color='secondary'
 							disabled={isLockedDisabled}
 							sx={{ p: theme.spacing(2), borderRadius: theme.spacing(4), mb: theme.spacing(1) }}
 							onClick={() => {
@@ -154,7 +153,7 @@ function LobbyBoxLayout() {
 						<HeadingCard variant={'6'} title={'Selected categories'} />
 						{gameCategories.map((category, index) => (
 							<Paper key={index} elevation={3} sx={{ width: '80%', display: 'flex', justifyContent: 'center', alignItems: 'center', justifyItems: 'center' }}>
-								<Typography variant="h6" color="initial">
+								<Typography variant='h6' color='initial'>
 									{category}
 								</Typography>
 							</Paper>
@@ -164,9 +163,9 @@ function LobbyBoxLayout() {
 			</Grid>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 				<Button
-					variant="contained"
+					variant='contained'
 					disabled={isStartGameDisabled}
-					color="success"
+					color='success'
 					sx={{ width: '80%', mt: theme.spacing(2), py: theme.spacing(2), borderRadius: theme.spacing(4) }}
 					onClick={startGame}
 				>
