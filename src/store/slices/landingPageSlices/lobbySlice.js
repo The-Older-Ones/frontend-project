@@ -7,7 +7,9 @@ const lobbySlice = createSlice({
 		host: false,
 		hostSocketID: undefined,
 		playerSocketID: undefined,
-		avatar: 'avatar1.png',
+		avatar: '',
+		avatars: ['/avataaars1.png', '/avataaars2.png', '/avataaars3.png', '/avataaars4.png', '/avataaars5.png', '/avataaars6.png'],
+		avatarIndex: 0,
 		colorIndex: 0,
 		activeStep: 0,
 		lobbySelection: false,
@@ -40,10 +42,22 @@ const lobbySlice = createSlice({
 		setLobbyCode: (state, action) => {
 			state.lobbyCode = action.payload;
 		},
+		setAvatarIndex: (state, action) => {
+			state.avatarIndex = action.payload;
+		},
+		setAvatar: (state, action) => {
+			state.avatar = action.payload;
+		},
+		setAvatarUpdate: (state, action) => {
+			state.avatarIndex = action.payload.avatarIndex;
+			state.avatar = state.avatars[action.payload.avatarIndex];
+			console.log('AVATAR INDEX: ' + state.avatarIndex);
+			console.log('AVATAR: ' + state.avatar);
+		},
 	},
 });
 
-export const { setIGN, setActiveStep, setHost, setLobbySelection, setLobbyCode, setHostSocketID, setPlayerSocketId } = lobbySlice.actions;
+export const { setIGN, setActiveStep, setHost, setLobbySelection, setLobbyCode, setHostSocketID, setPlayerSocketId, setAvatar, setAvatarIndex, setAvatarUpdate } = lobbySlice.actions;
 
 export default lobbySlice.reducer;
 

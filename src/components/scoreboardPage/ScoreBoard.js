@@ -12,6 +12,8 @@ function ScoreBoard() {
 		return { ...element, playerName };
 	});
 
+	const sortedScoreBoard = scoreBoard.sort((a, b) => b.points - a.points);
+
 	return (
 		<TableContainer component={Paper} sx={{ borderRadius: theme.spacing(4) }}>
 			<Table size='small'>
@@ -30,7 +32,7 @@ function ScoreBoard() {
 					</TableRow>
 				</TableHead>
 				<TableBody sx={{ bgcolor: theme.palette.secondary.light }}>
-					{scoreBoard.map((row, index) => (
+					{sortedScoreBoard.map((row, index) => (
 						<TableRow key={index}>
 							<TableCell component='th' scope='row'>
 								<Typography variant='body' color='secondary' fontWeight={'bold'} pl={theme.spacing(4)}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography, useTheme, Paper } from '@mui/material';
+import { Button, Box, useTheme } from '@mui/material';
 import ScoreBoard from './ScoreBoard';
 import HeadingCard from '../lobbyComponents/cardComponents/HeadingCard';
 import { BaseColors } from '../../theme/theme';
@@ -46,9 +46,9 @@ export const ScoreboardPage = () => {
 				}}
 			>
 				<Button
-					variant="contained"
-					color="primary"
-					size="large"
+					variant='contained'
+					color='primary'
+					size='large'
 					onClick={handleGoToHomepage}
 					sx={{
 						borderRadius: theme.spacing(4),

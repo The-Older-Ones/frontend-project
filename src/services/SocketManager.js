@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
-import { setLobbyCode, setHostSocketID, setPlayerSocketId, setHost } from '../store/slices/landingPageSlices/lobbySlice';
+import { setLobbyCode, setHostSocketID, setPlayerSocketId, setHost, setAvatarUpdate } from '../store/slices/landingPageSlices/lobbySlice';
 import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setCurrentPlayerIndex } from '../store/slices/gameSlices/gameSettingSlice';
 import {
 	setQuestion,
@@ -230,7 +230,9 @@ class SocketManager {
 			if (data.flag === 'SYNC_PLAYER_LIST') {
 				store.dispatch(setPlayers(data.data));
 			}
-			// store.dispatch(setPlayers(data.data));
+			if (data.flag === 'SYNC_AVATAR') {
+				store.dispatch(setAvatarUpdate(data.data));
+			}
 		});
 	}
 

@@ -10,7 +10,7 @@ function ConfirmLobby() {
 	const dispatch = useDispatch();
 	const theme = useTheme();
 	const navigate = useNavigate();
-	const { activeStep, ign, lobbyCode, host } = useSelector((state) => state.lobby);
+	const { activeStep, ign, lobbyCode, host, avatarIndex, avatars } = useSelector((state) => state.lobby);
 	const { accessToken } = useSelector((state) => state.auth);
 
 	const joinLobby = () => {
@@ -34,23 +34,23 @@ function ConfirmLobby() {
 				alignContent: 'center',
 			}}
 		>
-			<Box id="confirmLobby" display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(3)}>
-				<Typography variant="h6">
+			<Box id='confirmLobby' display={'flex'} flexDirection={'column'} alignItems={'center'} gap={theme.spacing(3)}>
+				<Typography variant='h6'>
 					<span style={{ fontWeight: 'bold' }}>Your player name:</span> {ign}
 				</Typography>
-				<Typography variant="h6">
+				<Typography variant='h6'>
 					<span style={{ fontWeight: 'bold' }}>Lobby Code: </span> {lobbyCode}
 				</Typography>
-				<Avatar alt="avatar" sx={{ width: 80, height: 80 }} />
+				<Avatar alt='avatar' src={avatars[avatarIndex]} sx={{ width: 80, height: 80 }} />
 				<Box>
-					<Stack spacing={2} direction="row">
-						<Button sx={{ py: theme.spacing(2), borderRadius: theme.spacing(4) }} variant="contained" color="error" onClick={() => dispatch(setActiveStep(activeStep - 1))}>
+					<Stack spacing={2} direction='row'>
+						<Button sx={{ py: theme.spacing(2), borderRadius: theme.spacing(4) }} variant='contained' color='error' onClick={() => dispatch(setActiveStep(activeStep - 1))}>
 							Go Back
 						</Button>
 						<Button
 							sx={{ py: theme.spacing(2), borderRadius: theme.spacing(4) }}
-							variant="contained"
-							color="success"
+							variant='contained'
+							color='success'
 							onClick={() => {
 								if (!host) {
 									joinLobby();

@@ -3,12 +3,12 @@ import { Box, Avatar, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar
 import PersonIcon from '@mui/icons-material/Person';
 
 import { useSelector } from 'react-redux';
-import { Star } from '@mui/icons-material';
 
 function PlayerList() {
 	const theme = useTheme();
 	const { players } = useSelector((state) => state.gameSettings);
-	const { host } = useSelector((state) => state.lobby);
+
+	const { avatars, avatarIndex } = useSelector((state) => state.lobby);
 
 	return (
 		<Box sx={{ bgcolor: theme.palette.secondary.light, px: theme.spacing(2), borderRadius: theme.spacing(4), mt: theme.spacing(2) }}>
@@ -18,7 +18,7 @@ function PlayerList() {
 						<ListItem>
 							<ListItemIcon>
 								<ListItemAvatar>
-									<Avatar>
+									<Avatar src={avatars[avatarIndex]}>
 										<PersonIcon />
 									</Avatar>
 								</ListItemAvatar>

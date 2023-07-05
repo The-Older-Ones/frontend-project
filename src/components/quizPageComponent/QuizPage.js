@@ -10,29 +10,11 @@ export const QuizPage = () => {
 	const [countdown, setCountdown] = useState(null);
 	const [endCountdown, setEndCountdown] = useState(null);
 	const [selectedAnswer, setSelectedAnswer] = useState(null);
-	const { players } = useSelector((state) => state.gameSettings);
 
 	const theme = useTheme();
-	const { question, answers, chosenCategory, chosenPoints, everyoneAnswered, rightAnswer, gameFinished, leaderboard } = useSelector((state) => state.game);
+	const { question, answers, chosenCategory, chosenPoints, everyoneAnswered, rightAnswer, gameFinished } = useSelector((state) => state.game);
 	const { path } = useSelector((state) => state.route);
 	console.log(path);
-
-	const scoreBoard = leaderboard.map((element) => {
-		const playerName = players.find((player) => player.socketId === element.socketId)?.playerName;
-		return { ...element, playerName };
-	});
-
-	const sortedLeaderboard = scoreBoard.map((obj) => obj).sort((a, b) => b.points - a.points);
-	const samePointsArray = [];
-
-	for (let i = 0; i < sortedLeaderboard.length - 1; i++) {
-		if (sortedLeaderboard[i].points === sortedLeaderboard[i + 1].points) {
-			samePointsArray.push(sortedLeaderboard[i]);
-			samePointsArray.push(sortedLeaderboard[i + 1]);
-		} else {
-			break;
-		}
-	}
 
 	const handleSetAnswer = (e) => {
 		const answer = e.target.value;
