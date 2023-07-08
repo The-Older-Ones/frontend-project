@@ -99,7 +99,13 @@ export const QuizPage = () => {
 				py: theme.spacing(2),
 				borderRadius: theme.spacing(4),
 				backgroundColor:
-					!everyoneAnswered && selectedAnswer === answer ? theme.palette.primary.dark : everyoneAnswered && rightAnswer === answer ? theme.palette.success.main : theme.palette.primary.light,
+					!everyoneAnswered && selectedAnswer === answer
+						? theme.palette.primary.dark
+						: everyoneAnswered && selectedAnswer === answer && selectedAnswer === rightAnswer
+						? theme.palette.success.main
+						: everyoneAnswered && selectedAnswer === answer && selectedAnswer !== rightAnswer
+						? theme.palette.error.main
+						: theme.palette.primary.light,
 			}}
 		>
 			{answer}
@@ -208,21 +214,6 @@ export const QuizPage = () => {
 							Correct Answer: {rightAnswer}
 						</Typography>
 					</Box>
-
-					{/* {gameFinished && (
-						<Button
-							variant='contained'
-							color='primary'
-							onClick={handleGoToScorePage}
-							sx={{
-								p: theme.spacing(2),
-								borderRadius: theme.spacing(4),
-								width: '50%',
-							}}
-						>
-							See the end result.
-						</Button>
-					)} */}
 				</Box>
 			)}
 
