@@ -3,8 +3,10 @@ import { Card, Box, Typography, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 function Header() {
+	const { currentPlayerIndex, players } = useSelector((state) => state.gameSettings);
+	const currentPlayerName = players[currentPlayerIndex]?.playerName || null;
+
 	const theme = useTheme();
-	const { nextPlayer, players } = useSelector((state) => state.gameSettings);
 
 	return (
 		<Box
@@ -25,11 +27,12 @@ function Header() {
 					px: theme.spacing(10),
 				}}
 			>
-				<Typography variant="h2" component="h1" fontWeight="bold">
-					Choose points
+				<Typography variant='h2' component='h1' fontWeight='bold'>
+					Choose Points
 				</Typography>
-				{/* TODO: Change this to the next player choosing */}
-				<Typography variant="h5">Next player choosing: {nextPlayer === null ? players[0].playerName : nextPlayer.playerName}</Typography>
+				<Typography variant='h4' component='h2' fontWeight='bold'>
+					{currentPlayerName ? `${currentPlayerName} is choosing` : 'No player is choosing'}
+				</Typography>
 			</Card>
 		</Box>
 	);
