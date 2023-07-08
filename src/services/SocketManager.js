@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from '../store/store'; // import your Redux store
-import { setLobbyCode, setHostSocketID, setPlayerSocketId, setHost, setAvatarUpdate } from '../store/slices/landingPageSlices/lobbySlice';
-import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setCurrentPlayerIndex } from '../store/slices/gameSlices/gameSettingSlice';
+import { setLobbyCode, setHostSocketID, setPlayerSocketId, setHost } from '../store/slices/landingPageSlices/lobbySlice';
+import { setRounds, setPlayerNumber, setCategories, setPlayers, setGuestGameCategories, setCurrentPlayerIndex, setAvatarUpdate } from '../store/slices/gameSlices/gameSettingSlice';
 import {
 	setQuestion,
 	setAnswers,
@@ -30,6 +30,8 @@ class SocketManager {
 		});
 
 		this.loggingEnabled = null;
+
+		this.avatarIndex = 0;
 
 		/**
 		 * * Socket.io event listeners
@@ -149,7 +151,7 @@ class SocketManager {
 			store.dispatch(setRounds(data.settings.rounds));
 			store.dispatch(setHost(true));
 			store.dispatch(setPlayerSocketId(data.socketId));
-			store.dispatch(setPlayers([{ socketId: data.socketId, playerName: data.hostName }]));
+			store.dispatch(setPlayers([{ socketId: data.socketId, playerName: data.hostName, avatarIndex: this.avatarIndex }]));
 		});
 
 		this.socket.on('startedGame', (data) => {
@@ -164,11 +166,17 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io joinedLobby event:', data);
 			}
+			data.settings.lobbyMember.forEach(player => {
+				if(player.socketId == this.socket.id){
+					player.avatarIndex = this.avatarIndex
+				}
+			});
 			store.dispatch(setPlayers(data.settings.lobbyMember));
 			store.dispatch(setRounds(data.settings.rounds));
 			store.dispatch(setPlayerNumber(data.settings.playerNumber));
 			store.dispatch(setPlayerSocketId(data.socketId));
 			store.dispatch(setCategories(data.settings.list));
+			this.socket.emit("lobbySynchro", { flag: 'SYNC_AVATAR', data: { socketId: this.socket.id, avatarIndex: this.avatarIndex } })
 		});
 
 		this.socket.on('playerJoined', (data) => {
@@ -176,6 +184,7 @@ class SocketManager {
 				console.log('[Event Listener] Socket.io playerJoined event:', data);
 			}
 			store.dispatch(setPlayers([{ socketId: data.playerId, playerName: data.playerName }]));
+			this.socket.emit("lobbySynchro", { flag: 'SYNC_AVATAR', data: { socketId: this.socket.id, avatarIndex: this.avatarIndex } })
 		});
 
 		this.socket.on('givenQuestion', (data) => {
@@ -251,17 +260,19 @@ class SocketManager {
 		this.socket.disconnect();
 	}
 
-	createGame(playerName, token) {
+	createGame(playerName, token, avatarIndex) {
 		if (this.loggingEnabled) {
 			console.log('[Event Emitter] Socket.io createGame event:', { playerName, token });
 		}
+		this.avatarIndex = avatarIndex;
 		this.socket.emit('createGame', { playerName, token });
 	}
 
-	joinLobby(lobbyCode, ign, accessToken) {
+	joinLobby(lobbyCode, ign, accessToken, avatarIndex) {
 		if (this.loggingEnabled) {
 			console.log('[Event Emitter] Socket.io joinLobby event:', { lobbyCode, ign, accessToken });
 		}
+		this.avatarIndex = avatarIndex;
 		this.socket.emit('joinLobby', {
 			gameId: lobbyCode,
 			playerName: ign,

@@ -8,7 +8,7 @@ function PlayerList() {
 	const theme = useTheme();
 	const { players } = useSelector((state) => state.gameSettings);
 
-	const { avatars, avatarIndex } = useSelector((state) => state.lobby);
+	const { avatars } = useSelector((state) => state.lobby);
 
 	return (
 		<Box sx={{ bgcolor: theme.palette.secondary.light, px: theme.spacing(2), borderRadius: theme.spacing(4), mt: theme.spacing(2) }}>
@@ -18,7 +18,7 @@ function PlayerList() {
 						<ListItem>
 							<ListItemIcon>
 								<ListItemAvatar>
-									<Avatar src={avatars[avatarIndex]}>
+									<Avatar src={avatars[player.avatarIndex]}>
 										<PersonIcon />
 									</Avatar>
 								</ListItemAvatar>

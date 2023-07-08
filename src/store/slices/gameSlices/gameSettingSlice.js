@@ -43,12 +43,13 @@ const gameSettingSlice = createSlice({
 		},
 		setPlayers: (state, action) => {
 			console.log(action);
-			action.payload.forEach(({ socketId, playerName }) => {
+			action.payload.forEach(({ socketId, playerName, avatarIndex }) => {
 				const playerExists = state.players.find((player) => player.socketId === socketId);
 				if (!playerExists) {
 					const player = {
 						playerName,
 						socketId,
+						avatarIndex
 					};
 					state.players.push(player);
 				}
@@ -101,6 +102,15 @@ const gameSettingSlice = createSlice({
 		setNextPlayer: (state, action) => {
 			state.nextPlayer = action.payload;
 		},
+		setAvatarUpdate: (state, action) => {
+			const players = [...state.players]
+			players.forEach((player) => {
+				if (player.socketId == action.payload.socketId) {
+					player.avatarIndex = action.payload.avatarIndex;
+				}
+			});
+			state.players = players;
+		},
 	},
 });
 
@@ -117,6 +127,7 @@ export const {
 	setOpenModalRuleSet,
 	setCloseModalRuleSet,
 	setNextPlayer,
+	setAvatarUpdate
 } = gameSettingSlice.actions;
 
 export default gameSettingSlice.reducer;

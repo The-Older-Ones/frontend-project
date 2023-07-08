@@ -9,7 +9,7 @@ import { setActiveStep, setHost, setLobbyCode, setLobbySelection } from '../../.
 
 function LobbyChoice() {
 	const theme = useTheme();
-	const { ign, activeStep, host, lobbySelection, lobbyCode } = useSelector((state) => state.lobby);
+	const { ign, activeStep, host, lobbySelection, lobbyCode, avatarIndex } = useSelector((state) => state.lobby);
 	const { accessToken } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
@@ -19,7 +19,7 @@ function LobbyChoice() {
 	};
 
 	const createGame = () => {
-		SocketManager.createGame(ign, accessToken);
+		SocketManager.createGame(ign, accessToken, avatarIndex);
 	};
 
 	const copyToClipboard = () => {

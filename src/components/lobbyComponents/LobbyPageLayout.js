@@ -4,13 +4,8 @@ import Header from '../landingPageComponents/modularComponents/Header';
 import HeadingCard from './cardComponents/HeadingCard';
 import { useSelector } from 'react-redux';
 function LobbyPageLayout() {
-	const { lobbyCode, avatar, avatarIndex } = useSelector((state) => state.lobby);
+	const { lobbyCode, avatar } = useSelector((state) => state.lobby);
 	const { playerNumber, rounds } = useSelector((state) => state.gameSettings);
-
-
-	console.log('AVATAR INDEX: ' + avatarIndex);
-	console.log('AVATAR: ' + avatar);
-
 
 	return (
 		<Box

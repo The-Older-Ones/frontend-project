@@ -47,13 +47,7 @@ const lobbySlice = createSlice({
 		},
 		setAvatar: (state, action) => {
 			state.avatar = action.payload;
-		},
-		setAvatarUpdate: (state, action) => {
-			state.avatarIndex = action.payload.avatarIndex;
-			state.avatar = state.avatars[action.payload.avatarIndex];
-			console.log('AVATAR INDEX: ' + state.avatarIndex);
-			console.log('AVATAR: ' + state.avatar);
-		},
+		}
 	},
 });
 

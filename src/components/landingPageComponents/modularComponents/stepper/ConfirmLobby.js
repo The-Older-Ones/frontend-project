@@ -14,7 +14,7 @@ function ConfirmLobby() {
 	const { accessToken } = useSelector((state) => state.auth);
 
 	const joinLobby = () => {
-		SocketManager.joinLobby(lobbyCode, ign, accessToken);
+		SocketManager.joinLobby(lobbyCode, ign, accessToken, avatarIndex);
 	};
 
 	return (
