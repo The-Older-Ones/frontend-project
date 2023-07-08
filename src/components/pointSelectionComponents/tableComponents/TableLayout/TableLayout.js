@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SocketManager from '../../../../services/SocketManager';
 import { BaseColors } from '../../../../theme/theme';
-import { setChosenCategory, setChosenPoints } from '../../../../store/slices/gameSlices/gameSlice';
+import { setChosenCategory, setChosenPoints, addChosenQuestion } from '../../../../store/slices/gameSlices/gameSlice';
 
 const TIMER_VALUE = 30;
 const ROW_VALUES = [
@@ -72,6 +72,7 @@ const TableLayout = () => {
 			const chosenCategory = gameCategories[randomCellIndex];
 			dispatch(setChosenCategory(chosenCategory));
 			dispatch(setChosenPoints(points));
+			dispatch(addChosenQuestion({ category: chosenCategory, points }));
 			SocketManager.giveQuestion(chosenCategory, points);
 			dispatchState({ type: 'SET_RANDOM_BUTTON_SELECTED' });
 		}
@@ -150,3 +151,4 @@ const TableLayout = () => {
 };
 
 export default TableLayout;
+

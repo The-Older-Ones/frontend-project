@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const gameSlice = createSlice({
 	name: 'game',
 	initialState: {
+		chosenQuestions: [],
 		question: null,
 		answers: [],
 		isChosen: false,
@@ -14,6 +15,9 @@ const gameSlice = createSlice({
 		gameFinished: false,
 	},
 	reducers: {
+		addChosenQuestion: (state, action) => {
+			state.chosenQuestions.push(action.payload);
+		},
 		setQuestion: (state, action) => {
 			state.question = action.payload;
 		},
@@ -48,10 +52,22 @@ const gameSlice = createSlice({
 		},
 		setGameFinished: (state) => {
 			state.gameFinished = true;
-		}
+		},
 	},
 });
 
-export const { setQuestion, setAnswers, setIsChosen, setChosenCategory, setChosenPoints, setEveryoneAnswered, setRightAnswer, newQuestionSelected, setLeaderboard, clearLeaderboard, setGameFinished } =
-	gameSlice.actions;
+export const {
+	setQuestion,
+	setAnswers,
+	setIsChosen,
+	setChosenCategory,
+	setChosenPoints,
+	setEveryoneAnswered,
+	setRightAnswer,
+	newQuestionSelected,
+	setLeaderboard,
+	clearLeaderboard,
+	setGameFinished,
+	addChosenQuestion,
+} = gameSlice.actions;
 export default gameSlice.reducer;
