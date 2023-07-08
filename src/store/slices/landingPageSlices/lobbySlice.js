@@ -8,7 +8,7 @@ const lobbySlice = createSlice({
 		hostSocketID: undefined,
 		playerSocketID: undefined,
 		avatar: '',
-		avatars: ['/avataaars1.png', '/avataaars2.png', '/avataaars3.png', '/avataaars4.png', '/avataaars5.png', '/avataaars6.png'],
+		avatars: ['trivosa2.png', '/avataaars1.png', '/avataaars2.png', '/avataaars3.png', '/avataaars4.png', '/avataaars5.png', '/avataaars6.png'],
 		avatarIndex: 0,
 		colorIndex: 0,
 		activeStep: 0,

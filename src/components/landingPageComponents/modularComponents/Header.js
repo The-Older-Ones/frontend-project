@@ -17,11 +17,11 @@ function Header() {
 		dispatch(setRoute('/'));
 	};
 	return (
-		<AppBar position="sticky" color="primary">
+		<AppBar position='sticky' color='primary'>
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				<Typography variant="h2">
-					<Link to="/" onClick={handleGoToHomepage} style={{ textDecoration: 'none', color: 'inherit' }}>
-						𐌕𐌓𐌉ᕓ𐌉Ꝋ𐌔𐌀
+				<Typography variant='h2'>
+					<Link to='/' onClick={handleGoToHomepage} style={{ textDecoration: 'none', color: 'inherit' }}>
+						𐌕Ꮢ𐌉ᕓ𐌉Ꝋ𐌔𐌀 (っ◔◡◔)っ
 					</Link>
 				</Typography>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(1) }}>

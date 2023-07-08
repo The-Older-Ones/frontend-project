@@ -1,11 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, useTheme } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import { BaseColors } from '../../theme/theme';
 function ScoreBoard() {
 	const theme = useTheme();
 	const { leaderboard } = useSelector((state) => state.game);
 	const { players } = useSelector((state) => state.gameSettings);
+	const { avatars, avatarIndex } = useSelector((state) => state.lobby);
 	// mapping of the socketId with the playername
 	const scoreBoard = leaderboard.map((element) => {
 		const playerName = players.find((player) => player.socketId === element.socketId)?.playerName;
@@ -16,40 +19,46 @@ function ScoreBoard() {
 
 	return (
 		<TableContainer component={Paper} sx={{ borderRadius: theme.spacing(4) }}>
-			<Table size='small'>
-				<TableHead sx={{ bgcolor: theme.palette.secondary.dark }}>
-					<TableRow>
-						<TableCell>
-							<Typography variant='h6' color={BaseColors.mainWhite} pl={theme.spacing(4)}>
-								Player Name
-							</Typography>
-						</TableCell>
-						<TableCell align='right'>
-							<Typography variant='h6' color={BaseColors.mainWhite} pr={theme.spacing(4)}>
-								Score
-							</Typography>
-						</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody sx={{ bgcolor: theme.palette.secondary.light }}>
-					{sortedScoreBoard.map((row, index) => (
-						<TableRow key={index}>
-							<TableCell component='th' scope='row'>
-								<Typography variant='body' color='secondary' fontWeight={'bold'} pl={theme.spacing(4)}>
-									{row.playerName}
-								</Typography>
-							</TableCell>
-							<TableCell align='right'>
-								<Typography variant='body' color='secondary' fontWeight={'bold'} pr={theme.spacing(4)}>
-									{row.points}
-								</Typography>
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
+		  <Table size='small'>
+			<TableHead sx={{ bgcolor: theme.palette.secondary.dark }}>
+			  <TableRow>
+				<TableCell>
+				  <Typography variant='h6' color={BaseColors.mainWhite} pl={theme.spacing(4)}>
+					Player
+				  </Typography>
+				</TableCell>
+				<TableCell align='right'>
+				  <Typography variant='h6' color={BaseColors.mainWhite} pr={theme.spacing(4)}>
+					Score
+				  </Typography>
+				</TableCell>
+			  </TableRow>
+			</TableHead>
+			<TableBody sx={{ bgcolor: theme.palette.secondary.light }}>
+			  {sortedScoreBoard.map((row, index) => {
+				const player = players.find((player) => player.socketId === row.socketId);
+				return (
+				  <TableRow key={index}>
+					<TableCell component='th' scope='row'>
+					  <Box display="flex" alignItems="center" pl={theme.spacing(4)}>
+						<Avatar alt='avatar' src={avatars[avatarIndex]} sx={{ width: 24, height: 24, mr: theme.spacing(1) }} />
+						<Typography variant='body' color='secondary' fontWeight={'bold'}>
+						  {row.playerName}
+						</Typography>
+					  </Box>
+					</TableCell>
+					<TableCell align='right'>
+					  <Typography variant='body' color='secondary' fontWeight={'bold'} pr={theme.spacing(4)}>
+						{row.points}
+					  </Typography>
+					</TableCell>
+				  </TableRow>
+				);
+			  })}
+			</TableBody>
+		  </Table>
 		</TableContainer>
-	);
-}
+	  );
+	}
 
 export default ScoreBoard;
