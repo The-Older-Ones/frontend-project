@@ -76,8 +76,8 @@ export const QuizPage = () => {
 		<Box
 			sx={{
 				bgcolor: theme.palette.secondary.light,
-				width: '900px',
-				height: '700px',
+				width: '800px',
+				height: '500px',
 				p: theme.spacing(2),
 				m: theme.spacing(4),
 				borderRadius: theme.spacing(4),
