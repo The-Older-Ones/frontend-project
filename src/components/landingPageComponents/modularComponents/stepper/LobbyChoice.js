@@ -24,7 +24,7 @@ function LobbyChoice() {
 
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(lobbyCode).then(() => {
-			toast.success('Code wurde kopiert.', {
+			toast.success('Code was copied to the clipboard', {
 				position: 'bottom-right',
 				autoClose: 5000,
 				hideProgressBar: false,

@@ -107,6 +107,7 @@ class SocketManager {
 			if (this.loggingEnabled) {
 				console.log('[Event Listener] Socket.io updatedPlayerNumber event:', data);
 			}
+			store.dispatch(setPlayerNumber(data.playerNumber))
 		});
 
 		// TODO: Add your implementation here
