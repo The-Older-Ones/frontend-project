@@ -25,7 +25,7 @@ export const QuizPage = () => {
 	useEffect(() => {
 		// Start countdown when everyone has answered
 		if (everyoneAnswered && path === '/pointSelection') {
-			const delay = 5;
+			const delay = 7;
 			setCountdown(delay);
 
 			const countdownTimer = setInterval(() => {
